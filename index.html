@@ -1,0 +1,2029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#030711">
+<title>SG CALCI</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  background:#02050b;
+  color:#f4fbff;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",
+  "Segoe UI",Arial,sans-serif;
+}
+
+body{
+  overflow-x:hidden;
+  user-select:none;
+}
+
+/* FUTURISTIC BACKGROUND */
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 15% 8%,rgba(0,220,255,.12),transparent 27%),
+    radial-gradient(circle at 90% 88%,rgba(120,65,255,.13),transparent 30%),
+    linear-gradient(rgba(90,210,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(90,210,255,.018) 1px,transparent 1px);
+  background-size:auto,auto,34px 34px,34px 34px;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  left:0;
+  right:0;
+  top:-10%;
+  height:1px;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(80,230,255,.35),
+    transparent
+  );
+  box-shadow:0 0 18px rgba(80,230,255,.25);
+  animation:scanScreen 7s linear infinite;
+  pointer-events:none;
+}
+
+@keyframes scanScreen{
+  0%{
+    top:-5%;
+  }
+
+  100%{
+    top:105%;
+  }
+}
+
+.app{
+  width:min(100%,520px);
+  min-height:100vh;
+  margin:auto;
+  padding:
+    max(14px,env(safe-area-inset-top))
+    13px
+    max(22px,env(safe-area-inset-bottom));
+  position:relative;
+}
+
+/* HEADER */
+
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px 4px 12px;
+}
+
+.logo{
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:4px;
+  background:linear-gradient(
+    90deg,
+    #ffffff,
+    #78eaff,
+    #b28cff
+  );
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+/* SARVESH GHANE'S CREATION */
+
+.logo small{
+  display:block;
+  margin-top:5px;
+  font-size:7px;
+  letter-spacing:3px;
+  font-weight:700;
+  position:relative;
+  width:max-content;
+  max-width:100%;
+  color:#73eaff;
+  background:linear-gradient(
+    90deg,
+    #55eaff,
+    #ffffff,
+    #9b7cff,
+    #55eaff,
+    #ffffff
+  );
+  background-size:300% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  /*
+    Continuous animation.
+    It never stops.
+  */
+  animation:
+    creatorFlow 2.8s linear infinite,
+    creatorGlow 1.8s ease-in-out infinite;
+}
+
+/* Moving futuristic light through the text */
+
+@keyframes creatorFlow{
+
+  0%{
+    background-position:0% 50%;
+  }
+
+  100%{
+    background-position:300% 50%;
+  }
+}
+
+/* Continuous breathing glow */
+
+@keyframes creatorGlow{
+
+  0%,100%{
+    filter:
+      drop-shadow(0 0 2px rgba(80,230,255,.35));
+    opacity:.82;
+  }
+
+  50%{
+    filter:
+      drop-shadow(0 0 7px rgba(80,230,255,.75))
+      drop-shadow(0 0 14px rgba(150,100,255,.35));
+    opacity:1;
+  }
+}
+
+/* Tiny moving scan highlight */
+
+.logo small::after{
+  content:"";
+  position:absolute;
+  left:-8px;
+  top:50%;
+  width:3px;
+  height:10px;
+  transform:translateY(-50%);
+  border-radius:50%;
+  background:#ffffff;
+  box-shadow:
+    0 0 5px #55eaff,
+    0 0 10px #55eaff,
+    0 0 16px #9b7cff;
+  opacity:0;
+  animation:creatorScanner 2.8s linear infinite;
+}
+
+@keyframes creatorScanner{
+
+  0%{
+    left:-8px;
+    opacity:0;
+  }
+
+  8%{
+    opacity:1;
+  }
+
+  50%{
+    opacity:1;
+  }
+
+  92%{
+    opacity:1;
+  }
+
+  100%{
+    left:calc(100% + 8px);
+    opacity:0;
+  }
+}
+
+.modeButton{
+  min-height:38px;
+  padding:0 14px;
+  border-radius:20px;
+  border:1px solid rgba(100,220,255,.22);
+  background:rgba(40,80,110,.12);
+  color:#8eeaff;
+  font-size:10px;
+  letter-spacing:1.5px;
+  box-shadow:
+    inset 0 0 15px rgba(60,210,255,.04),
+    0 0 15px rgba(60,210,255,.05);
+  transition:.12s ease;
+}
+
+.modeButton:active{
+  transform:scale(.93);
+}
+
+/* DISPLAY */
+
+.display{
+  min-height:210px;
+  padding:20px 9px 22px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(100,220,255,.14);
+  border-radius:28px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(11,23,39,.82),
+      rgba(3,8,18,.92)
+    );
+  box-shadow:
+    inset 0 0 40px rgba(0,210,255,.025),
+    0 18px 45px rgba(0,0,0,.28);
+}
+
+.display::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:7%;
+  right:7%;
+  height:1px;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    #5ceaff,
+    #9c7cff,
+    transparent
+  );
+  opacity:.7;
+}
+
+.display::after{
+  content:"";
+  position:absolute;
+  width:130px;
+  height:130px;
+  right:-70px;
+  top:-70px;
+  border-radius:50%;
+  border:1px solid rgba(100,220,255,.10);
+  box-shadow:
+    0 0 0 18px rgba(100,220,255,.015),
+    0 0 0 36px rgba(100,220,255,.012);
+}
+
+/* BACKSPACE */
+
+.backspaceButton{
+  position:absolute;
+  top:42px;
+  right:16px;
+  width:46px;
+  height:35px;
+  border-radius:12px;
+  border:1px solid rgba(100,220,255,.14);
+  background:rgba(255,255,255,.045);
+  color:#91eaff;
+  font-size:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
+  box-shadow:
+    inset 0 0 12px rgba(60,210,255,.04),
+    0 0 14px rgba(60,210,255,.04);
+  transition:
+    transform .12s ease,
+    background .12s ease,
+    color .12s ease;
+  touch-action:none;
+}
+
+.backspaceButton:active{
+  background:rgba(120,80,255,.22);
+  color:#ffffff;
+}
+
+.backspaceButton.longPress{
+  background:rgba(255,70,120,.25);
+  border-color:rgba(255,100,150,.5);
+  color:#ffffff;
+  box-shadow:
+    0 0 25px rgba(255,70,120,.25);
+}
+
+.systemLabel{
+  position:absolute;
+  top:15px;
+  left:18px;
+  color:#53697c;
+  font-size:7px;
+  letter-spacing:2px;
+}
+
+.systemDot{
+  display:inline-block;
+  width:5px;
+  height:5px;
+  margin-right:5px;
+  border-radius:50%;
+  background:#68f5b7;
+  box-shadow:0 0 9px #68f5b7;
+}
+
+.expression{
+  min-height:28px;
+  padding-right:4px;
+  color:#71869a;
+  text-align:right;
+  font-size:17px;
+  overflow-wrap:anywhere;
+}
+
+.answer{
+  margin-top:7px;
+  padding-right:2px;
+  text-align:right;
+  font-size:clamp(45px,13vw,72px);
+  line-height:1;
+  font-weight:300;
+  letter-spacing:-2px;
+  overflow-wrap:anywhere;
+  text-shadow:
+    0 0 15px rgba(100,225,255,.12);
+}
+
+/* SCIENTIFIC */
+
+.scientific{
+  display:none;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+  margin:10px 0;
+}
+
+.scientific.show{
+  display:grid;
+}
+
+.scientific button{
+  min-height:44px;
+  border-radius:13px;
+  border:1px solid rgba(110,220,255,.09);
+  background:rgba(255,255,255,.045);
+  color:#bfe8f4;
+  font-size:12px;
+  transition:.1s ease;
+}
+
+.scientific button:active{
+  transform:scale(.93);
+  background:rgba(120,80,255,.25);
+}
+
+/* KEYPAD */
+
+.keypad{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:11px;
+}
+
+.key{
+  min-height:70px;
+  border:1px solid rgba(255,255,255,.025);
+  border-radius:50%;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(38,45,55,.96),
+      rgba(20,25,33,.96)
+    );
+  color:#f5fbff;
+  font-size:24px;
+  font-weight:400;
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.035),
+    0 5px 18px rgba(0,0,0,.25);
+  transition:
+    transform .08s ease,
+    filter .08s ease,
+    box-shadow .08s ease;
+}
+
+.key:active{
+  transform:scale(.91);
+  filter:brightness(1.35);
+}
+
+.function{
+  background:
+    linear-gradient(
+      145deg,
+      rgba(91,101,112,.98),
+      rgba(61,68,76,.98)
+    );
+}
+
+.operator{
+  background:
+    linear-gradient(
+      145deg,
+      rgba(132,82,255,.95),
+      rgba(84,49,181,.95)
+    );
+  box-shadow:
+    0 0 18px rgba(130,80,255,.08),
+    inset 0 1px rgba(255,255,255,.1);
+}
+
+.operator.active{
+  background:#f4fbff;
+  color:#774aff;
+  box-shadow:
+    0 0 22px rgba(120,90,255,.28);
+}
+
+.equals{
+  background:
+    linear-gradient(
+      145deg,
+      #a981ff,
+      #7144ed
+    );
+  box-shadow:
+    0 0 22px rgba(130,80,255,.2);
+}
+
+.zero{
+  grid-column:span 2;
+  border-radius:38px;
+  text-align:left;
+  padding-left:29px;
+}
+
+/* TOOLS */
+
+.tools{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-top:13px;
+}
+
+.tool{
+  min-height:44px;
+  border-radius:14px;
+  border:1px solid rgba(100,220,255,.09);
+  background:rgba(255,255,255,.035);
+  color:#91a8bb;
+  font-size:9px;
+  letter-spacing:1px;
+  transition:.12s ease;
+}
+
+.tool:active{
+  transform:scale(.94);
+}
+
+.tool.historyActive{
+  border-color:rgba(156,124,255,.55);
+  color:#d7c9ff;
+  background:rgba(120,80,255,.14);
+  box-shadow:
+    0 0 18px rgba(120,80,255,.12);
+}
+
+/* HISTORY */
+
+.history{
+  display:none;
+  margin-top:14px;
+  padding:15px;
+  border-radius:20px;
+  background:rgba(8,13,23,.96);
+  border:1px solid rgba(100,220,255,.11);
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.3),
+    inset 0 0 30px rgba(70,210,255,.025);
+}
+
+.history.show{
+  display:block;
+  animation:historyIn .18s ease;
+}
+
+@keyframes historyIn{
+
+  from{
+    opacity:0;
+    transform:translateY(-8px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.historyHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color:#7890a4;
+  font-size:9px;
+  letter-spacing:2px;
+  margin-bottom:9px;
+}
+
+.historyClear{
+  border:0;
+  background:none;
+  color:#9e7aff;
+  font-size:10px;
+  padding:6px;
+}
+
+.historyList{
+  max-height:230px;
+  overflow:auto;
+}
+
+/* CLICKABLE HISTORY */
+
+.historyItem{
+  width:100%;
+  padding:10px 4px;
+  text-align:right;
+  border:0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  background:transparent;
+  color:inherit;
+  font-family:inherit;
+  cursor:pointer;
+  transition:.12s ease;
+}
+
+.historyItem:active{
+  transform:scale(.98);
+  background:rgba(120,80,255,.12);
+}
+
+.historyExpression{
+  color:#687b8d;
+  font-size:11px;
+}
+
+.historyResult{
+  margin-top:4px;
+  color:#eaf9ff;
+  font-size:18px;
+}
+
+.historyHint{
+  margin-top:5px;
+  color:#50677b;
+  font-size:7px;
+  letter-spacing:1px;
+  text-align:right;
+}
+
+.emptyHistory{
+  text-align:center;
+  color:#667889;
+  padding:20px 5px;
+  font-size:10px;
+  letter-spacing:1px;
+}
+
+/* MOBILE */
+
+@media(max-width:360px){
+
+  .app{
+    padding-left:8px;
+    padding-right:8px;
+  }
+
+  .keypad{
+    gap:7px;
+  }
+
+  .key{
+    min-height:62px;
+    font-size:21px;
+  }
+
+  .display{
+    min-height:180px;
+  }
+
+  .backspaceButton{
+    right:12px;
+  }
+}
+
+@media(min-width:600px){
+
+  .key{
+    min-height:78px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+
+  <div class="logo">
+    SG CALCI
+    <small>SARVESH GHANE'S CREATION</small>
+  </div>
+
+  <button
+    class="modeButton"
+    id="scientificToggle"
+    type="button">
+    SCI
+  </button>
+
+</header>
+
+
+<section class="display">
+
+  <div class="systemLabel">
+    <span class="systemDot"></span>
+    CALCULATION CORE ACTIVE
+  </div>
+
+  <button
+    class="backspaceButton"
+    id="backspaceButton"
+    type="button"
+    aria-label="Backspace">
+    ⌫
+  </button>
+
+  <div
+    class="expression"
+    id="expression">
+  </div>
+
+  <div
+    class="answer"
+    id="answer">
+    0
+  </div>
+
+</section>
+
+
+<section
+  class="scientific"
+  id="scientificPanel">
+
+  <button type="button" onclick="scientific('sin')">sin</button>
+  <button type="button" onclick="scientific('cos')">cos</button>
+  <button type="button" onclick="scientific('tan')">tan</button>
+  <button type="button" onclick="scientific('asin')">sin⁻¹</button>
+  <button type="button" onclick="scientific('acos')">cos⁻¹</button>
+
+  <button type="button" onclick="scientific('atan')">tan⁻¹</button>
+  <button type="button" onclick="scientific('log')">log</button>
+  <button type="button" onclick="scientific('ln')">ln</button>
+  <button type="button" onclick="scientific('sqrt')">√</button>
+  <button type="button" onclick="scientific('cbrt')">∛</button>
+
+  <button type="button" onclick="scientific('square')">x²</button>
+  <button type="button" onclick="scientific('cube')">x³</button>
+  <button type="button" onclick="scientific('inverse')">1/x</button>
+  <button type="button" onclick="scientific('factorial')">x!</button>
+  <button type="button" onclick="insert('π')">π</button>
+
+  <button type="button" onclick="insert('e')">e</button>
+  <button type="button" onclick="insert('(')">(</button>
+  <button type="button" onclick="insert(')')">)</button>
+  <button type="button" onclick="insert('^')">xʸ</button>
+  <button type="button" onclick="scientific('exp')">EXP</button>
+
+</section>
+
+
+<section class="keypad">
+
+  <button
+    class="key function"
+    type="button"
+    onclick="clearCalculator()">
+    AC
+  </button>
+
+  <button
+    class="key function"
+    type="button"
+    onclick="toggleSign()">
+    +/−
+  </button>
+
+  <button
+    class="key function"
+    type="button"
+    onclick="percent()">
+    %
+  </button>
+
+  <button
+    class="key operator"
+    data-op="÷"
+    type="button"
+    onclick="operator('÷')">
+    ÷
+  </button>
+
+
+  <button class="key" type="button" onclick="insert('7')">
+    7
+  </button>
+
+  <button class="key" type="button" onclick="insert('8')">
+    8
+  </button>
+
+  <button class="key" type="button" onclick="insert('9')">
+    9
+  </button>
+
+  <button
+    class="key operator"
+    data-op="×"
+    type="button"
+    onclick="operator('×')">
+    ×
+  </button>
+
+
+  <button class="key" type="button" onclick="insert('4')">
+    4
+  </button>
+
+  <button class="key" type="button" onclick="insert('5')">
+    5
+  </button>
+
+  <button class="key" type="button" onclick="insert('6')">
+    6
+  </button>
+
+  <button
+    class="key operator"
+    data-op="−"
+    type="button"
+    onclick="operator('−')">
+    −
+  </button>
+
+
+  <button class="key" type="button" onclick="insert('1')">
+    1
+  </button>
+
+  <button class="key" type="button" onclick="insert('2')">
+    2
+  </button>
+
+  <button class="key" type="button" onclick="insert('3')">
+    3
+  </button>
+
+  <button
+    class="key operator"
+    data-op="+"
+    type="button"
+    onclick="operator('+')">
+    +
+  </button>
+
+
+  <button
+    class="key zero"
+    type="button"
+    onclick="insert('0')">
+    0
+  </button>
+
+  <button class="key" type="button" onclick="insert('.')">
+    .
+  </button>
+
+  <button
+    class="key equals"
+    type="button"
+    onclick="calculate()">
+    =
+  </button>
+
+</section>
+
+
+<div class="tools">
+
+  <button
+    class="tool"
+    id="historyButton"
+    type="button"
+    onclick="toggleHistory()">
+    HISTORY
+  </button>
+
+  <button
+    class="tool"
+    type="button"
+    onclick="memoryAdd()">
+    M+
+  </button>
+
+  <button
+    class="tool"
+    type="button"
+    onclick="memoryRecall()">
+    MR
+  </button>
+
+  <button
+    class="tool"
+    type="button"
+    onclick="memoryClear()">
+    MC
+  </button>
+
+</div>
+
+
+<section
+  class="history"
+  id="historyPanel">
+
+  <div class="historyHead">
+
+    <span>
+      CALCULATION HISTORY
+    </span>
+
+    <button
+      class="historyClear"
+      type="button"
+      onclick="clearHistory()">
+      CLEAR
+    </button>
+
+  </div>
+
+  <div
+    class="historyList"
+    id="historyList">
+  </div>
+
+</section>
+
+</div>
+
+
+<script>
+
+let expression = "";
+let memory = 0;
+
+let history = [];
+
+try{
+
+  const saved =
+    localStorage.getItem(
+      "sg_calci_history"
+    );
+
+  if(saved){
+
+    const parsed =
+      JSON.parse(saved);
+
+    if(Array.isArray(parsed)){
+      history = parsed;
+    }
+  }
+
+}catch{
+
+  history = [];
+}
+
+
+const expressionEl =
+  document.getElementById(
+    "expression"
+  );
+
+const answerEl =
+  document.getElementById(
+    "answer"
+  );
+
+const historyPanel =
+  document.getElementById(
+    "historyPanel"
+  );
+
+const historyList =
+  document.getElementById(
+    "historyList"
+  );
+
+const historyButton =
+  document.getElementById(
+    "historyButton"
+  );
+
+const scientificPanel =
+  document.getElementById(
+    "scientificPanel"
+  );
+
+const scientificToggle =
+  document.getElementById(
+    "scientificToggle"
+  );
+
+const backspaceButton =
+  document.getElementById(
+    "backspaceButton"
+  );
+
+
+function updateDisplay(){
+
+  expressionEl.textContent =
+    expression;
+}
+
+
+function liveCalculate(){
+
+  if(!expression){
+
+    answerEl.textContent =
+      "0";
+
+    return;
+  }
+
+  try{
+
+    const last =
+      expression.slice(-1);
+
+    if(
+      "+-×÷^(".includes(last)
+    ){
+      return;
+    }
+
+    const value =
+      evaluateExpression(
+        expression
+      );
+
+    if(Number.isFinite(value)){
+
+      answerEl.textContent =
+        formatNumber(value);
+    }
+
+  }catch{
+
+  }
+}
+
+
+function insert(value){
+
+  if(
+    answerEl.textContent ===
+    "Error"
+  ){
+
+    expression = "";
+
+    answerEl.textContent =
+      "0";
+  }
+
+  expression += value;
+
+  updateDisplay();
+
+  liveCalculate();
+}
+
+
+function clearCalculator(){
+
+  expression = "";
+
+  answerEl.textContent =
+    "0";
+
+  document
+    .querySelectorAll(".operator")
+    .forEach(button =>
+      button.classList.remove(
+        "active"
+      )
+    );
+
+  updateDisplay();
+}
+
+
+function operator(op){
+
+  if(!expression){
+    return;
+  }
+
+  const last =
+    expression.slice(-1);
+
+  if(
+    "+-×÷".includes(last)
+  ){
+
+    expression =
+      expression.slice(0,-1)
+      + op;
+
+  }else{
+
+    expression += op;
+  }
+
+  document
+    .querySelectorAll(".operator")
+    .forEach(button =>
+      button.classList.remove(
+        "active"
+      )
+    );
+
+  const selected =
+    document.querySelector(
+      '.operator[data-op="' +
+      op +
+      '"]'
+    );
+
+  if(selected){
+
+    selected.classList.add(
+      "active"
+    );
+  }
+
+  updateDisplay();
+}
+
+
+function backspace(){
+
+  if(!expression){
+    return;
+  }
+
+  expression =
+    expression.slice(0,-1);
+
+  document
+    .querySelectorAll(".operator")
+    .forEach(button =>
+      button.classList.remove(
+        "active"
+      )
+    );
+
+  updateDisplay();
+
+  liveCalculate();
+
+  if(!expression){
+
+    answerEl.textContent =
+      "0";
+  }
+}
+
+
+/* LONG PRESS BACKSPACE */
+
+let backspaceTimer = null;
+let longPressTriggered = false;
+
+function startBackspacePress(event){
+
+  event.preventDefault();
+
+  longPressTriggered = false;
+
+  /*
+    Keep the finger captured by the button.
+    This makes long-press more reliable on phones.
+  */
+
+  if(
+    event.pointerId !== undefined &&
+    backspaceButton.setPointerCapture
+  ){
+
+    try{
+
+      backspaceButton.setPointerCapture(
+        event.pointerId
+      );
+
+    }catch{}
+
+  }
+
+  backspaceButton.classList.remove(
+    "longPress"
+  );
+
+  backspaceTimer =
+    setTimeout(() => {
+
+      longPressTriggered = true;
+
+      clearCalculator();
+
+      backspaceButton.classList.add(
+        "longPress"
+      );
+
+      if(navigator.vibrate){
+
+        navigator.vibrate(
+          [30,40,30]
+        );
+      }
+
+      setTimeout(() => {
+
+        backspaceButton.classList.remove(
+          "longPress"
+        );
+
+      },220);
+
+    },700);
+}
+
+
+function endBackspacePress(event){
+
+  event.preventDefault();
+
+  if(backspaceTimer){
+
+    clearTimeout(
+      backspaceTimer
+    );
+
+    backspaceTimer = null;
+  }
+
+  if(!longPressTriggered){
+
+    backspace();
+  }
+
+  longPressTriggered = false;
+}
+
+
+function cancelBackspacePress(){
+
+  if(backspaceTimer){
+
+    clearTimeout(
+      backspaceTimer
+    );
+
+    backspaceTimer = null;
+  }
+
+  longPressTriggered = false;
+
+  backspaceButton.classList.remove(
+    "longPress"
+  );
+}
+
+
+backspaceButton.addEventListener(
+  "pointerdown",
+  startBackspacePress
+);
+
+backspaceButton.addEventListener(
+  "pointerup",
+  endBackspacePress
+);
+
+backspaceButton.addEventListener(
+  "pointercancel",
+  cancelBackspacePress
+);
+
+
+function normalize(input){
+
+  return input
+    .replaceAll("×","*")
+    .replaceAll("÷","/")
+    .replaceAll("−","-")
+    .replaceAll(
+      "π",
+      "Math.PI"
+    )
+    .replace(
+      /\be\b/g,
+      "Math.E"
+    )
+    .replace(
+      /\^/g,
+      "**"
+    );
+}
+
+
+function evaluateExpression(input){
+
+  const prepared =
+    normalize(input);
+
+  if(
+    !/^[0-9+\-*/().\sA-Za-z_*]+$/
+      .test(prepared)
+  ){
+
+    throw new Error(
+      "Invalid"
+    );
+  }
+
+  const value =
+    Function(
+      '"use strict";return (' +
+      prepared +
+      ')'
+    )();
+
+  if(
+    !Number.isFinite(value)
+  ){
+
+    throw new Error(
+      "Invalid"
+    );
+  }
+
+  return value;
+}
+
+
+function formatNumber(value){
+
+  if(
+    !Number.isFinite(value)
+  ){
+
+    return "Error";
+  }
+
+  if(
+    Math.abs(value) < 1e-12
+  ){
+
+    value = 0;
+  }
+
+  if(
+    Number.isInteger(value)
+  ){
+
+    return String(value);
+  }
+
+  return Number(
+    value.toPrecision(12)
+  ).toString();
+}
+
+
+function calculate(){
+
+  if(!expression){
+    return;
+  }
+
+  try{
+
+    const value =
+      evaluateExpression(
+        expression
+      );
+
+    const result =
+      formatNumber(value);
+
+    addHistory(
+      expression,
+      result
+    );
+
+    expression =
+      result;
+
+    answerEl.textContent =
+      result;
+
+    document
+      .querySelectorAll(".operator")
+      .forEach(button =>
+        button.classList.remove(
+          "active"
+        )
+      );
+
+    updateDisplay();
+
+  }catch{
+
+    answerEl.textContent =
+      "Error";
+  }
+}
+
+
+function toggleSign(){
+
+  if(!expression){
+    return;
+  }
+
+  try{
+
+    const value =
+      evaluateExpression(
+        expression
+      );
+
+    expression =
+      formatNumber(
+        -value
+      );
+
+    answerEl.textContent =
+      expression;
+
+  }catch{
+
+    if(
+      expression.startsWith("-")
+    ){
+
+      expression =
+        expression.substring(1);
+
+    }else{
+
+      expression =
+        "-" + expression;
+    }
+  }
+
+  updateDisplay();
+
+  liveCalculate();
+}
+
+
+function percent(){
+
+  if(!expression){
+    return;
+  }
+
+  try{
+
+    const value =
+      evaluateExpression(
+        expression
+      );
+
+    const result =
+      value / 100;
+
+    expression =
+      formatNumber(result);
+
+    answerEl.textContent =
+      expression;
+
+    updateDisplay();
+
+  }catch{
+
+    answerEl.textContent =
+      "Error";
+  }
+}
+
+
+function scientific(type){
+
+  try{
+
+    let value;
+
+    if(expression){
+
+      value =
+        evaluateExpression(
+          expression
+        );
+
+    }else{
+
+      value =
+        Number(
+          answerEl.textContent
+        );
+    }
+
+    if(
+      !Number.isFinite(value)
+    ){
+
+      throw new Error();
+    }
+
+    let result;
+
+    switch(type){
+
+      case "sin":
+
+        result =
+          Math.sin(
+            value *
+            Math.PI /
+            180
+          );
+
+        break;
+
+      case "cos":
+
+        result =
+          Math.cos(
+            value *
+            Math.PI /
+            180
+          );
+
+        break;
+
+      case "tan":
+
+        result =
+          Math.tan(
+            value *
+            Math.PI /
+            180
+          );
+
+        break;
+
+      case "asin":
+
+        result =
+          Math.asin(value) *
+          180 /
+          Math.PI;
+
+        break;
+
+      case "acos":
+
+        result =
+          Math.acos(value) *
+          180 /
+          Math.PI;
+
+        break;
+
+      case "atan":
+
+        result =
+          Math.atan(value) *
+          180 /
+          Math.PI;
+
+        break;
+
+      case "log":
+
+        result =
+          Math.log10(value);
+
+        break;
+
+      case "ln":
+
+        result =
+          Math.log(value);
+
+        break;
+
+      case "sqrt":
+
+        result =
+          Math.sqrt(value);
+
+        break;
+
+      case "cbrt":
+
+        result =
+          Math.cbrt(value);
+
+        break;
+
+      case "square":
+
+        result =
+          value ** 2;
+
+        break;
+
+      case "cube":
+
+        result =
+          value ** 3;
+
+        break;
+
+      case "inverse":
+
+        result =
+          1 / value;
+
+        break;
+
+      case "factorial":
+
+        if(
+          value < 0 ||
+          !Number.isInteger(value) ||
+          value > 170
+        ){
+
+          throw new Error();
+        }
+
+        result = 1;
+
+        for(
+          let i = 2;
+          i <= value;
+          i++
+        ){
+
+          result *= i;
+        }
+
+        break;
+
+      case "exp":
+
+        result =
+          Math.exp(value);
+
+        break;
+
+      default:
+
+        throw new Error();
+    }
+
+    if(
+      !Number.isFinite(result)
+    ){
+
+      throw new Error();
+    }
+
+    const formatted =
+      formatNumber(result);
+
+    addHistory(
+      type +
+      "(" +
+      value +
+      ")",
+      formatted
+    );
+
+    expression =
+      formatted;
+
+    answerEl.textContent =
+      formatted;
+
+    updateDisplay();
+
+  }catch{
+
+    answerEl.textContent =
+      "Error";
+  }
+}
+
+
+function currentValue(){
+
+  const value =
+    Number(
+      answerEl.textContent
+    );
+
+  return Number.isFinite(value)
+    ? value
+    : 0;
+}
+
+
+function memoryAdd(){
+
+  memory +=
+    currentValue();
+}
+
+
+function memoryRecall(){
+
+  expression +=
+    formatNumber(memory);
+
+  updateDisplay();
+
+  liveCalculate();
+}
+
+
+function memoryClear(){
+
+  memory = 0;
+}
+
+
+function saveHistory(){
+
+  try{
+
+    localStorage.setItem(
+      "sg_calci_history",
+      JSON.stringify(history)
+    );
+
+  }catch{}
+}
+
+
+function addHistory(
+  exp,
+  result
+){
+
+  history.unshift({
+
+    expression:exp,
+    result:result
+
+  });
+
+  if(history.length > 50){
+
+    history.pop();
+  }
+
+  saveHistory();
+
+  renderHistory();
+}
+
+
+function renderHistory(){
+
+  if(history.length === 0){
+
+    historyList.innerHTML =
+      '<div class="emptyHistory">' +
+      'NO CALCULATIONS YET' +
+      '</div>';
+
+    return;
+  }
+
+  historyList.innerHTML =
+    history.map(
+      (item,index) => {
+
+        return `
+
+          <button
+            class="historyItem"
+            type="button"
+            onclick="useHistory(${index})">
+
+            <div class="historyExpression">
+              ${escapeHTML(
+                item.expression
+              )}
+            </div>
+
+            <div class="historyResult">
+              = ${escapeHTML(
+                item.result
+              )}
+            </div>
+
+            <div class="historyHint">
+              TAP TO CONTINUE
+            </div>
+
+          </button>
+
+        `;
+
+      }
+    ).join("");
+}
+
+
+function useHistory(index){
+
+  if(
+    index < 0 ||
+    index >= history.length
+  ){
+
+    return;
+  }
+
+  const item =
+    history[index];
+
+  expression =
+    String(item.result);
+
+  answerEl.textContent =
+    String(item.result);
+
+  updateDisplay();
+
+  document
+    .querySelectorAll(".operator")
+    .forEach(button =>
+      button.classList.remove(
+        "active"
+      )
+    );
+
+  historyPanel.classList.remove(
+    "show"
+  );
+
+  historyButton.classList.remove(
+    "historyActive"
+  );
+
+  if(navigator.vibrate){
+
+    navigator.vibrate(20);
+  }
+}
+
+
+function toggleHistory(){
+
+  const isOpen =
+    historyPanel.classList.contains(
+      "show"
+    );
+
+  if(isOpen){
+
+    historyPanel.classList.remove(
+      "show"
+    );
+
+    historyButton.classList.remove(
+      "historyActive"
+    );
+
+  }else{
+
+    historyPanel.classList.add(
+      "show"
+    );
+
+    historyButton.classList.add(
+      "historyActive"
+    );
+
+    renderHistory();
+
+    setTimeout(() => {
+
+      historyPanel.scrollIntoView({
+        behavior:"smooth",
+        block:"nearest"
+      });
+
+    },50);
+  }
+}
+
+
+function clearHistory(){
+
+  history = [];
+
+  saveHistory();
+
+  renderHistory();
+}
+
+
+function escapeHTML(value){
+
+  return String(value)
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+}
+
+
+scientificToggle.addEventListener(
+  "click",
+  () => {
+
+    scientificPanel.classList.toggle(
+      "show"
+    );
+
+    scientificToggle.textContent =
+      scientificPanel.classList.contains(
+        "show"
+      )
+        ? "BASIC"
+        : "SCI";
+  }
+);
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    const key =
+      event.key;
+
+    if(/[0-9]/.test(key)){
+
+      insert(key);
+      return;
+    }
+
+    if(key === "."){
+
+      insert(".");
+      return;
+    }
+
+    if(key === "+"){
+
+      operator("+");
+      return;
+    }
+
+    if(key === "-"){
+
+      operator("−");
+      return;
+    }
+
+    if(key === "*"){
+
+      operator("×");
+      return;
+    }
+
+    if(key === "/"){
+
+      operator("÷");
+      return;
+    }
+
+    if(
+      key === "(" ||
+      key === ")"
+    ){
+
+      insert(key);
+      return;
+    }
+
+    if(
+      key === "Enter" ||
+      key === "="
+    ){
+
+      event.preventDefault();
+
+      calculate();
+      return;
+    }
+
+    if(key === "Backspace"){
+
+      event.preventDefault();
+
+      backspace();
+      return;
+    }
+
+    if(key === "Escape"){
+
+      clearCalculator();
+    }
+
+  }
+);
+
+
+renderHistory();
+
+updateDisplay();
+
+</script>
+
+</body>
+</html>
