@@ -1134,49 +1134,17 @@ function evaluateExpression(expr){
 
   e = e.replace(/(\d+(?:\.\d+)?)%/g,"($1/100)");
 
-  /*
-    Handle factorials.
-  */
   e = e.replace(
     /(\d+(?:\.\d+)?|\([^()]+\))!/g,
     "factorial($1)"
   );
 
-  /*
-    EXP button behaves as scientific notation helper.
-  */
   e = e.replace(/EXP/g,"*10**");
 
-  /*
-    Allow only calculator-safe characters.
-  */
   if(!/^[0-9+\-*/().,\sA-Za-z_*]+$/.test(e)){
     throw new Error("Invalid");
   }
 
-  /*
-    Function names allowed after replacement.
-  */
-  const allowedWords = [
-    "Math",
-    "PI",
-    "E",
-    "sin",
-    "cos",
-    "tan",
-    "asin",
-    "acos",
-    "atan",
-    "log10",
-    "log",
-    "sqrt",
-    "cbrt",
-    "factorial"
-  ];
-
-  /*
-    Final basic safety check.
-  */
   const cleaned = e
     .replace(/Math\.(PI|E|sin|cos|tan|asin|acos|atan|log10|log|sqrt|cbrt)/g,"")
     .replace(/factorial/g,"")
@@ -1199,9 +1167,6 @@ function evaluateExpression(expr){
 
 function calculate(){
 
-  /*
-    SECRET CODE CHECK MUST HAPPEN BEFORE NORMAL CALCULATION.
-  */
   if(isSecretCode()){
 
     expression = "";
@@ -1850,9 +1815,6 @@ function lockVault(){
 
   vault.classList.remove("show");
 
-  /*
-    Revoke all temporary preview URLs.
-  */
   document.querySelectorAll(
     ".vaultObjectUrl"
   ).forEach(el => {
@@ -2070,9 +2032,7 @@ async function renderVault(){
     const category =
       getFileCategory(file);
 
-    /*
-      IMAGE PREVIEW
-    */
+
     if(category === "IMAGE"){
 
       const img =
@@ -2094,9 +2054,6 @@ async function renderVault(){
 
     }
 
-    /*
-      VIDEO PREVIEW
-    */
     else if(category === "VIDEO"){
 
       const video =
@@ -2129,9 +2086,6 @@ async function renderVault(){
 
     }
 
-    /*
-      OTHER FILES
-    */
     else{
 
       preview.innerHTML = `
@@ -2181,9 +2135,10 @@ async function renderVault(){
     buttons.className = "cardButtons";
 
 
-    /*
-      NEW EXPORT BUTTON
-    */
+    /* =====================================================
+       DIRECT EXPORT BUTTON
+       ===================================================== */
+
     const exportButton =
       document.createElement("button");
 
@@ -2200,9 +2155,10 @@ async function renderVault(){
     );
 
 
-    /*
-      DELETE BUTTON
-    */
+    /* =====================================================
+       DELETE BUTTON
+       ===================================================== */
+
     const deleteButton =
       document.createElement("button");
 
@@ -2270,7 +2226,7 @@ async function renderVault(){
 
 
 /* =========================================================
-   EXPORT TO DEVICE
+   DIRECT EXPORT TO ANDROID DEVICE
    ========================================================= */
 
 async function exportVaultFile(id){
@@ -2291,85 +2247,120 @@ async function exportVaultFile(id){
 
 
     /*
-      BEST METHOD:
-      File System Access API, where supported.
-      This lets the user choose a location/file name.
+      ANDROID APK EXPORT
+
+      The Android wrapper exposes:
+
+      window.Android.saveFile(
+        fileName,
+        mimeType,
+        base64Data
+      )
+
+      Android then uses MediaStore.
+
+      IMAGE:
+      Pictures/SG CALCI
+
+      VIDEO:
+      Movies/SG CALCI
+
+      OTHER:
+      Downloads/SG CALCI
     */
+
     if(
-      "showSaveFilePicker" in window
+      window.Android &&
+      typeof window.Android.saveFile === "function"
     ){
 
-      try{
+      showToast("EXPORTING...");
 
-        const extension =
-          getExtension(item.name);
+      const reader =
+        new FileReader();
 
-        const options = {
-          suggestedName:item.name,
-          types:[
-            {
-              description:
-                item.type ||
-                "File",
-              accept:{
-                [item.type || "application/octet-stream"]:
-                  extension
-                    ? ["." + extension]
-                    : []
-              }
-            }
-          ]
-        };
 
-        const handle =
-          await window.showSaveFilePicker(
-            options
+      reader.onload = function(){
+
+        try{
+
+          const dataUrl =
+            reader.result;
+
+          if(
+            typeof dataUrl !== "string" ||
+            !dataUrl.includes(",")
+          ){
+
+            showToast(
+              "Export failed."
+            );
+
+            return;
+          }
+
+
+          const base64 =
+            dataUrl.substring(
+              dataUrl.indexOf(",") + 1
+            );
+
+
+          window.Android.saveFile(
+            item.name ||
+              "SG_CALCI_export",
+
+            item.type ||
+              "application/octet-stream",
+
+            base64
           );
 
-        const writable =
-          await handle.createWritable();
+        }catch(error){
 
-        await writable.write(item.blob);
+          console.error(
+            "Android export error:",
+            error
+          );
 
-        await writable.close();
+          showToast(
+            "Export failed."
+          );
 
-        showToast(
-          "File exported to device."
-        );
-
-        return;
-
-      }catch(error){
-
-        /*
-          User cancelled the save picker.
-          Do not show an error.
-        */
-        if(
-          error &&
-          error.name === "AbortError"
-        ){
-          return;
         }
 
-        console.log(
-          "Save picker unavailable:",
-          error
+      };
+
+
+      reader.onerror = function(){
+
+        showToast(
+          "Could not read file."
         );
 
-      }
+      };
 
+
+      reader.readAsDataURL(
+        item.blob
+      );
+
+      return;
     }
 
 
     /*
-      FALLBACK:
-      Browser download flow.
-      On Android this normally sends the file
-      to the browser's Downloads handling.
+      BROWSER FALLBACK
+
+      This is only used when SG CALCI
+      is opened as a normal website rather
+      than inside the Android APK.
     */
+
     const url =
-      URL.createObjectURL(item.blob);
+      URL.createObjectURL(
+        item.blob
+      );
 
     const link =
       document.createElement("a");
@@ -2377,7 +2368,8 @@ async function exportVaultFile(id){
     link.href = url;
 
     link.download =
-      item.name || "SG_CALCI_export";
+      item.name ||
+      "SG_CALCI_export";
 
     link.style.display = "none";
 
@@ -2394,7 +2386,7 @@ async function exportVaultFile(id){
     },5000);
 
     showToast(
-      "Export started. Check your Downloads/files."
+      "Export started. Check Downloads."
     );
 
   }catch(error){
@@ -2409,22 +2401,6 @@ async function exportVaultFile(id){
     );
 
   }
-
-}
-
-
-function getExtension(filename){
-
-  const parts =
-    filename.split(".");
-
-  if(parts.length < 2){
-    return "";
-  }
-
-  return parts.pop()
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g,"");
 
 }
 
@@ -2444,10 +2420,12 @@ if(
       navigator.serviceWorker
         .register("./sw.js")
         .catch(error => {
+
           console.log(
             "Service worker:",
             error
           );
+
         });
 
     }
