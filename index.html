@@ -3,8 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#030711">
+
 <title>SG CALCI</title>
+
+<!-- APP / PWA -->
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+<link rel="apple-touch-icon" href="./icon-192.png">
+
+<meta name="theme-color" content="#030711">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="application-name" content="SG CALCI">
+<meta name="apple-mobile-web-app-title" content="SG CALCI">
 
 <style>
 *{
@@ -25,8 +37,6 @@ body{
   overflow-x:hidden;
   user-select:none;
 }
-
-/* FUTURISTIC BACKGROUND */
 
 body::before{
   content:"";
@@ -60,13 +70,8 @@ body::after{
 }
 
 @keyframes scanScreen{
-  0%{
-    top:-5%;
-  }
-
-  100%{
-    top:105%;
-  }
+  0%{top:-5%}
+  100%{top:105%}
 }
 
 .app{
@@ -104,8 +109,6 @@ body::after{
   color:transparent;
 }
 
-/* SARVESH GHANE'S CREATION */
-
 .logo small{
   display:block;
   margin-top:5px;
@@ -115,7 +118,6 @@ body::after{
   position:relative;
   width:max-content;
   max-width:100%;
-  color:#73eaff;
   background:linear-gradient(
     90deg,
     #55eaff,
@@ -128,39 +130,21 @@ body::after{
   -webkit-background-clip:text;
   background-clip:text;
   -webkit-text-fill-color:transparent;
-
-  /*
-    Continuous animation.
-    It never stops.
-  */
   animation:
     creatorFlow 2.8s linear infinite,
     creatorGlow 1.8s ease-in-out infinite;
 }
 
-/* Moving futuristic light through the text */
-
 @keyframes creatorFlow{
-
-  0%{
-    background-position:0% 50%;
-  }
-
-  100%{
-    background-position:300% 50%;
-  }
+  0%{background-position:0% 50%}
+  100%{background-position:300% 50%}
 }
 
-/* Continuous breathing glow */
-
 @keyframes creatorGlow{
-
   0%,100%{
-    filter:
-      drop-shadow(0 0 2px rgba(80,230,255,.35));
+    filter:drop-shadow(0 0 2px rgba(80,230,255,.35));
     opacity:.82;
   }
-
   50%{
     filter:
       drop-shadow(0 0 7px rgba(80,230,255,.75))
@@ -168,8 +152,6 @@ body::after{
     opacity:1;
   }
 }
-
-/* Tiny moving scan highlight */
 
 .logo small::after{
   content:"";
@@ -180,7 +162,7 @@ body::after{
   height:10px;
   transform:translateY(-50%);
   border-radius:50%;
-  background:#ffffff;
+  background:#fff;
   box-shadow:
     0 0 5px #55eaff,
     0 0 10px #55eaff,
@@ -190,24 +172,10 @@ body::after{
 }
 
 @keyframes creatorScanner{
-
-  0%{
-    left:-8px;
-    opacity:0;
-  }
-
-  8%{
-    opacity:1;
-  }
-
-  50%{
-    opacity:1;
-  }
-
-  92%{
-    opacity:1;
-  }
-
+  0%{left:-8px;opacity:0}
+  8%{opacity:1}
+  50%{opacity:1}
+  92%{opacity:1}
   100%{
     left:calc(100% + 8px);
     opacity:0;
@@ -223,10 +191,6 @@ body::after{
   color:#8eeaff;
   font-size:10px;
   letter-spacing:1.5px;
-  box-shadow:
-    inset 0 0 15px rgba(60,210,255,.04),
-    0 0 15px rgba(60,210,255,.05);
-  transition:.12s ease;
 }
 
 .modeButton:active{
@@ -273,18 +237,23 @@ body::after{
   opacity:.7;
 }
 
-.display::after{
-  content:"";
+.systemLabel{
   position:absolute;
-  width:130px;
-  height:130px;
-  right:-70px;
-  top:-70px;
+  top:15px;
+  left:18px;
+  color:#53697c;
+  font-size:7px;
+  letter-spacing:2px;
+}
+
+.systemDot{
+  display:inline-block;
+  width:5px;
+  height:5px;
+  margin-right:5px;
   border-radius:50%;
-  border:1px solid rgba(100,220,255,.10);
-  box-shadow:
-    0 0 0 18px rgba(100,220,255,.015),
-    0 0 0 36px rgba(100,220,255,.012);
+  background:#68f5b7;
+  box-shadow:0 0 9px #68f5b7;
 }
 
 /* BACKSPACE */
@@ -304,46 +273,19 @@ body::after{
   align-items:center;
   justify-content:center;
   z-index:10;
-  box-shadow:
-    inset 0 0 12px rgba(60,210,255,.04),
-    0 0 14px rgba(60,210,255,.04);
-  transition:
-    transform .12s ease,
-    background .12s ease,
-    color .12s ease;
   touch-action:none;
 }
 
 .backspaceButton:active{
   background:rgba(120,80,255,.22);
-  color:#ffffff;
+  color:#fff;
 }
 
 .backspaceButton.longPress{
   background:rgba(255,70,120,.25);
   border-color:rgba(255,100,150,.5);
-  color:#ffffff;
-  box-shadow:
-    0 0 25px rgba(255,70,120,.25);
-}
-
-.systemLabel{
-  position:absolute;
-  top:15px;
-  left:18px;
-  color:#53697c;
-  font-size:7px;
-  letter-spacing:2px;
-}
-
-.systemDot{
-  display:inline-block;
-  width:5px;
-  height:5px;
-  margin-right:5px;
-  border-radius:50%;
-  background:#68f5b7;
-  box-shadow:0 0 9px #68f5b7;
+  color:#fff;
+  box-shadow:0 0 25px rgba(255,70,120,.25);
 }
 
 .expression{
@@ -364,8 +306,6 @@ body::after{
   font-weight:300;
   letter-spacing:-2px;
   overflow-wrap:anywhere;
-  text-shadow:
-    0 0 15px rgba(100,225,255,.12);
 }
 
 /* SCIENTIFIC */
@@ -388,7 +328,6 @@ body::after{
   background:rgba(255,255,255,.045);
   color:#bfe8f4;
   font-size:12px;
-  transition:.1s ease;
 }
 
 .scientific button:active{
@@ -421,10 +360,7 @@ body::after{
   box-shadow:
     inset 0 1px rgba(255,255,255,.035),
     0 5px 18px rgba(0,0,0,.25);
-  transition:
-    transform .08s ease,
-    filter .08s ease,
-    box-shadow .08s ease;
+  transition:.08s ease;
 }
 
 .key:active{
@@ -448,16 +384,11 @@ body::after{
       rgba(132,82,255,.95),
       rgba(84,49,181,.95)
     );
-  box-shadow:
-    0 0 18px rgba(130,80,255,.08),
-    inset 0 1px rgba(255,255,255,.1);
 }
 
 .operator.active{
   background:#f4fbff;
   color:#774aff;
-  box-shadow:
-    0 0 22px rgba(120,90,255,.28);
 }
 
 .equals{
@@ -467,8 +398,6 @@ body::after{
       #a981ff,
       #7144ed
     );
-  box-shadow:
-    0 0 22px rgba(130,80,255,.2);
 }
 
 .zero{
@@ -495,7 +424,6 @@ body::after{
   color:#91a8bb;
   font-size:9px;
   letter-spacing:1px;
-  transition:.12s ease;
 }
 
 .tool:active{
@@ -506,8 +434,6 @@ body::after{
   border-color:rgba(156,124,255,.55);
   color:#d7c9ff;
   background:rgba(120,80,255,.14);
-  box-shadow:
-    0 0 18px rgba(120,80,255,.12);
 }
 
 /* HISTORY */
@@ -519,9 +445,6 @@ body::after{
   border-radius:20px;
   background:rgba(8,13,23,.96);
   border:1px solid rgba(100,220,255,.11);
-  box-shadow:
-    0 15px 40px rgba(0,0,0,.3),
-    inset 0 0 30px rgba(70,210,255,.025);
 }
 
 .history.show{
@@ -530,12 +453,10 @@ body::after{
 }
 
 @keyframes historyIn{
-
   from{
     opacity:0;
     transform:translateY(-8px);
   }
-
   to{
     opacity:1;
     transform:translateY(0);
@@ -565,8 +486,6 @@ body::after{
   overflow:auto;
 }
 
-/* CLICKABLE HISTORY */
-
 .historyItem{
   width:100%;
   padding:10px 4px;
@@ -576,8 +495,6 @@ body::after{
   background:transparent;
   color:inherit;
   font-family:inherit;
-  cursor:pointer;
-  transition:.12s ease;
 }
 
 .historyItem:active{
@@ -601,7 +518,6 @@ body::after{
   color:#50677b;
   font-size:7px;
   letter-spacing:1px;
-  text-align:right;
 }
 
 .emptyHistory{
@@ -612,10 +528,7 @@ body::after{
   letter-spacing:1px;
 }
 
-/* MOBILE */
-
 @media(max-width:360px){
-
   .app{
     padding-left:8px;
     padding-right:8px;
@@ -633,14 +546,9 @@ body::after{
   .display{
     min-height:180px;
   }
-
-  .backspaceButton{
-    right:12px;
-  }
 }
 
 @media(min-width:600px){
-
   .key{
     min-height:78px;
   }
@@ -654,415 +562,300 @@ body::after{
 
 <header class="header">
 
-  <div class="logo">
-    SG CALCI
-    <small>SARVESH GHANE'S CREATION</small>
-  </div>
+<div class="logo">
+  SG CALCI
+  <small>SARVESH GHANE'S CREATION</small>
+</div>
 
-  <button
-    class="modeButton"
-    id="scientificToggle"
-    type="button">
-    SCI
-  </button>
+<button
+  class="modeButton"
+  id="scientificToggle"
+  type="button">
+  SCI
+</button>
 
 </header>
 
-
 <section class="display">
 
-  <div class="systemLabel">
-    <span class="systemDot"></span>
-    CALCULATION CORE ACTIVE
-  </div>
+<div class="systemLabel">
+  <span class="systemDot"></span>
+  CALCULATION CORE ACTIVE
+</div>
 
-  <button
-    class="backspaceButton"
-    id="backspaceButton"
-    type="button"
-    aria-label="Backspace">
-    ⌫
-  </button>
+<button
+  class="backspaceButton"
+  id="backspaceButton"
+  type="button"
+  aria-label="Backspace">
+  ⌫
+</button>
 
-  <div
-    class="expression"
-    id="expression">
-  </div>
+<div
+  class="expression"
+  id="expression">
+</div>
 
-  <div
-    class="answer"
-    id="answer">
-    0
-  </div>
+<div
+  class="answer"
+  id="answer">
+  0
+</div>
 
 </section>
-
 
 <section
   class="scientific"
   id="scientificPanel">
 
-  <button type="button" onclick="scientific('sin')">sin</button>
-  <button type="button" onclick="scientific('cos')">cos</button>
-  <button type="button" onclick="scientific('tan')">tan</button>
-  <button type="button" onclick="scientific('asin')">sin⁻¹</button>
-  <button type="button" onclick="scientific('acos')">cos⁻¹</button>
+<button type="button" onclick="scientific('sin')">sin</button>
+<button type="button" onclick="scientific('cos')">cos</button>
+<button type="button" onclick="scientific('tan')">tan</button>
+<button type="button" onclick="scientific('asin')">sin⁻¹</button>
+<button type="button" onclick="scientific('acos')">cos⁻¹</button>
 
-  <button type="button" onclick="scientific('atan')">tan⁻¹</button>
-  <button type="button" onclick="scientific('log')">log</button>
-  <button type="button" onclick="scientific('ln')">ln</button>
-  <button type="button" onclick="scientific('sqrt')">√</button>
-  <button type="button" onclick="scientific('cbrt')">∛</button>
+<button type="button" onclick="scientific('atan')">tan⁻¹</button>
+<button type="button" onclick="scientific('log')">log</button>
+<button type="button" onclick="scientific('ln')">ln</button>
+<button type="button" onclick="scientific('sqrt')">√</button>
+<button type="button" onclick="scientific('cbrt')">∛</button>
 
-  <button type="button" onclick="scientific('square')">x²</button>
-  <button type="button" onclick="scientific('cube')">x³</button>
-  <button type="button" onclick="scientific('inverse')">1/x</button>
-  <button type="button" onclick="scientific('factorial')">x!</button>
-  <button type="button" onclick="insert('π')">π</button>
+<button type="button" onclick="scientific('square')">x²</button>
+<button type="button" onclick="scientific('cube')">x³</button>
+<button type="button" onclick="scientific('inverse')">1/x</button>
+<button type="button" onclick="scientific('factorial')">x!</button>
+<button type="button" onclick="insert('π')">π</button>
 
-  <button type="button" onclick="insert('e')">e</button>
-  <button type="button" onclick="insert('(')">(</button>
-  <button type="button" onclick="insert(')')">)</button>
-  <button type="button" onclick="insert('^')">xʸ</button>
-  <button type="button" onclick="scientific('exp')">EXP</button>
+<button type="button" onclick="insert('e')">e</button>
+<button type="button" onclick="insert('(')">(</button>
+<button type="button" onclick="insert(')')">)</button>
+<button type="button" onclick="insert('^')">xʸ</button>
+<button type="button" onclick="scientific('exp')">EXP</button>
 
 </section>
-
 
 <section class="keypad">
 
-  <button
-    class="key function"
-    type="button"
-    onclick="clearCalculator()">
-    AC
-  </button>
+<button
+  class="key function"
+  type="button"
+  onclick="clearCalculator()">
+  AC
+</button>
 
-  <button
-    class="key function"
-    type="button"
-    onclick="toggleSign()">
-    +/−
-  </button>
+<button
+  class="key function"
+  type="button"
+  onclick="toggleSign()">
+  +/−
+</button>
 
-  <button
-    class="key function"
-    type="button"
-    onclick="percent()">
-    %
-  </button>
+<button
+  class="key function"
+  type="button"
+  onclick="percent()">
+  %
+</button>
 
-  <button
-    class="key operator"
-    data-op="÷"
-    type="button"
-    onclick="operator('÷')">
-    ÷
-  </button>
+<button
+  class="key operator"
+  data-op="÷"
+  type="button"
+  onclick="operator('÷')">
+  ÷
+</button>
 
+<button class="key" type="button" onclick="insert('7')">7</button>
+<button class="key" type="button" onclick="insert('8')">8</button>
+<button class="key" type="button" onclick="insert('9')">9</button>
 
-  <button class="key" type="button" onclick="insert('7')">
-    7
-  </button>
+<button
+  class="key operator"
+  data-op="×"
+  type="button"
+  onclick="operator('×')">
+  ×
+</button>
 
-  <button class="key" type="button" onclick="insert('8')">
-    8
-  </button>
+<button class="key" type="button" onclick="insert('4')">4</button>
+<button class="key" type="button" onclick="insert('5')">5</button>
+<button class="key" type="button" onclick="insert('6')">6</button>
 
-  <button class="key" type="button" onclick="insert('9')">
-    9
-  </button>
+<button
+  class="key operator"
+  data-op="−"
+  type="button"
+  onclick="operator('−')">
+  −
+</button>
 
-  <button
-    class="key operator"
-    data-op="×"
-    type="button"
-    onclick="operator('×')">
-    ×
-  </button>
+<button class="key" type="button" onclick="insert('1')">1</button>
+<button class="key" type="button" onclick="insert('2')">2</button>
+<button class="key" type="button" onclick="insert('3')">3</button>
 
+<button
+  class="key operator"
+  data-op="+"
+  type="button"
+  onclick="operator('+')">
+  +
+</button>
 
-  <button class="key" type="button" onclick="insert('4')">
-    4
-  </button>
+<button class="key zero" type="button" onclick="insert('0')">0</button>
 
-  <button class="key" type="button" onclick="insert('5')">
-    5
-  </button>
+<button class="key" type="button" onclick="insert('.')">.</button>
 
-  <button class="key" type="button" onclick="insert('6')">
-    6
-  </button>
-
-  <button
-    class="key operator"
-    data-op="−"
-    type="button"
-    onclick="operator('−')">
-    −
-  </button>
-
-
-  <button class="key" type="button" onclick="insert('1')">
-    1
-  </button>
-
-  <button class="key" type="button" onclick="insert('2')">
-    2
-  </button>
-
-  <button class="key" type="button" onclick="insert('3')">
-    3
-  </button>
-
-  <button
-    class="key operator"
-    data-op="+"
-    type="button"
-    onclick="operator('+')">
-    +
-  </button>
-
-
-  <button
-    class="key zero"
-    type="button"
-    onclick="insert('0')">
-    0
-  </button>
-
-  <button class="key" type="button" onclick="insert('.')">
-    .
-  </button>
-
-  <button
-    class="key equals"
-    type="button"
-    onclick="calculate()">
-    =
-  </button>
+<button
+  class="key equals"
+  type="button"
+  onclick="calculate()">
+  =
+</button>
 
 </section>
 
-
 <div class="tools">
 
-  <button
-    class="tool"
-    id="historyButton"
-    type="button"
-    onclick="toggleHistory()">
-    HISTORY
-  </button>
+<button
+  class="tool"
+  id="historyButton"
+  type="button"
+  onclick="toggleHistory()">
+  HISTORY
+</button>
 
-  <button
-    class="tool"
-    type="button"
-    onclick="memoryAdd()">
-    M+
-  </button>
+<button
+  class="tool"
+  type="button"
+  onclick="memoryAdd()">
+  M+
+</button>
 
-  <button
-    class="tool"
-    type="button"
-    onclick="memoryRecall()">
-    MR
-  </button>
+<button
+  class="tool"
+  type="button"
+  onclick="memoryRecall()">
+  MR
+</button>
 
-  <button
-    class="tool"
-    type="button"
-    onclick="memoryClear()">
-    MC
-  </button>
+<button
+  class="tool"
+  type="button"
+  onclick="memoryClear()">
+  MC
+</button>
 
 </div>
-
 
 <section
   class="history"
   id="historyPanel">
 
-  <div class="historyHead">
+<div class="historyHead">
 
-    <span>
-      CALCULATION HISTORY
-    </span>
+<span>CALCULATION HISTORY</span>
 
-    <button
-      class="historyClear"
-      type="button"
-      onclick="clearHistory()">
-      CLEAR
-    </button>
+<button
+  class="historyClear"
+  type="button"
+  onclick="clearHistory()">
+  CLEAR
+</button>
 
-  </div>
+</div>
 
-  <div
-    class="historyList"
-    id="historyList">
-  </div>
+<div
+  class="historyList"
+  id="historyList">
+</div>
 
 </section>
 
 </div>
 
-
 <script>
 
-let expression = "";
-let memory = 0;
-
-let history = [];
+let expression="";
+let memory=0;
+let history=[];
 
 try{
-
-  const saved =
-    localStorage.getItem(
-      "sg_calci_history"
-    );
+  const saved=localStorage.getItem("sg_calci_history");
 
   if(saved){
-
-    const parsed =
-      JSON.parse(saved);
+    const parsed=JSON.parse(saved);
 
     if(Array.isArray(parsed)){
-      history = parsed;
+      history=parsed;
     }
   }
-
 }catch{
-
-  history = [];
+  history=[];
 }
 
-
-const expressionEl =
-  document.getElementById(
-    "expression"
-  );
-
-const answerEl =
-  document.getElementById(
-    "answer"
-  );
-
-const historyPanel =
-  document.getElementById(
-    "historyPanel"
-  );
-
-const historyList =
-  document.getElementById(
-    "historyList"
-  );
-
-const historyButton =
-  document.getElementById(
-    "historyButton"
-  );
-
-const scientificPanel =
-  document.getElementById(
-    "scientificPanel"
-  );
-
-const scientificToggle =
-  document.getElementById(
-    "scientificToggle"
-  );
-
-const backspaceButton =
-  document.getElementById(
-    "backspaceButton"
-  );
-
+const expressionEl=document.getElementById("expression");
+const answerEl=document.getElementById("answer");
+const historyPanel=document.getElementById("historyPanel");
+const historyList=document.getElementById("historyList");
+const historyButton=document.getElementById("historyButton");
+const scientificPanel=document.getElementById("scientificPanel");
+const scientificToggle=document.getElementById("scientificToggle");
+const backspaceButton=document.getElementById("backspaceButton");
 
 function updateDisplay(){
-
-  expressionEl.textContent =
-    expression;
+  expressionEl.textContent=expression;
 }
-
 
 function liveCalculate(){
 
   if(!expression){
-
-    answerEl.textContent =
-      "0";
-
+    answerEl.textContent="0";
     return;
   }
 
   try{
 
-    const last =
-      expression.slice(-1);
+    const last=expression.slice(-1);
 
-    if(
-      "+-×÷^(".includes(last)
-    ){
+    if("+-×÷^(".includes(last)){
       return;
     }
 
-    const value =
-      evaluateExpression(
-        expression
-      );
+    const value=evaluateExpression(expression);
 
     if(Number.isFinite(value)){
-
-      answerEl.textContent =
-        formatNumber(value);
+      answerEl.textContent=formatNumber(value);
     }
 
-  }catch{
-
-  }
+  }catch{}
 }
-
 
 function insert(value){
 
-  if(
-    answerEl.textContent ===
-    "Error"
-  ){
-
-    expression = "";
-
-    answerEl.textContent =
-      "0";
+  if(answerEl.textContent==="Error"){
+    expression="";
+    answerEl.textContent="0";
   }
 
-  expression += value;
+  expression+=value;
 
   updateDisplay();
-
   liveCalculate();
 }
 
-
 function clearCalculator(){
 
-  expression = "";
-
-  answerEl.textContent =
-    "0";
+  expression="";
+  answerEl.textContent="0";
 
   document
     .querySelectorAll(".operator")
-    .forEach(button =>
-      button.classList.remove(
-        "active"
-      )
-    );
+    .forEach(button=>{
+      button.classList.remove("active");
+    });
 
   updateDisplay();
 }
-
 
 function operator(op){
 
@@ -1070,47 +863,31 @@ function operator(op){
     return;
   }
 
-  const last =
-    expression.slice(-1);
+  const last=expression.slice(-1);
 
-  if(
-    "+-×÷".includes(last)
-  ){
-
-    expression =
-      expression.slice(0,-1)
-      + op;
-
+  if("+-×÷".includes(last)){
+    expression=expression.slice(0,-1)+op;
   }else{
-
-    expression += op;
+    expression+=op;
   }
 
   document
     .querySelectorAll(".operator")
-    .forEach(button =>
-      button.classList.remove(
-        "active"
-      )
-    );
+    .forEach(button=>{
+      button.classList.remove("active");
+    });
 
-  const selected =
-    document.querySelector(
-      '.operator[data-op="' +
-      op +
-      '"]'
-    );
+  const selected=document.querySelector(
+    '.operator[data-op="'+op+'"]'
+  );
 
   if(selected){
-
-    selected.classList.add(
-      "active"
-    );
+    selected.classList.add("active");
   }
 
   updateDisplay();
+  liveCalculate();
 }
-
 
 function backspace(){
 
@@ -1118,134 +895,89 @@ function backspace(){
     return;
   }
 
-  expression =
-    expression.slice(0,-1);
+  expression=expression.slice(0,-1);
 
   document
     .querySelectorAll(".operator")
-    .forEach(button =>
-      button.classList.remove(
-        "active"
-      )
-    );
+    .forEach(button=>{
+      button.classList.remove("active");
+    });
 
   updateDisplay();
-
   liveCalculate();
 
   if(!expression){
-
-    answerEl.textContent =
-      "0";
+    answerEl.textContent="0";
   }
 }
 
+/* LONG PRESS BACKSPACE = AC */
 
-/* LONG PRESS BACKSPACE */
-
-let backspaceTimer = null;
-let longPressTriggered = false;
+let backspaceTimer=null;
+let longPressTriggered=false;
 
 function startBackspacePress(event){
 
   event.preventDefault();
-
-  longPressTriggered = false;
-
-  /*
-    Keep the finger captured by the button.
-    This makes long-press more reliable on phones.
-  */
+  longPressTriggered=false;
 
   if(
-    event.pointerId !== undefined &&
+    event.pointerId!==undefined &&
     backspaceButton.setPointerCapture
   ){
-
     try{
-
-      backspaceButton.setPointerCapture(
-        event.pointerId
-      );
-
+      backspaceButton.setPointerCapture(event.pointerId);
     }catch{}
-
   }
 
-  backspaceButton.classList.remove(
-    "longPress"
-  );
+  backspaceButton.classList.remove("longPress");
 
-  backspaceTimer =
-    setTimeout(() => {
+  backspaceTimer=setTimeout(()=>{
 
-      longPressTriggered = true;
+    longPressTriggered=true;
 
-      clearCalculator();
+    clearCalculator();
 
-      backspaceButton.classList.add(
-        "longPress"
-      );
+    backspaceButton.classList.add("longPress");
 
-      if(navigator.vibrate){
+    if(navigator.vibrate){
+      navigator.vibrate([30,40,30]);
+    }
 
-        navigator.vibrate(
-          [30,40,30]
-        );
-      }
+    setTimeout(()=>{
+      backspaceButton.classList.remove("longPress");
+    },220);
 
-      setTimeout(() => {
-
-        backspaceButton.classList.remove(
-          "longPress"
-        );
-
-      },220);
-
-    },700);
+  },700);
 }
-
 
 function endBackspacePress(event){
 
   event.preventDefault();
 
   if(backspaceTimer){
-
-    clearTimeout(
-      backspaceTimer
-    );
-
-    backspaceTimer = null;
+    clearTimeout(backspaceTimer);
+    backspaceTimer=null;
   }
 
   if(!longPressTriggered){
-
     backspace();
   }
 
-  longPressTriggered = false;
+  longPressTriggered=false;
 }
-
 
 function cancelBackspacePress(){
 
   if(backspaceTimer){
-
-    clearTimeout(
-      backspaceTimer
-    );
-
-    backspaceTimer = null;
+    clearTimeout(backspaceTimer);
+    backspaceTimer=null;
   }
 
-  longPressTriggered = false;
+  longPressTriggered=false;
 
-  backspaceButton.classList.remove(
-    "longPress"
-  );
+  backspaceButton.classList.remove("longPress");
 }
-
 
 backspaceButton.addEventListener(
   "pointerdown",
@@ -1262,6 +994,7 @@ backspaceButton.addEventListener(
   cancelBackspacePress
 );
 
+/* CALCULATOR ENGINE */
 
 function normalize(input){
 
@@ -1269,76 +1002,45 @@ function normalize(input){
     .replaceAll("×","*")
     .replaceAll("÷","/")
     .replaceAll("−","-")
-    .replaceAll(
-      "π",
-      "Math.PI"
-    )
-    .replace(
-      /\be\b/g,
-      "Math.E"
-    )
-    .replace(
-      /\^/g,
-      "**"
-    );
+    .replaceAll("π","Math.PI")
+    .replace(/\be\b/g,"Math.E")
+    .replace(/\^/g,"**");
 }
-
 
 function evaluateExpression(input){
 
-  const prepared =
-    normalize(input);
+  const prepared=normalize(input);
 
   if(
-    !/^[0-9+\-*/().\sA-Za-z_*]+$/
-      .test(prepared)
+    !/^[0-9+\-*/().\sA-Za-z_*]+$/.test(prepared)
   ){
-
-    throw new Error(
-      "Invalid"
-    );
+    throw new Error("Invalid");
   }
 
-  const value =
-    Function(
-      '"use strict";return (' +
-      prepared +
-      ')'
-    )();
+  const value=Function(
+    '"use strict";return ('+
+    prepared+
+    ')'
+  )();
 
-  if(
-    !Number.isFinite(value)
-  ){
-
-    throw new Error(
-      "Invalid"
-    );
+  if(!Number.isFinite(value)){
+    throw new Error("Invalid");
   }
 
   return value;
 }
 
-
 function formatNumber(value){
 
-  if(
-    !Number.isFinite(value)
-  ){
-
+  if(!Number.isFinite(value)){
     return "Error";
   }
 
-  if(
-    Math.abs(value) < 1e-12
-  ){
-
-    value = 0;
+  if(Math.abs(value)<1e-12){
+    value=0;
   }
 
-  if(
-    Number.isInteger(value)
-  ){
-
+  if(Number.isInteger(value)){
     return String(value);
   }
 
@@ -1346,7 +1048,6 @@ function formatNumber(value){
     value.toPrecision(12)
   ).toString();
 }
-
 
 function calculate(){
 
@@ -1356,42 +1057,26 @@ function calculate(){
 
   try{
 
-    const value =
-      evaluateExpression(
-        expression
-      );
+    const value=evaluateExpression(expression);
+    const result=formatNumber(value);
 
-    const result =
-      formatNumber(value);
+    addHistory(expression,result);
 
-    addHistory(
-      expression,
-      result
-    );
-
-    expression =
-      result;
-
-    answerEl.textContent =
-      result;
+    expression=result;
+    answerEl.textContent=result;
 
     document
       .querySelectorAll(".operator")
-      .forEach(button =>
-        button.classList.remove(
-          "active"
-        )
-      );
+      .forEach(button=>{
+        button.classList.remove("active");
+      });
 
     updateDisplay();
 
   }catch{
-
-    answerEl.textContent =
-      "Error";
+    answerEl.textContent="Error";
   }
 }
-
 
 function toggleSign(){
 
@@ -1401,40 +1086,23 @@ function toggleSign(){
 
   try{
 
-    const value =
-      evaluateExpression(
-        expression
-      );
+    const value=evaluateExpression(expression);
 
-    expression =
-      formatNumber(
-        -value
-      );
-
-    answerEl.textContent =
-      expression;
+    expression=formatNumber(-value);
+    answerEl.textContent=expression;
 
   }catch{
 
-    if(
-      expression.startsWith("-")
-    ){
-
-      expression =
-        expression.substring(1);
-
+    if(expression.startsWith("-")){
+      expression=expression.substring(1);
     }else{
-
-      expression =
-        "-" + expression;
+      expression="-"+expression;
     }
   }
 
   updateDisplay();
-
   liveCalculate();
 }
-
 
 function percent(){
 
@@ -1444,29 +1112,20 @@ function percent(){
 
   try{
 
-    const value =
-      evaluateExpression(
-        expression
-      );
+    const value=evaluateExpression(expression);
+    const result=value/100;
 
-    const result =
-      value / 100;
-
-    expression =
-      formatNumber(result);
-
-    answerEl.textContent =
-      expression;
+    expression=formatNumber(result);
+    answerEl.textContent=expression;
 
     updateDisplay();
 
   }catch{
-
-    answerEl.textContent =
-      "Error";
+    answerEl.textContent="Error";
   }
 }
 
+/* SCIENTIFIC */
 
 function scientific(type){
 
@@ -1475,24 +1134,12 @@ function scientific(type){
     let value;
 
     if(expression){
-
-      value =
-        evaluateExpression(
-          expression
-        );
-
+      value=evaluateExpression(expression);
     }else{
-
-      value =
-        Number(
-          answerEl.textContent
-        );
+      value=Number(answerEl.textContent);
     }
 
-    if(
-      !Number.isFinite(value)
-    ){
-
+    if(!Number.isFinite(value)){
       throw new Error();
     }
 
@@ -1501,527 +1148,369 @@ function scientific(type){
     switch(type){
 
       case "sin":
-
-        result =
-          Math.sin(
-            value *
-            Math.PI /
-            180
-          );
-
+        result=Math.sin(value*Math.PI/180);
         break;
 
       case "cos":
-
-        result =
-          Math.cos(
-            value *
-            Math.PI /
-            180
-          );
-
+        result=Math.cos(value*Math.PI/180);
         break;
 
       case "tan":
-
-        result =
-          Math.tan(
-            value *
-            Math.PI /
-            180
-          );
-
+        result=Math.tan(value*Math.PI/180);
         break;
 
       case "asin":
-
-        result =
-          Math.asin(value) *
-          180 /
-          Math.PI;
-
+        result=Math.asin(value)*180/Math.PI;
         break;
 
       case "acos":
-
-        result =
-          Math.acos(value) *
-          180 /
-          Math.PI;
-
+        result=Math.acos(value)*180/Math.PI;
         break;
 
       case "atan":
-
-        result =
-          Math.atan(value) *
-          180 /
-          Math.PI;
-
+        result=Math.atan(value)*180/Math.PI;
         break;
 
       case "log":
-
-        result =
-          Math.log10(value);
-
+        result=Math.log10(value);
         break;
 
       case "ln":
-
-        result =
-          Math.log(value);
-
+        result=Math.log(value);
         break;
 
       case "sqrt":
-
-        result =
-          Math.sqrt(value);
-
+        result=Math.sqrt(value);
         break;
 
       case "cbrt":
-
-        result =
-          Math.cbrt(value);
-
+        result=Math.cbrt(value);
         break;
 
       case "square":
-
-        result =
-          value ** 2;
-
+        result=value**2;
         break;
 
       case "cube":
-
-        result =
-          value ** 3;
-
+        result=value**3;
         break;
 
       case "inverse":
-
-        result =
-          1 / value;
-
+        result=1/value;
         break;
 
       case "factorial":
 
         if(
-          value < 0 ||
+          value<0 ||
           !Number.isInteger(value) ||
-          value > 170
+          value>170
         ){
-
           throw new Error();
         }
 
-        result = 1;
+        result=1;
 
-        for(
-          let i = 2;
-          i <= value;
-          i++
-        ){
-
-          result *= i;
+        for(let i=2;i<=value;i++){
+          result*=i;
         }
 
         break;
 
       case "exp":
-
-        result =
-          Math.exp(value);
-
+        result=Math.exp(value);
         break;
 
       default:
-
         throw new Error();
     }
 
-    if(
-      !Number.isFinite(result)
-    ){
-
+    if(!Number.isFinite(result)){
       throw new Error();
     }
 
-    const formatted =
-      formatNumber(result);
+    const formatted=formatNumber(result);
 
     addHistory(
-      type +
-      "(" +
-      value +
-      ")",
+      type+"("+value+")",
       formatted
     );
 
-    expression =
-      formatted;
-
-    answerEl.textContent =
-      formatted;
+    expression=formatted;
+    answerEl.textContent=formatted;
 
     updateDisplay();
 
   }catch{
-
-    answerEl.textContent =
-      "Error";
+    answerEl.textContent="Error";
   }
 }
 
+/* MEMORY */
 
 function currentValue(){
 
-  const value =
-    Number(
-      answerEl.textContent
-    );
+  const value=Number(answerEl.textContent);
 
   return Number.isFinite(value)
     ? value
     : 0;
 }
 
-
 function memoryAdd(){
-
-  memory +=
-    currentValue();
+  memory+=currentValue();
 }
-
 
 function memoryRecall(){
 
-  expression +=
-    formatNumber(memory);
+  expression+=formatNumber(memory);
 
   updateDisplay();
-
   liveCalculate();
 }
 
-
 function memoryClear(){
-
-  memory = 0;
+  memory=0;
 }
 
+/* HISTORY */
 
 function saveHistory(){
 
   try{
-
     localStorage.setItem(
       "sg_calci_history",
       JSON.stringify(history)
     );
-
   }catch{}
 }
 
-
-function addHistory(
-  exp,
-  result
-){
+function addHistory(exp,result){
 
   history.unshift({
-
     expression:exp,
     result:result
-
   });
 
-  if(history.length > 50){
-
+  if(history.length>50){
     history.pop();
   }
 
   saveHistory();
-
   renderHistory();
 }
 
-
 function renderHistory(){
 
-  if(history.length === 0){
+  if(history.length===0){
 
-    historyList.innerHTML =
-      '<div class="emptyHistory">' +
-      'NO CALCULATIONS YET' +
+    historyList.innerHTML=
+      '<div class="emptyHistory">'+
+      'NO CALCULATIONS YET'+
       '</div>';
 
     return;
   }
 
-  historyList.innerHTML =
-    history.map(
-      (item,index) => {
+  historyList.innerHTML=history.map(
+    (item,index)=>`
 
-        return `
+      <button
+        class="historyItem"
+        type="button"
+        onclick="useHistory(${index})">
 
-          <button
-            class="historyItem"
-            type="button"
-            onclick="useHistory(${index})">
+        <div class="historyExpression">
+          ${escapeHTML(item.expression)}
+        </div>
 
-            <div class="historyExpression">
-              ${escapeHTML(
-                item.expression
-              )}
-            </div>
+        <div class="historyResult">
+          = ${escapeHTML(item.result)}
+        </div>
 
-            <div class="historyResult">
-              = ${escapeHTML(
-                item.result
-              )}
-            </div>
+        <div class="historyHint">
+          TAP TO CONTINUE
+        </div>
 
-            <div class="historyHint">
-              TAP TO CONTINUE
-            </div>
-
-          </button>
-
-        `;
-
-      }
-    ).join("");
+      </button>
+    `
+  ).join("");
 }
-
 
 function useHistory(index){
 
   if(
-    index < 0 ||
-    index >= history.length
+    index<0 ||
+    index>=history.length
   ){
-
     return;
   }
 
-  const item =
-    history[index];
+  const item=history[index];
 
-  expression =
-    String(item.result);
-
-  answerEl.textContent =
-    String(item.result);
+  expression=String(item.result);
+  answerEl.textContent=String(item.result);
 
   updateDisplay();
 
   document
     .querySelectorAll(".operator")
-    .forEach(button =>
-      button.classList.remove(
-        "active"
-      )
-    );
+    .forEach(button=>{
+      button.classList.remove("active");
+    });
 
-  historyPanel.classList.remove(
-    "show"
-  );
-
-  historyButton.classList.remove(
-    "historyActive"
-  );
+  historyPanel.classList.remove("show");
+  historyButton.classList.remove("historyActive");
 
   if(navigator.vibrate){
-
     navigator.vibrate(20);
   }
 }
 
-
 function toggleHistory(){
 
-  const isOpen =
-    historyPanel.classList.contains(
-      "show"
-    );
+  const isOpen=
+    historyPanel.classList.contains("show");
 
   if(isOpen){
 
-    historyPanel.classList.remove(
-      "show"
-    );
-
-    historyButton.classList.remove(
-      "historyActive"
-    );
+    historyPanel.classList.remove("show");
+    historyButton.classList.remove("historyActive");
 
   }else{
 
-    historyPanel.classList.add(
-      "show"
-    );
-
-    historyButton.classList.add(
-      "historyActive"
-    );
+    historyPanel.classList.add("show");
+    historyButton.classList.add("historyActive");
 
     renderHistory();
 
-    setTimeout(() => {
-
+    setTimeout(()=>{
       historyPanel.scrollIntoView({
         behavior:"smooth",
         block:"nearest"
       });
-
     },50);
   }
 }
 
-
 function clearHistory(){
 
-  history = [];
+  history=[];
 
   saveHistory();
-
   renderHistory();
 }
-
 
 function escapeHTML(value){
 
   return String(value)
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
+/* SCI / BASIC */
 
 scientificToggle.addEventListener(
   "click",
-  () => {
+  ()=>{
+    scientificPanel.classList.toggle("show");
 
-    scientificPanel.classList.toggle(
-      "show"
-    );
-
-    scientificToggle.textContent =
-      scientificPanel.classList.contains(
-        "show"
-      )
+    scientificToggle.textContent=
+      scientificPanel.classList.contains("show")
         ? "BASIC"
         : "SCI";
   }
 );
 
+/* KEYBOARD */
 
 document.addEventListener(
   "keydown",
-  event => {
+  event=>{
 
-    const key =
-      event.key;
+    const key=event.key;
 
     if(/[0-9]/.test(key)){
-
       insert(key);
       return;
     }
 
-    if(key === "."){
-
+    if(key==="."){
       insert(".");
       return;
     }
 
-    if(key === "+"){
-
+    if(key==="+"){
       operator("+");
       return;
     }
 
-    if(key === "-"){
-
+    if(key==="-"){
       operator("−");
       return;
     }
 
-    if(key === "*"){
-
+    if(key==="*"){
       operator("×");
       return;
     }
 
-    if(key === "/"){
-
+    if(key==="/"){
       operator("÷");
       return;
     }
 
-    if(
-      key === "(" ||
-      key === ")"
-    ){
-
+    if(key==="(" || key===")"){
       insert(key);
       return;
     }
 
-    if(
-      key === "Enter" ||
-      key === "="
-    ){
+    if(key==="Enter" || key==="="){
 
       event.preventDefault();
-
       calculate();
       return;
     }
 
-    if(key === "Backspace"){
+    if(key==="Backspace"){
 
       event.preventDefault();
-
       backspace();
       return;
     }
 
-    if(key === "Escape"){
-
+    if(key==="Escape"){
       clearCalculator();
     }
 
   }
 );
 
-
 renderHistory();
-
 updateDisplay();
+
+/* APP INSTALL / SERVICE WORKER */
+
+if("serviceWorker" in navigator){
+
+  window.addEventListener(
+    "load",
+    ()=>{
+      navigator.serviceWorker
+        .register("./sw.js")
+        .then(()=>{
+          console.log("SG CALCI app engine ready");
+        })
+        .catch(()=>{
+          console.log("Service worker will be available after sw.js is added.");
+        });
+    }
+  );
+
+}
 
 </script>
 
