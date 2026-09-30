@@ -33,14 +33,22 @@ body{
   background-size:32px 32px,32px 32px,100% 100%,auto;
 }
 
-/* ---------- APP ---------- */
+button,
+input,
+select{
+  font-family:inherit;
+}
+
+button{
+  cursor:pointer;
+}
 
 .app{
   width:100%;
   max-width:560px;
   min-height:100vh;
   margin:auto;
-  padding:18px 14px 28px;
+  padding:18px 14px 32px;
   position:relative;
 }
 
@@ -106,8 +114,6 @@ body{
   100%{transform:translateX(calc(100% + 150px));opacity:.2}
 }
 
-/* ---------- DISPLAY ---------- */
-
 .displayBox{
   position:relative;
   border:1px solid rgba(0,190,255,.35);
@@ -150,6 +156,7 @@ body{
   color:#f5fcff;
   text-shadow:0 0 15px rgba(0,190,255,.55);
   padding-right:48px;
+  transition:font-size .15s ease;
 }
 
 .backspace{
@@ -171,23 +178,22 @@ body{
   background:rgba(0,170,255,.25);
 }
 
-/* ---------- MODE ---------- */
-
 .modeRow{
-  display:flex;
-  gap:8px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
   margin-bottom:12px;
 }
 
 .modeBtn{
-  flex:1;
   height:39px;
   border-radius:12px;
   border:1px solid rgba(0,190,255,.25);
   background:rgba(5,20,30,.8);
   color:#73dfff;
   font-weight:700;
-  letter-spacing:2px;
+  letter-spacing:1.5px;
+  font-size:10px;
 }
 
 .modeBtn.active{
@@ -199,8 +205,6 @@ body{
   border-color:rgba(0,210,255,.7);
   box-shadow:0 0 15px rgba(0,170,255,.12);
 }
-
-/* ---------- KEYPAD ---------- */
 
 .scientific{
   display:none;
@@ -217,10 +221,6 @@ body{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:8px;
-}
-
-button{
-  font-family:inherit;
 }
 
 .key{
@@ -283,8 +283,6 @@ button{
   color:#6edfff;
 }
 
-/* ---------- HISTORY ---------- */
-
 .historyPanel{
   display:none;
   margin-top:14px;
@@ -337,7 +335,289 @@ button{
   margin-top:3px;
 }
 
-/* ---------- SETUP ---------- */
+/* =========================================================
+   CURRENCY
+   ========================================================= */
+
+.currencyPanel{
+  display:none;
+  margin-top:2px;
+}
+
+.currencyPanel.show{
+  display:block;
+}
+
+.currencyHeader{
+  border:1px solid rgba(0,190,255,.28);
+  border-radius:19px;
+  padding:15px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(5,23,36,.96),
+      rgba(2,9,16,.98)
+    );
+  box-shadow:
+    inset 0 0 25px rgba(0,150,255,.04),
+    0 8px 25px rgba(0,0,0,.18);
+}
+
+.currencyTitle{
+  font-size:15px;
+  letter-spacing:3px;
+  font-weight:800;
+  color:#e8fbff;
+}
+
+.currencySub{
+  font-size:9px;
+  letter-spacing:1.5px;
+  color:#5bdcff;
+  margin-top:5px;
+}
+
+.rateStatus{
+  margin-top:10px;
+  min-height:16px;
+  font-size:9px;
+  letter-spacing:1px;
+  color:#7998a5;
+}
+
+.currencyAmountBox{
+  margin-top:14px;
+}
+
+.currencyLabel{
+  display:block;
+  font-size:9px;
+  color:#69dfff;
+  letter-spacing:1.5px;
+  margin-bottom:6px;
+}
+
+.currencyAmount{
+  width:100%;
+  height:54px;
+  border-radius:13px;
+  border:1px solid rgba(0,190,255,.30);
+  outline:none;
+  background:#020a11;
+  color:#f4fcff;
+  font-size:24px;
+  font-weight:700;
+  padding:0 14px;
+}
+
+.currencyAmount:focus{
+  border-color:#58dfff;
+  box-shadow:0 0 18px rgba(0,190,255,.12);
+}
+
+.currencyPair{
+  display:grid;
+  grid-template-columns:1fr 46px 1fr;
+  gap:8px;
+  align-items:end;
+  margin-top:12px;
+}
+
+.currencyField select{
+  width:100%;
+  height:47px;
+  border-radius:12px;
+  border:1px solid rgba(0,180,255,.25);
+  background:#06131d;
+  color:#eaffff;
+  padding:0 9px;
+  outline:none;
+  font-size:12px;
+}
+
+.currencyField select:focus{
+  border-color:#58dfff;
+}
+
+.swapCurrency{
+  width:46px;
+  height:47px;
+  border-radius:12px;
+  border:1px solid rgba(0,210,255,.40);
+  background:rgba(0,120,170,.18);
+  color:#69e5ff;
+  font-size:19px;
+}
+
+.convertButton{
+  width:100%;
+  height:48px;
+  margin-top:12px;
+  border-radius:13px;
+  border:1px solid rgba(0,215,255,.68);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,150,220,.62),
+      rgba(0,65,105,.70)
+    );
+  color:#fff;
+  font-weight:800;
+  letter-spacing:1.5px;
+}
+
+.convertButton:active,
+.swapCurrency:active{
+  transform:scale(.97);
+}
+
+.currencyResult{
+  margin-top:14px;
+  border:1px solid rgba(0,190,255,.24);
+  border-radius:16px;
+  padding:15px;
+  background:rgba(0,80,120,.08);
+}
+
+.resultLabel{
+  font-size:9px;
+  color:#7296a4;
+  letter-spacing:1.5px;
+}
+
+.resultValue{
+  margin-top:5px;
+  font-size:30px;
+  font-weight:800;
+  color:#f5ffff;
+  word-break:break-word;
+  text-shadow:0 0 15px rgba(0,190,255,.35);
+}
+
+.resultRate{
+  margin-top:6px;
+  color:#5edbff;
+  font-size:10px;
+  line-height:1.5;
+}
+
+.compareSection{
+  margin-top:13px;
+  border:1px solid rgba(0,180,255,.22);
+  border-radius:17px;
+  padding:13px;
+  background:rgba(3,13,21,.80);
+}
+
+.compareTop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.compareTitle{
+  font-size:11px;
+  color:#70e1ff;
+  letter-spacing:2px;
+  font-weight:800;
+}
+
+.refreshRates{
+  height:32px;
+  padding:0 10px;
+  border-radius:9px;
+  border:1px solid rgba(0,190,255,.25);
+  background:rgba(0,100,140,.14);
+  color:#68dcff;
+  font-size:9px;
+  font-weight:700;
+}
+
+.compareGrid{
+  display:grid;
+  gap:7px;
+}
+
+.compareCard{
+  display:grid;
+  grid-template-columns:42px 1fr auto;
+  align-items:center;
+  gap:9px;
+  min-height:54px;
+  border:1px solid rgba(255,255,255,.055);
+  border-radius:11px;
+  padding:7px 9px;
+  background:rgba(255,255,255,.018);
+}
+
+.compareFlag{
+  font-size:23px;
+  text-align:center;
+}
+
+.compareName{
+  font-size:11px;
+  color:#dff8ff;
+  font-weight:700;
+}
+
+.compareCode{
+  font-size:8px;
+  color:#648895;
+  margin-top:2px;
+  letter-spacing:1px;
+}
+
+.compareValue{
+  text-align:right;
+  font-size:13px;
+  color:#77e4ff;
+  font-weight:700;
+  word-break:break-all;
+}
+
+.favouriteRow{
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding:2px 0 5px;
+  margin-top:10px;
+  scrollbar-width:none;
+}
+
+.favouriteRow::-webkit-scrollbar{
+  display:none;
+}
+
+.currencyChip{
+  flex:0 0 auto;
+  height:32px;
+  padding:0 10px;
+  border-radius:9px;
+  border:1px solid rgba(0,180,255,.20);
+  background:rgba(5,20,30,.75);
+  color:#70dfff;
+  font-size:9px;
+  font-weight:700;
+}
+
+.currencyChip.active{
+  border-color:rgba(0,215,255,.70);
+  background:rgba(0,120,170,.22);
+}
+
+.currencyNote{
+  margin-top:10px;
+  color:#55717d;
+  font-size:9px;
+  line-height:1.5;
+}
+
+/* =========================================================
+   SETUP
+   ========================================================= */
 
 .overlay{
   position:fixed;
@@ -437,7 +717,9 @@ button{
   margin:7px 0;
 }
 
-/* ---------- VAULT ---------- */
+/* =========================================================
+   VAULT
+   ========================================================= */
 
 .vault{
   position:fixed;
@@ -671,7 +953,9 @@ button{
   line-height:1.7;
 }
 
-/* ---------- TOAST ---------- */
+/* =========================================================
+   TOAST
+   ========================================================= */
 
 .toast{
   position:fixed;
@@ -697,6 +981,40 @@ button{
   opacity:1;
   transform:translate(-50%,0);
 }
+
+/* =========================================================
+   LANDSCAPE
+   ========================================================= */
+
+@media (orientation:landscape) and (max-height:600px){
+
+  .app{
+    max-width:900px;
+    padding-top:10px;
+  }
+
+  .brand{
+    margin-bottom:10px;
+  }
+
+  .brand h1{
+    font-size:23px;
+  }
+
+  .displayBox{
+    padding:10px 14px;
+  }
+
+  .answer{
+    min-height:42px;
+    font-size:30px;
+  }
+
+  .key{
+    height:48px;
+  }
+
+}
 </style>
 </head>
 
@@ -710,8 +1028,12 @@ button{
   </div>
 
   <div class="displayBox">
-    <div class="status">CALCULATION CORE ACTIVE</div>
+    <div class="status" id="coreStatus">
+      CALCULATION CORE ACTIVE
+    </div>
+
     <div class="expression" id="expression"></div>
+
     <div class="answer" id="answer">0</div>
 
     <button
@@ -722,11 +1044,38 @@ button{
   </div>
 
   <div class="modeRow">
-    <button class="modeBtn active" id="basicBtn">BASIC</button>
-    <button class="modeBtn" id="sciBtn">SCI</button>
+
+    <button
+      class="modeBtn active"
+      id="basicBtn"
+    >
+      BASIC
+    </button>
+
+    <button
+      class="modeBtn"
+      id="sciBtn"
+    >
+      SCI
+    </button>
+
+    <button
+      class="modeBtn"
+      id="currencyBtn"
+    >
+      CURRENCY
+    </button>
+
   </div>
 
-  <div class="scientific" id="scientific">
+  <!-- =====================================================
+       SCIENTIFIC
+       ===================================================== -->
+
+  <div
+    class="scientific"
+    id="scientific"
+  >
 
     <button class="key" data-value="sin(">sin</button>
     <button class="key" data-value="cos(">cos</button>
@@ -754,69 +1103,499 @@ button{
 
   </div>
 
-  <div class="keypad">
+  <!-- =====================================================
+       CALCULATOR
+       ===================================================== -->
 
-    <button class="key danger" data-action="clear">AC</button>
-    <button class="key" data-action="sign">+/−</button>
-    <button class="key" data-value="%">%</button>
-    <button class="key operator" data-value="/">÷</button>
+  <div
+    class="keypad"
+    id="calculatorPad"
+  >
+
+    <button
+      class="key danger"
+      data-action="clear"
+    >AC</button>
+
+    <button
+      class="key"
+      data-action="sign"
+    >+/−</button>
+
+    <button
+      class="key"
+      data-value="%"
+    >%</button>
+
+    <button
+      class="key operator"
+      data-value="/"
+    >÷</button>
 
     <button class="key" data-value="7">7</button>
     <button class="key" data-value="8">8</button>
     <button class="key" data-value="9">9</button>
-    <button class="key operator" data-value="*">×</button>
+
+    <button
+      class="key operator"
+      data-value="*"
+    >×</button>
 
     <button class="key" data-value="4">4</button>
     <button class="key" data-value="5">5</button>
     <button class="key" data-value="6">6</button>
-    <button class="key operator" data-value="-">−</button>
+
+    <button
+      class="key operator"
+      data-value="-"
+    >−</button>
 
     <button class="key" data-value="1">1</button>
     <button class="key" data-value="2">2</button>
     <button class="key" data-value="3">3</button>
-    <button class="key operator" data-value="+">+</button>
+
+    <button
+      class="key operator"
+      data-value="+"
+    >+</button>
 
     <button class="key" data-value="0">0</button>
     <button class="key" data-value=".">.</button>
-    <button class="key" data-action="history">HIS</button>
-    <button class="key equal" data-action="calculate">=</button>
+
+    <button
+      class="key"
+      data-action="history"
+    >HIS</button>
+
+    <button
+      class="key equal"
+      data-action="calculate"
+    >=</button>
 
   </div>
 
   <div class="memory">
+
     <button id="memoryAdd">M+</button>
     <button id="memoryRecall">MR</button>
     <button id="memoryClear">MC</button>
+
   </div>
 
-  <div class="historyPanel" id="historyPanel">
+  <!-- =====================================================
+       HISTORY
+       ===================================================== -->
+
+  <div
+    class="historyPanel"
+    id="historyPanel"
+  >
+
     <div class="historyHead">
-      <span>CALCULATION HISTORY</span>
-      <button class="historyClear" id="historyClear">CLEAR</button>
+
+      <span>
+        CALCULATION HISTORY
+      </span>
+
+      <button
+        class="historyClear"
+        id="historyClear"
+      >
+        CLEAR
+      </button>
+
     </div>
+
     <div id="historyList"></div>
+
+  </div>
+
+  <!-- =====================================================
+       CURRENCY
+       ===================================================== -->
+
+  <div
+    class="currencyPanel"
+    id="currencyPanel"
+  >
+
+    <div class="currencyHeader">
+
+      <div class="currencyTitle">
+        CURRENCY CORE
+      </div>
+
+      <div class="currencySub">
+        LIVE EXCHANGE RATE • COUNTRY COMPARISON
+      </div>
+
+      <div
+        class="rateStatus"
+        id="rateStatus"
+      >
+        CONNECTING TO RATE SERVICE...
+      </div>
+
+      <div class="currencyAmountBox">
+
+        <label
+          class="currencyLabel"
+          for="currencyAmount"
+        >
+          AMOUNT
+        </label>
+
+        <input
+          id="currencyAmount"
+          class="currencyAmount"
+          type="number"
+          inputmode="decimal"
+          value="1000"
+          min="0"
+          step="any"
+        >
+
+      </div>
+
+      <div class="currencyPair">
+
+        <div class="currencyField">
+
+          <label
+            class="currencyLabel"
+            for="fromCurrency"
+          >
+            FROM
+          </label>
+
+          <select id="fromCurrency"></select>
+
+        </div>
+
+        <button
+          class="swapCurrency"
+          id="swapCurrency"
+          aria-label="Swap currencies"
+        >
+          ⇄
+        </button>
+
+        <div class="currencyField">
+
+          <label
+            class="currencyLabel"
+            for="toCurrency"
+          >
+            TO
+          </label>
+
+          <select id="toCurrency"></select>
+
+        </div>
+
+      </div>
+
+      <button
+        class="convertButton"
+        id="convertCurrency"
+      >
+        CONVERT
+      </button>
+
+      <div class="currencyResult">
+
+        <div class="resultLabel">
+          CONVERTED VALUE
+        </div>
+
+        <div
+          class="resultValue"
+          id="currencyResult"
+        >
+          —
+        </div>
+
+        <div
+          class="resultRate"
+          id="currencyRate"
+        >
+          Enter an amount and tap CONVERT.
+        </div>
+
+      </div>
+
+      <div class="favouriteRow">
+
+        <button
+          class="currencyChip active"
+          data-currency="USD"
+        >
+          USD
+        </button>
+
+        <button
+          class="currencyChip"
+          data-currency="EUR"
+        >
+          EUR
+        </button>
+
+        <button
+          class="currencyChip"
+          data-currency="GBP"
+        >
+          GBP
+        </button>
+
+        <button
+          class="currencyChip"
+          data-currency="JPY"
+        >
+          JPY
+        </button>
+
+        <button
+          class="currencyChip"
+          data-currency="AED"
+        >
+          AED
+        </button>
+
+        <button
+          class="currencyChip"
+          data-currency="CAD"
+        >
+          CAD
+        </button>
+
+        <button
+          class="currencyChip"
+          data-currency="AUD"
+        >
+          AUD
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- ===================================================
+         COUNTRY COMPARISON
+         =================================================== -->
+
+    <div class="compareSection">
+
+      <div class="compareTop">
+
+        <div class="compareTitle">
+          COUNTRY COMPARISON
+        </div>
+
+        <button
+          class="refreshRates"
+          id="refreshRates"
+        >
+          ↻ REFRESH
+        </button>
+
+      </div>
+
+      <div
+        class="compareGrid"
+        id="compareGrid"
+      >
+
+        <div class="compareCard">
+
+          <div class="compareFlag">
+            🇺🇸
+          </div>
+
+          <div>
+            <div class="compareName">
+              United States
+            </div>
+            <div class="compareCode">
+              USD
+            </div>
+          </div>
+
+          <div
+            class="compareValue"
+            data-compare="USD"
+          >
+            —
+          </div>
+
+        </div>
+
+        <div class="compareCard">
+
+          <div class="compareFlag">
+            🇬🇧
+          </div>
+
+          <div>
+            <div class="compareName">
+              United Kingdom
+            </div>
+            <div class="compareCode">
+              GBP
+            </div>
+          </div>
+
+          <div
+            class="compareValue"
+            data-compare="GBP"
+          >
+            —
+          </div>
+
+        </div>
+
+        <div class="compareCard">
+
+          <div class="compareFlag">
+            🇪🇺
+          </div>
+
+          <div>
+            <div class="compareName">
+              Eurozone
+            </div>
+            <div class="compareCode">
+              EUR
+            </div>
+          </div>
+
+          <div
+            class="compareValue"
+            data-compare="EUR"
+          >
+            —
+          </div>
+
+        </div>
+
+        <div class="compareCard">
+
+          <div class="compareFlag">
+            🇯🇵
+          </div>
+
+          <div>
+            <div class="compareName">
+              Japan
+            </div>
+            <div class="compareCode">
+              JPY
+            </div>
+          </div>
+
+          <div
+            class="compareValue"
+            data-compare="JPY"
+          >
+            —
+          </div>
+
+        </div>
+
+        <div class="compareCard">
+
+          <div class="compareFlag">
+            🇦🇪
+          </div>
+
+          <div>
+            <div class="compareName">
+              United Arab Emirates
+            </div>
+            <div class="compareCode">
+              AED
+            </div>
+          </div>
+
+          <div
+            class="compareValue"
+            data-compare="AED"
+          >
+            —
+          </div>
+
+        </div>
+
+        <div class="compareCard">
+
+          <div class="compareFlag">
+            🇨🇦
+          </div>
+
+          <div>
+            <div class="compareName">
+              Canada
+            </div>
+            <div class="compareCode">
+              CAD
+            </div>
+          </div>
+
+          <div
+            class="compareValue"
+            data-compare="CAD"
+          >
+            —
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="currencyNote">
+        Rates are retrieved from an online exchange-rate service.
+        The displayed rate can change over time and should not be
+        treated as a guaranteed transaction rate.
+      </div>
+
+    </div>
+
   </div>
 
 </div>
 
 
-<!-- FIRST LAUNCH SECRET CODE SETUP -->
+<!-- =========================================================
+     FIRST LAUNCH SECRET CODE SETUP
+     ========================================================= -->
 
-<div class="overlay" id="setupOverlay">
+<div
+  class="overlay"
+  id="setupOverlay"
+>
 
   <div class="setupCard">
 
-    <div class="setupLogo">SG CALCI</div>
+    <div class="setupLogo">
+      SG CALCI
+    </div>
 
-    <div class="setupTitle">PRIVATE VAULT SETUP</div>
+    <div class="setupTitle">
+      PRIVATE VAULT SETUP
+    </div>
 
     <div class="setupText">
+
       Create a secret numeric code for your private vault.
+
       <br>
+
       Later, enter this code in the calculator and press
       <b>=</b> to open the vault.
+
       <br><br>
+
       Your code is stored only on this device/browser.
+
     </div>
 
     <input
@@ -839,9 +1618,15 @@ button{
       autocomplete="new-password"
     >
 
-    <div class="setupError" id="setupError"></div>
+    <div
+      class="setupError"
+      id="setupError"
+    ></div>
 
-    <button class="setupButton" id="saveCode">
+    <button
+      class="setupButton"
+      id="saveCode"
+    >
       CREATE SECURE CODE
     </button>
 
@@ -850,20 +1635,35 @@ button{
 </div>
 
 
-<!-- PRIVATE VAULT -->
+<!-- =========================================================
+     PRIVATE VAULT
+     ========================================================= -->
 
-<div class="vault" id="vault">
+<div
+  class="vault"
+  id="vault"
+>
 
   <div class="vaultInner">
 
     <div class="vaultTop">
 
       <div>
-        <div class="vaultTitle">PRIVATE VAULT</div>
-        <div class="vaultSubtitle">SECURE LOCAL STORAGE</div>
+
+        <div class="vaultTitle">
+          PRIVATE VAULT
+        </div>
+
+        <div class="vaultSubtitle">
+          SECURE LOCAL STORAGE
+        </div>
+
       </div>
 
-      <button class="lockBtn" id="lockVault">
+      <button
+        class="lockBtn"
+        id="lockVault"
+      >
         LOCK VAULT
       </button>
 
@@ -871,7 +1671,10 @@ button{
 
     <div class="vaultActions">
 
-      <button class="addFiles" id="addFiles">
+      <button
+        class="addFiles"
+        id="addFiles"
+      >
         + ADD FILES
       </button>
 
@@ -886,28 +1689,40 @@ button{
     </div>
 
     <div class="vaultInfo">
+
       Imported items are stored as copies inside the SG CALCI
       vault. Exporting an item creates a copy on your device;
       the vault copy remains until you delete it.
+
     </div>
 
-    <div class="vaultStatus" id="vaultStatus">
+    <div
+      class="vaultStatus"
+      id="vaultStatus"
+    >
       VAULT READY
     </div>
 
-    <div class="vaultGrid" id="vaultGrid"></div>
+    <div
+      class="vaultGrid"
+      id="vaultGrid"
+    ></div>
 
   </div>
 
 </div>
 
 
-<div class="toast" id="toast"></div>
+<div
+  class="toast"
+  id="toast"
+></div>
 
 
 <script>
 /* =========================================================
-   SG CALCI + PRIVATE VAULT
+   SG CALCI 2.0
+   CALCULATOR + SCIENTIFIC + CURRENCY + PRIVATE VAULT
    ========================================================= */
 
 const SECRET_KEY = "sg_calci_secret_v1";
@@ -916,29 +1731,72 @@ const DB_NAME = "SG_CALCI_PRIVATE_VAULT";
 const DB_VERSION = 1;
 const STORE_NAME = "files";
 
+const HISTORY_KEY = "sg_calci_history";
+
 let expression = "";
 let memoryValue = 0;
 let scientificMode = false;
+let currencyMode = false;
 let db = null;
+
+let currencyRates = {};
+let currencyRateDate = null;
 
 
 /* =========================================================
    ELEMENTS
    ========================================================= */
 
-const expressionEl = document.getElementById("expression");
-const answerEl = document.getElementById("answer");
+const expressionEl =
+  document.getElementById("expression");
 
-const setupOverlay = document.getElementById("setupOverlay");
-const newCodeEl = document.getElementById("newCode");
-const confirmCodeEl = document.getElementById("confirmCode");
-const setupError = document.getElementById("setupError");
+const answerEl =
+  document.getElementById("answer");
 
-const vault = document.getElementById("vault");
-const vaultGrid = document.getElementById("vaultGrid");
-const vaultStatus = document.getElementById("vaultStatus");
+const coreStatus =
+  document.getElementById("coreStatus");
 
-const toastEl = document.getElementById("toast");
+const setupOverlay =
+  document.getElementById("setupOverlay");
+
+const newCodeEl =
+  document.getElementById("newCode");
+
+const confirmCodeEl =
+  document.getElementById("confirmCode");
+
+const setupError =
+  document.getElementById("setupError");
+
+const vault =
+  document.getElementById("vault");
+
+const vaultGrid =
+  document.getElementById("vaultGrid");
+
+const vaultStatus =
+  document.getElementById("vaultStatus");
+
+const toastEl =
+  document.getElementById("toast");
+
+const basicBtn =
+  document.getElementById("basicBtn");
+
+const sciBtn =
+  document.getElementById("sciBtn");
+
+const currencyBtn =
+  document.getElementById("currencyBtn");
+
+const scientific =
+  document.getElementById("scientific");
+
+const currencyPanel =
+  document.getElementById("currencyPanel");
+
+const calculatorPad =
+  document.getElementById("calculatorPad");
 
 
 /* =========================================================
@@ -952,11 +1810,15 @@ function showToast(message){
   clearTimeout(toastTimer);
 
   toastEl.textContent = message;
+
   toastEl.classList.add("show");
 
   toastTimer = setTimeout(() => {
+
     toastEl.classList.remove("show");
-  }, 2600);
+
+  },2600);
+
 }
 
 
@@ -966,61 +1828,89 @@ function showToast(message){
 
 function checkFirstLaunch(){
 
-  const saved = localStorage.getItem(SECRET_KEY);
+  const saved =
+    localStorage.getItem(SECRET_KEY);
 
   if(saved){
+
     setupOverlay.style.display = "none";
+
   }else{
+
     setupOverlay.style.display = "flex";
+
   }
+
 }
 
 
 function createSecretCode(){
 
-  const code = newCodeEl.value.trim();
-  const confirm = confirmCodeEl.value.trim();
+  const code =
+    newCodeEl.value.trim();
+
+  const confirm =
+    confirmCodeEl.value.trim();
 
   setupError.textContent = "";
 
   if(!/^\d{4,12}$/.test(code)){
+
     setupError.textContent =
       "Use a numeric code containing 4–12 digits.";
+
     return;
+
   }
 
   if(code !== confirm){
+
     setupError.textContent =
       "The confirmation code does not match.";
+
     return;
+
   }
 
-  localStorage.setItem(SECRET_KEY, code);
+  localStorage.setItem(
+    SECRET_KEY,
+    code
+  );
 
   setupOverlay.style.display = "none";
 
   newCodeEl.value = "";
   confirmCodeEl.value = "";
 
-  showToast("Secure vault code created.");
+  showToast(
+    "Secure vault code created."
+  );
+
 }
 
 
-document.getElementById("saveCode").addEventListener(
-  "click",
-  createSecretCode
-);
+document
+  .getElementById("saveCode")
+  .addEventListener(
+    "click",
+    createSecretCode
+  );
 
 
 [newCodeEl,confirmCodeEl].forEach(input => {
 
-  input.addEventListener("keydown", event => {
+  input.addEventListener(
+    "keydown",
+    event => {
 
-    if(event.key === "Enter"){
-      createSecretCode();
+      if(event.key === "Enter"){
+
+        createSecretCode();
+
+      }
+
     }
-
-  });
+  );
 
 });
 
@@ -1031,38 +1921,56 @@ document.getElementById("saveCode").addEventListener(
 
 function updateDisplay(){
 
-  expressionEl.textContent = expression;
+  expressionEl.textContent =
+    expression;
 
   if(expression === ""){
+
     answerEl.textContent = "0";
+
     return;
+
   }
 
   try{
 
-    const result = evaluateExpression(expression);
+    const result =
+      evaluateExpression(expression);
 
     if(Number.isFinite(result)){
-      answerEl.textContent = formatNumber(result);
+
+      answerEl.textContent =
+        formatNumber(result);
+
     }
 
   }catch{
+
     answerEl.textContent = "0";
+
   }
+
 }
 
 
 function formatNumber(value){
 
   if(!Number.isFinite(value)){
+
     return "Error";
+
   }
 
   if(Math.abs(value) < 1e-12){
+
     value = 0;
+
   }
 
-  return Number(value.toPrecision(12)).toString();
+  return Number(
+    value.toPrecision(12)
+  ).toString();
+
 }
 
 
@@ -1072,40 +1980,62 @@ function formatNumber(value){
 
 function isSecretCode(){
 
-  const savedCode = localStorage.getItem(SECRET_KEY);
+  const savedCode =
+    localStorage.getItem(
+      SECRET_KEY
+    );
 
   return (
     !!savedCode &&
     expression === savedCode
   );
+
 }
 
 
 /* =========================================================
-   SAFE CALCULATOR ENGINE
+   CALCULATOR ENGINE
    ========================================================= */
 
 function factorial(n){
 
   if(!Number.isFinite(n)){
-    throw new Error("Invalid factorial");
+
+    throw new Error(
+      "Invalid factorial"
+    );
+
   }
 
-  if(n < 0 || Math.floor(n) !== n){
-    throw new Error("Invalid factorial");
+  if(
+    n < 0 ||
+    Math.floor(n) !== n
+  ){
+
+    throw new Error(
+      "Invalid factorial"
+    );
+
   }
 
   if(n > 170){
-    throw new Error("Too large");
+
+    throw new Error(
+      "Too large"
+    );
+
   }
 
   let result = 1;
 
   for(let i = 2; i <= n; i++){
+
     result *= i;
+
   }
 
   return result;
+
 }
 
 
@@ -1113,51 +2043,126 @@ function evaluateExpression(expr){
 
   let e = expr;
 
-  e = e.replace(/π/g,"Math.PI");
-  e = e.replace(/\be\b/g,"Math.E");
+  e = e.replace(
+    /π/g,
+    "Math.PI"
+  );
 
-  e = e.replace(/\bsin\(/g,"Math.sin(");
-  e = e.replace(/\bcos\(/g,"Math.cos(");
-  e = e.replace(/\btan\(/g,"Math.tan(");
+  e = e.replace(
+    /\be\b/g,
+    "Math.E"
+  );
 
-  e = e.replace(/\basin\(/g,"Math.asin(");
-  e = e.replace(/\bacos\(/g,"Math.acos(");
-  e = e.replace(/\batan\(/g,"Math.atan(");
+  e = e.replace(
+    /\bsin\(/g,
+    "Math.sin("
+  );
 
-  e = e.replace(/\blog\(/g,"Math.log10(");
-  e = e.replace(/\bln\(/g,"Math.log(");
+  e = e.replace(
+    /\bcos\(/g,
+    "Math.cos("
+  );
 
-  e = e.replace(/\bsqrt\(/g,"Math.sqrt(");
-  e = e.replace(/\bcbrt\(/g,"Math.cbrt(");
+  e = e.replace(
+    /\btan\(/g,
+    "Math.tan("
+  );
 
-  e = e.replace(/\^/g,"**");
+  e = e.replace(
+    /\basin\(/g,
+    "Math.asin("
+  );
 
-  e = e.replace(/(\d+(?:\.\d+)?)%/g,"($1/100)");
+  e = e.replace(
+    /\bacos\(/g,
+    "Math.acos("
+  );
+
+  e = e.replace(
+    /\batan\(/g,
+    "Math.atan("
+  );
+
+  e = e.replace(
+    /\blog\(/g,
+    "Math.log10("
+  );
+
+  e = e.replace(
+    /\bln\(/g,
+    "Math.log("
+  );
+
+  e = e.replace(
+    /\bsqrt\(/g,
+    "Math.sqrt("
+  );
+
+  e = e.replace(
+    /\bcbrt\(/g,
+    "Math.cbrt("
+  );
+
+  e = e.replace(
+    /\^/g,
+    "**"
+  );
+
+  e = e.replace(
+    /(\d+(?:\.\d+)?)%/g,
+    "($1/100)"
+  );
 
   e = e.replace(
     /(\d+(?:\.\d+)?|\([^()]+\))!/g,
     "factorial($1)"
   );
 
-  e = e.replace(/EXP/g,"*10**");
+  e = e.replace(
+    /EXP/g,
+    "*10**"
+  );
 
-  if(!/^[0-9+\-*/().,\sA-Za-z_*]+$/.test(e)){
-    throw new Error("Invalid");
+  if(
+    !/^[0-9+\-*/().,\sA-Za-z_*]+$/.test(e)
+  ){
+
+    throw new Error(
+      "Invalid"
+    );
+
   }
 
-  const cleaned = e
-    .replace(/Math\.(PI|E|sin|cos|tan|asin|acos|atan|log10|log|sqrt|cbrt)/g,"")
-    .replace(/factorial/g,"")
-    .replace(/[0-9+\-*/().,\s]/g,"");
+  const cleaned =
+    e
+      .replace(
+        /Math\.(PI|E|sin|cos|tan|asin|acos|atan|log10|log|sqrt|cbrt)/g,
+        ""
+      )
+      .replace(
+        /factorial/g,
+        ""
+      )
+      .replace(
+        /[0-9+\-*/().,\s]/g,
+        ""
+      );
 
   if(cleaned.length > 0){
-    throw new Error("Invalid");
+
+    throw new Error(
+      "Invalid"
+    );
+
   }
 
   return Function(
     "factorial",
-    '"use strict"; return (' + e + ')'
+    '"use strict"; return (' +
+      e +
+      ')'
   )(factorial);
+
 }
 
 
@@ -1170,46 +2175,69 @@ function calculate(){
   if(isSecretCode()){
 
     expression = "";
-    answerEl.textContent = "0";
+
+    answerEl.textContent =
+      "0";
+
     updateDisplay();
 
     openVault();
 
     return;
+
   }
 
   if(!expression){
+
     return;
+
   }
 
   try{
 
-    const result = evaluateExpression(expression);
+    const result =
+      evaluateExpression(expression);
 
     if(!Number.isFinite(result)){
-      throw new Error("Invalid result");
+
+      throw new Error(
+        "Invalid result"
+      );
+
     }
 
-    const formatted = formatNumber(result);
+    const formatted =
+      formatNumber(result);
 
-    saveHistory(expression,formatted);
+    saveHistory(
+      expression,
+      formatted
+    );
 
-    expression = formatted;
+    expression =
+      formatted;
 
-    answerEl.textContent = formatted;
+    answerEl.textContent =
+      formatted;
 
     updateDisplay();
 
   }catch{
 
-    answerEl.textContent = "Error";
+    answerEl.textContent =
+      "Error";
 
-    showToast("Invalid calculation.");
+    showToast(
+      "Invalid calculation."
+    );
 
-    setTimeout(() => {
-      updateDisplay();
-    },900);
+    setTimeout(
+      updateDisplay,
+      900
+    );
+
   }
+
 }
 
 
@@ -1219,9 +2247,16 @@ function calculate(){
 
 function appendValue(value){
 
+  if(currencyMode){
+
+    return;
+
+  }
+
   expression += value;
 
   updateDisplay();
+
 }
 
 
@@ -1230,89 +2265,183 @@ function clearAll(){
   expression = "";
 
   updateDisplay();
+
 }
 
 
 function toggleSign(){
 
   if(!expression){
+
     expression = "-";
+
   }else{
-    expression = "(-" + expression + ")";
+
+    expression =
+      "(-" +
+      expression +
+      ")";
+
   }
 
   updateDisplay();
+
 }
 
 
-document.querySelectorAll("[data-value]").forEach(button => {
+document
+  .querySelectorAll("[data-value]")
+  .forEach(button => {
 
-  button.addEventListener("click", () => {
+    button.addEventListener(
+      "click",
+      () => {
 
-    appendValue(button.dataset.value);
+        appendValue(
+          button.dataset.value
+        );
 
-  });
-
-});
-
-
-document.querySelectorAll("[data-action]").forEach(button => {
-
-  button.addEventListener("click", () => {
-
-    const action = button.dataset.action;
-
-    if(action === "clear"){
-      clearAll();
-    }
-
-    if(action === "sign"){
-      toggleSign();
-    }
-
-    if(action === "calculate"){
-      calculate();
-    }
-
-    if(action === "history"){
-      toggleHistory();
-    }
+      }
+    );
 
   });
 
-});
+
+document
+  .querySelectorAll("[data-action]")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        const action =
+          button.dataset.action;
+
+        if(action === "clear"){
+
+          clearAll();
+
+        }
+
+        if(action === "sign"){
+
+          toggleSign();
+
+        }
+
+        if(action === "calculate"){
+
+          calculate();
+
+        }
+
+        if(action === "history"){
+
+          toggleHistory();
+
+        }
+
+      }
+    );
+
+  });
 
 
 /* =========================================================
-   BASIC / SCI MODE
+   MODE SWITCHING
    ========================================================= */
 
-const basicBtn = document.getElementById("basicBtn");
-const sciBtn = document.getElementById("sciBtn");
-const scientific = document.getElementById("scientific");
+function setMode(mode){
 
-basicBtn.addEventListener("click", () => {
+  scientificMode =
+    mode === "sci";
 
-  scientificMode = false;
-
-  basicBtn.classList.add("active");
-  sciBtn.classList.remove("active");
-
-  scientific.classList.remove("show");
-
-});
+  currencyMode =
+    mode === "currency";
 
 
-sciBtn.addEventListener("click", () => {
+  basicBtn.classList.toggle(
+    "active",
+    mode === "basic"
+  );
 
-  scientificMode = true;
+  sciBtn.classList.toggle(
+    "active",
+    mode === "sci"
+  );
 
-  sciBtn.classList.add("active");
-  basicBtn.classList.remove("active");
+  currencyBtn.classList.toggle(
+    "active",
+    mode === "currency"
+  );
 
-  scientific.classList.add("show");
 
-});
+  scientific.classList.toggle(
+    "show",
+    mode === "sci"
+  );
+
+  currencyPanel.classList.toggle(
+    "show",
+    mode === "currency"
+  );
+
+  calculatorPad.style.display =
+    mode === "currency"
+      ? "none"
+      : "grid";
+
+
+  document
+    .querySelector(".memory")
+    .style.display =
+      mode === "currency"
+        ? "none"
+        : "grid";
+
+
+  document
+    .getElementById("historyPanel")
+    .classList.remove("show");
+
+
+  if(mode === "currency"){
+
+    coreStatus.textContent =
+      "CURRENCY CORE ACTIVE";
+
+    loadCurrencyRates();
+
+  }else if(mode === "sci"){
+
+    coreStatus.textContent =
+      "SCIENTIFIC CORE ACTIVE";
+
+  }else{
+
+    coreStatus.textContent =
+      "CALCULATION CORE ACTIVE";
+
+  }
+
+}
+
+
+basicBtn.addEventListener(
+  "click",
+  () => setMode("basic")
+);
+
+sciBtn.addEventListener(
+  "click",
+  () => setMode("sci")
+);
+
+currencyBtn.addEventListener(
+  "click",
+  () => setMode("currency")
+);
 
 
 /* =========================================================
@@ -1320,116 +2449,68 @@ sciBtn.addEventListener("click", () => {
    ========================================================= */
 
 const backspaceButton =
-  document.getElementById("backspace");
+  document.getElementById(
+    "backspace"
+  );
 
 let backspaceTimer = null;
 let longPressTriggered = false;
 
 function deleteOne(){
 
-  expression = expression.slice(0,-1);
+  if(currencyMode){
+
+    return;
+
+  }
+
+  expression =
+    expression.slice(0,-1);
 
   updateDisplay();
+
 }
 
 
-backspaceButton.addEventListener("pointerdown", () => {
-
-  longPressTriggered = false;
-
-  backspaceTimer = setTimeout(() => {
-
-    longPressTriggered = true;
-
-    clearAll();
-
-    showToast("All cleared.");
-
-  },700);
-
-});
-
-
-backspaceButton.addEventListener("pointerup", () => {
-
-  clearTimeout(backspaceTimer);
-
-  if(!longPressTriggered){
-    deleteOne();
-  }
-
-});
-
-
-backspaceButton.addEventListener("pointerleave", () => {
-
-  clearTimeout(backspaceTimer);
-
-});
-
-
-backspaceButton.addEventListener("pointercancel", () => {
-
-  clearTimeout(backspaceTimer);
-
-});
-
-
-/* =========================================================
-   KEYBOARD
-   ========================================================= */
-
-document.addEventListener("keydown", event => {
-
-  if(
-    event.key >= "0" &&
-    event.key <= "9"
-  ){
-    appendValue(event.key);
-    return;
-  }
-
-  if(
-    ["+","-","*","/","(",")",".","%","^"].includes(event.key)
-  ){
-    appendValue(event.key);
-    return;
-  }
-
-  if(event.key === "Enter" || event.key === "="){
-    calculate();
-    return;
-  }
-
-  if(event.key === "Backspace"){
-    deleteOne();
-    return;
-  }
-
-  if(event.key === "Escape"){
-    clearAll();
-  }
-
-});
-
-
-/* =========================================================
-   MEMORY
-   ========================================================= */
-
-document.getElementById("memoryAdd").addEventListener(
-  "click",
+backspaceButton.addEventListener(
+  "pointerdown",
   () => {
 
-    try{
+    longPressTriggered =
+      false;
 
-      memoryValue += evaluateExpression(expression);
+    backspaceTimer =
+      setTimeout(
+        () => {
 
-      showToast("Memory updated.");
+          longPressTriggered =
+            true;
 
-    }catch{
+          clearAll();
 
-      showToast("Nothing to store.");
+          showToast(
+            "All cleared."
+          );
+
+        },
+        700
+      );
+
+  }
+);
+
+
+backspaceButton.addEventListener(
+  "pointerup",
+  () => {
+
+    clearTimeout(
+      backspaceTimer
+    );
+
+    if(!longPressTriggered){
+
+      deleteOne();
 
     }
 
@@ -1437,43 +2518,186 @@ document.getElementById("memoryAdd").addEventListener(
 );
 
 
-document.getElementById("memoryRecall").addEventListener(
-  "click",
+backspaceButton.addEventListener(
+  "pointerleave",
   () => {
 
-    expression += formatNumber(memoryValue);
-
-    updateDisplay();
+    clearTimeout(
+      backspaceTimer
+    );
 
   }
 );
 
 
-document.getElementById("memoryClear").addEventListener(
-  "click",
+backspaceButton.addEventListener(
+  "pointercancel",
   () => {
 
-    memoryValue = 0;
-
-    showToast("Memory cleared.");
+    clearTimeout(
+      backspaceTimer
+    );
 
   }
 );
 
 
 /* =========================================================
-   HISTORY
+   KEYBOARD
    ========================================================= */
 
-const HISTORY_KEY = "sg_calci_history";
+document.addEventListener(
+  "keydown",
+  event => {
 
+    if(currencyMode){
+
+      return;
+
+    }
+
+    if(
+      event.key >= "0" &&
+      event.key <= "9"
+    ){
+
+      appendValue(
+        event.key
+      );
+
+      return;
+
+    }
+
+    if(
+      [
+        "+",
+        "-",
+        "*",
+        "/",
+        "(",
+        ")",
+        ".",
+        "%",
+        "^"
+      ].includes(event.key)
+    ){
+
+      appendValue(
+        event.key
+      );
+
+      return;
+
+    }
+
+    if(
+      event.key === "Enter" ||
+      event.key === "="
+    ){
+
+      calculate();
+
+      return;
+
+    }
+
+    if(event.key === "Backspace"){
+
+      deleteOne();
+
+      return;
+
+    }
+
+    if(event.key === "Escape"){
+
+      clearAll();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   MEMORY
+   ========================================================= */
+
+document
+  .getElementById("memoryAdd")
+  .addEventListener(
+    "click",
+    () => {
+
+      try{
+
+        memoryValue +=
+          evaluateExpression(
+            expression
+          );
+
+        showToast(
+          "Memory updated."
+        );
+
+      }catch{
+
+        showToast(
+          "Nothing to store."
+        );
+
+      }
+
+    }
+  );
+
+
+document
+  .getElementById("memoryRecall")
+  .addEventListener(
+    "click",
+    () => {
+
+      expression +=
+        formatNumber(
+          memoryValue
+        );
+
+      updateDisplay();
+
+    }
+  );
+
+
+document
+  .getElementById("memoryClear")
+  .addEventListener(
+    "click",
+    () => {
+
+      memoryValue = 0;
+
+      showToast(
+        "Memory cleared."
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   HISTORY
+   ========================================================= */
 
 function getHistory(){
 
   try{
 
     return JSON.parse(
-      localStorage.getItem(HISTORY_KEY) || "[]"
+      localStorage.getItem(
+        HISTORY_KEY
+      ) || "[]"
     );
 
   }catch{
@@ -1481,21 +2705,30 @@ function getHistory(){
     return [];
 
   }
+
 }
 
 
-function saveHistory(expr,result){
+function saveHistory(
+  expr,
+  result
+){
 
-  const history = getHistory();
+  const history =
+    getHistory();
 
   history.unshift({
+
     expression:expr,
     result:result,
     time:Date.now()
+
   });
 
   if(history.length > 50){
+
     history.length = 50;
+
   }
 
   localStorage.setItem(
@@ -1504,14 +2737,19 @@ function saveHistory(expr,result){
   );
 
   renderHistory();
+
 }
 
 
 function renderHistory(){
 
-  const list = document.getElementById("historyList");
+  const list =
+    document.getElementById(
+      "historyList"
+    );
 
-  const history = getHistory();
+  const history =
+    getHistory();
 
   list.innerHTML = "";
 
@@ -1521,34 +2759,49 @@ function renderHistory(){
       '<div style="color:#55727d;font-size:11px;padding:12px 5px">No calculation history.</div>';
 
     return;
+
   }
 
   history.forEach(item => {
 
-    const div = document.createElement("div");
+    const div =
+      document.createElement(
+        "div"
+      );
 
-    div.className = "historyItem";
+    div.className =
+      "historyItem";
 
     div.innerHTML = `
       <div class="historyExpr"></div>
       <div class="historyResult"></div>
     `;
 
-    div.querySelector(".historyExpr").textContent =
+    div.querySelector(
+      ".historyExpr"
+    ).textContent =
       item.expression;
 
-    div.querySelector(".historyResult").textContent =
+    div.querySelector(
+      ".historyResult"
+    ).textContent =
       "= " + item.result;
 
-    div.addEventListener("click", () => {
+    div.addEventListener(
+      "click",
+      () => {
 
-      expression = item.result;
+        expression =
+          item.result;
 
-      updateDisplay();
+        setMode("basic");
 
-      toggleHistory(false);
+        updateDisplay();
 
-    });
+        toggleHistory(false);
+
+      }
+    );
 
     list.appendChild(div);
 
@@ -1560,34 +2813,908 @@ function renderHistory(){
 function toggleHistory(force){
 
   const panel =
-    document.getElementById("historyPanel");
+    document.getElementById(
+      "historyPanel"
+    );
 
   if(typeof force === "boolean"){
 
-    panel.classList.toggle("show",force);
+    panel.classList.toggle(
+      "show",
+      force
+    );
 
   }else{
 
-    panel.classList.toggle("show");
+    panel.classList.toggle(
+      "show"
+    );
 
   }
 
   renderHistory();
+
 }
 
 
-document.getElementById("historyClear").addEventListener(
-  "click",
-  () => {
+document
+  .getElementById("historyClear")
+  .addEventListener(
+    "click",
+    () => {
 
-    localStorage.removeItem(HISTORY_KEY);
+      localStorage.removeItem(
+        HISTORY_KEY
+      );
 
-    renderHistory();
+      renderHistory();
 
-    showToast("History cleared.");
+      showToast(
+        "History cleared."
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   CURRENCY DATA
+   ========================================================= */
+
+const CURRENCIES = [
+
+  {
+    code:"INR",
+    name:"India",
+    flag:"🇮🇳"
+  },
+
+  {
+    code:"USD",
+    name:"United States",
+    flag:"🇺🇸"
+  },
+
+  {
+    code:"EUR",
+    name:"Eurozone",
+    flag:"🇪🇺"
+  },
+
+  {
+    code:"GBP",
+    name:"United Kingdom",
+    flag:"🇬🇧"
+  },
+
+  {
+    code:"JPY",
+    name:"Japan",
+    flag:"🇯🇵"
+  },
+
+  {
+    code:"AED",
+    name:"United Arab Emirates",
+    flag:"🇦🇪"
+  },
+
+  {
+    code:"CAD",
+    name:"Canada",
+    flag:"🇨🇦"
+  },
+
+  {
+    code:"AUD",
+    name:"Australia",
+    flag:"🇦🇺"
+  },
+
+  {
+    code:"CHF",
+    name:"Switzerland",
+    flag:"🇨🇭"
+  },
+
+  {
+    code:"CNY",
+    name:"China",
+    flag:"🇨🇳"
+  },
+
+  {
+    code:"SGD",
+    name:"Singapore",
+    flag:"🇸🇬"
+  },
+
+  {
+    code:"HKD",
+    name:"Hong Kong",
+    flag:"🇭🇰"
+  },
+
+  {
+    code:"NZD",
+    name:"New Zealand",
+    flag:"🇳🇿"
+  },
+
+  {
+    code:"SAR",
+    name:"Saudi Arabia",
+    flag:"🇸🇦"
+  },
+
+  {
+    code:"QAR",
+    name:"Qatar",
+    flag:"🇶🇦"
+  },
+
+  {
+    code:"KWD",
+    name:"Kuwait",
+    flag:"🇰🇼"
+  },
+
+  {
+    code:"THB",
+    name:"Thailand",
+    flag:"🇹🇭"
+  },
+
+  {
+    code:"MYR",
+    name:"Malaysia",
+    flag:"🇲🇾"
+  },
+
+  {
+    code:"KRW",
+    name:"South Korea",
+    flag:"🇰🇷"
+  },
+
+  {
+    code:"ZAR",
+    name:"South Africa",
+    flag:"🇿🇦"
+  },
+
+  {
+    code:"RUB",
+    name:"Russia",
+    flag:"🇷🇺"
+  },
+
+  {
+    code:"BRL",
+    name:"Brazil",
+    flag:"🇧🇷"
+  },
+
+  {
+    code:"MXN",
+    name:"Mexico",
+    flag:"🇲🇽"
+  },
+
+  {
+    code:"TRY",
+    name:"Türkiye",
+    flag:"🇹🇷"
+  }
+
+];
+
+
+const CURRENCY_SYMBOLS = {
+
+  INR:"₹",
+  USD:"$",
+  EUR:"€",
+  GBP:"£",
+  JPY:"¥",
+  AED:"د.إ",
+  CAD:"C$",
+  AUD:"A$",
+  CHF:"CHF",
+  CNY:"¥",
+  SGD:"S$",
+  HKD:"HK$",
+  NZD:"NZ$",
+  SAR:"﷼",
+  QAR:"﷼",
+  KWD:"د.ك",
+  THB:"฿",
+  MYR:"RM",
+  KRW:"₩",
+  ZAR:"R",
+  RUB:"₽",
+  BRL:"R$",
+  MXN:"MX$",
+  TRY:"₺"
+
+};
+
+
+function populateCurrencySelectors(){
+
+  const from =
+    document.getElementById(
+      "fromCurrency"
+    );
+
+  const to =
+    document.getElementById(
+      "toCurrency"
+    );
+
+  from.innerHTML = "";
+  to.innerHTML = "";
+
+  CURRENCIES.forEach(currency => {
+
+    const option1 =
+      document.createElement(
+        "option"
+      );
+
+    option1.value =
+      currency.code;
+
+    option1.textContent =
+      currency.flag +
+      " " +
+      currency.code +
+      " — " +
+      currency.name;
+
+    const option2 =
+      option1.cloneNode(true);
+
+    from.appendChild(
+      option1
+    );
+
+    to.appendChild(
+      option2
+    );
+
+  });
+
+  from.value = "INR";
+  to.value = "USD";
+
+}
+
+
+/* =========================================================
+   CURRENCY API
+   ========================================================= */
+
+async function fetchCurrencyRates(
+  base
+){
+
+  const url =
+    "https://api.frankfurter.app/latest?from=" +
+    encodeURIComponent(base);
+
+  const response =
+    await fetch(
+      url,
+      {
+        method:"GET",
+        cache:"no-store"
+      }
+    );
+
+  if(!response.ok){
+
+    throw new Error(
+      "Rate service unavailable"
+    );
 
   }
-);
+
+  const data =
+    await response.json();
+
+  if(
+    !data ||
+    !data.rates
+  ){
+
+    throw new Error(
+      "Invalid rate response"
+    );
+
+  }
+
+  return data;
+
+}
+
+
+async function loadCurrencyRates(){
+
+  const status =
+    document.getElementById(
+      "rateStatus"
+    );
+
+  status.textContent =
+    "UPDATING LIVE RATES...";
+
+  try{
+
+    const base =
+      document.getElementById(
+        "fromCurrency"
+      ).value;
+
+    const data =
+      await fetchCurrencyRates(
+        base
+      );
+
+    currencyRates =
+      data.rates || {};
+
+    currencyRates[base] =
+      1;
+
+    currencyRateDate =
+      data.date || null;
+
+    status.textContent =
+      "LIVE RATE • " +
+      (
+        currencyRateDate ||
+        "CURRENT"
+      ) +
+      " • BASE " +
+      base;
+
+    await convertCurrency();
+
+    updateComparison();
+
+  }catch(error){
+
+    console.error(
+      "Currency rate error:",
+      error
+    );
+
+    status.textContent =
+      "RATE SERVICE OFFLINE • CHECK INTERNET";
+
+    document.getElementById(
+      "currencyRate"
+    ).textContent =
+      "Could not retrieve a live exchange rate.";
+
+  }
+
+}
+
+
+async function convertCurrency(){
+
+  const amountInput =
+    document.getElementById(
+      "currencyAmount"
+    );
+
+  const from =
+    document.getElementById(
+      "fromCurrency"
+    ).value;
+
+  const to =
+    document.getElementById(
+      "toCurrency"
+    ).value;
+
+  const amount =
+    Number(
+      amountInput.value
+    );
+
+  const resultEl =
+    document.getElementById(
+      "currencyResult"
+    );
+
+  const rateEl =
+    document.getElementById(
+      "currencyRate"
+    );
+
+
+  if(
+    !Number.isFinite(amount) ||
+    amount < 0
+  ){
+
+    resultEl.textContent =
+      "Enter a valid amount.";
+
+    return;
+
+  }
+
+
+  if(from === to){
+
+    resultEl.textContent =
+      formatCurrencyValue(
+        amount,
+        to
+      );
+
+    rateEl.textContent =
+      "1 " +
+      from +
+      " = 1 " +
+      to;
+
+    updateComparison();
+
+    return;
+
+  }
+
+
+  let rate =
+    currencyRates[to];
+
+
+  if(
+    !rate ||
+    currencyRates._base !== from
+  ){
+
+    try{
+
+      const data =
+        await fetchCurrencyRates(
+          from
+        );
+
+      currencyRates =
+        data.rates || {};
+
+      currencyRates[from] =
+        1;
+
+      currencyRates._base =
+        from;
+
+      currencyRateDate =
+        data.date || null;
+
+      document.getElementById(
+        "rateStatus"
+      ).textContent =
+        "LIVE RATE • " +
+        (
+          currencyRateDate ||
+          "CURRENT"
+        ) +
+        " • BASE " +
+        from;
+
+      rate =
+        currencyRates[to];
+
+    }catch{
+
+      resultEl.textContent =
+        "—";
+
+      rateEl.textContent =
+        "Live rates unavailable.";
+
+      return;
+
+    }
+
+  }
+
+
+  if(
+    !Number.isFinite(
+      Number(rate)
+    )
+  ){
+
+    resultEl.textContent =
+      "—";
+
+    rateEl.textContent =
+      "Rate unavailable.";
+
+    return;
+
+  }
+
+
+  const converted =
+    amount * Number(rate);
+
+
+  resultEl.textContent =
+    formatCurrencyValue(
+      converted,
+      to
+    );
+
+
+  rateEl.textContent =
+    "1 " +
+    from +
+    " = " +
+    formatRate(rate) +
+    " " +
+    to +
+    (
+      currencyRateDate
+        ? " • Rate date: " +
+          currencyRateDate
+        : ""
+    );
+
+
+  updateComparison();
+
+}
+
+
+function formatRate(value){
+
+  if(!Number.isFinite(value)){
+
+    return "—";
+
+  }
+
+  if(
+    Math.abs(value) >= 1000
+  ){
+
+    return Number(
+      value.toPrecision(8)
+    ).toLocaleString(
+      undefined,
+      {
+        maximumFractionDigits:2
+      }
+    );
+
+  }
+
+  return Number(
+    value.toPrecision(8)
+  ).toLocaleString(
+    undefined,
+    {
+      maximumFractionDigits:6
+    }
+  );
+
+}
+
+
+function formatCurrencyValue(
+  value,
+  currency
+){
+
+  if(!Number.isFinite(value)){
+
+    return "—";
+
+  }
+
+  const symbol =
+    CURRENCY_SYMBOLS[currency] ||
+    currency + " ";
+
+  let digits = 2;
+
+  if(currency === "JPY"){
+    digits = 0;
+  }
+
+  if(currency === "KRW"){
+    digits = 0;
+  }
+
+  if(currency === "KWD"){
+    digits = 3;
+  }
+
+  return (
+    symbol +
+    Number(value).toLocaleString(
+      undefined,
+      {
+        minimumFractionDigits:digits,
+        maximumFractionDigits:digits
+      }
+    )
+  );
+
+}
+
+
+/* =========================================================
+   COUNTRY COMPARISON
+   ========================================================= */
+
+async function updateComparison(){
+
+  const base =
+    document.getElementById(
+      "fromCurrency"
+    ).value;
+
+  const amount =
+    Number(
+      document.getElementById(
+        "currencyAmount"
+      ).value
+    );
+
+
+  if(
+    !Number.isFinite(amount)
+  ){
+
+    return;
+
+  }
+
+
+  let rates =
+    currencyRates;
+
+
+  if(
+    rates._base !== base
+  ){
+
+    try{
+
+      const data =
+        await fetchCurrencyRates(
+          base
+        );
+
+      rates =
+        data.rates || {};
+
+      rates[base] =
+        1;
+
+      rates._base =
+        base;
+
+      currencyRates =
+        rates;
+
+      currencyRateDate =
+        data.date || null;
+
+    }catch{
+
+      return;
+
+    }
+
+  }
+
+
+  document
+    .querySelectorAll(
+      "[data-compare]"
+    )
+    .forEach(element => {
+
+      const currency =
+        element.dataset.compare;
+
+      const rate =
+        rates[currency];
+
+
+      if(
+        !Number.isFinite(
+          Number(rate)
+        )
+      ){
+
+        element.textContent =
+          "—";
+
+        return;
+
+      }
+
+
+      const value =
+        amount * Number(rate);
+
+
+      element.textContent =
+        formatCurrencyValue(
+          value,
+          currency
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   CURRENCY CONTROLS
+   ========================================================= */
+
+document
+  .getElementById(
+    "fromCurrency"
+  )
+  .addEventListener(
+    "change",
+    async () => {
+
+      currencyRates = {};
+
+      await loadCurrencyRates();
+
+    }
+  );
+
+
+document
+  .getElementById(
+    "toCurrency"
+  )
+  .addEventListener(
+    "change",
+    convertCurrency
+  );
+
+
+document
+  .getElementById(
+    "currencyAmount"
+  )
+  .addEventListener(
+    "input",
+    () => {
+
+      clearTimeout(
+        window.sgCurrencyTimer
+      );
+
+      window.sgCurrencyTimer =
+        setTimeout(
+          convertCurrency,
+          180
+        );
+
+    }
+  );
+
+
+document
+  .getElementById(
+    "convertCurrency"
+  )
+  .addEventListener(
+    "click",
+    convertCurrency
+  );
+
+
+document
+  .getElementById(
+    "refreshRates"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      currencyRates = {};
+
+      await loadCurrencyRates();
+
+      showToast(
+        "Currency rates refreshed."
+      );
+
+    }
+  );
+
+
+document
+  .getElementById(
+    "swapCurrency"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      const from =
+        document.getElementById(
+          "fromCurrency"
+        );
+
+      const to =
+        document.getElementById(
+          "toCurrency"
+        );
+
+      const oldFrom =
+        from.value;
+
+      from.value =
+        to.value;
+
+      to.value =
+        oldFrom;
+
+      currencyRates = {};
+
+      await loadCurrencyRates();
+
+    }
+  );
+
+
+document
+  .querySelectorAll(
+    ".currencyChip"
+  )
+  .forEach(chip => {
+
+    chip.addEventListener(
+      "click",
+      () => {
+
+        const code =
+          chip.dataset.currency;
+
+        document
+          .querySelectorAll(
+            ".currencyChip"
+          )
+          .forEach(item => {
+
+            item.classList.toggle(
+              "active",
+              item === chip
+            );
+
+          });
+
+        document.getElementById(
+          "toCurrency"
+        ).value = code;
+
+        convertCurrency();
+
+      }
+    );
+
+  });
 
 
 /* =========================================================
@@ -1596,186 +3723,254 @@ document.getElementById("historyClear").addEventListener(
 
 function openDatabase(){
 
-  return new Promise((resolve,reject) => {
+  return new Promise(
+    (resolve,reject) => {
 
-    const request = indexedDB.open(
-      DB_NAME,
-      DB_VERSION
-    );
-
-    request.onupgradeneeded = event => {
-
-      const database = event.target.result;
-
-      if(!database.objectStoreNames.contains(STORE_NAME)){
-
-        database.createObjectStore(
-          STORE_NAME,
-          {
-            keyPath:"id",
-            autoIncrement:true
-          }
+      const request =
+        indexedDB.open(
+          DB_NAME,
+          DB_VERSION
         );
 
-      }
+      request.onupgradeneeded =
+        event => {
 
-    };
+          const database =
+            event.target.result;
 
-    request.onsuccess = event => {
+          if(
+            !database.objectStoreNames
+              .contains(STORE_NAME)
+          ){
 
-      db = event.target.result;
+            database.createObjectStore(
+              STORE_NAME,
+              {
+                keyPath:"id",
+                autoIncrement:true
+              }
+            );
 
-      resolve(db);
+          }
 
-    };
+        };
 
-    request.onerror = () => {
 
-      reject(request.error);
+      request.onsuccess =
+        event => {
 
-    };
+          db =
+            event.target.result;
 
-  });
+          resolve(db);
+
+        };
+
+
+      request.onerror =
+        () => {
+
+          reject(
+            request.error
+          );
+
+        };
+
+    }
+  );
 
 }
 
 
 function addVaultFile(file){
 
-  return new Promise((resolve,reject) => {
+  return new Promise(
+    (resolve,reject) => {
 
-    const transaction =
-      db.transaction(
-        STORE_NAME,
-        "readwrite"
-      );
+      const transaction =
+        db.transaction(
+          STORE_NAME,
+          "readwrite"
+        );
 
-    const store =
-      transaction.objectStore(STORE_NAME);
+      const store =
+        transaction.objectStore(
+          STORE_NAME
+        );
 
-    const data = {
+      const data = {
 
-      name:file.name,
+        name:file.name,
 
-      type:file.type || "application/octet-stream",
+        type:
+          file.type ||
+          "application/octet-stream",
 
-      size:file.size,
+        size:file.size,
 
-      created:Date.now(),
+        created:Date.now(),
 
-      blob:file
+        blob:file
 
-    };
+      };
 
-    const request = store.add(data);
+      const request =
+        store.add(data);
 
-    request.onsuccess = () => {
-      resolve(request.result);
-    };
+      request.onsuccess =
+        () => {
 
-    request.onerror = () => {
-      reject(request.error);
-    };
+          resolve(
+            request.result
+          );
 
-  });
+        };
+
+      request.onerror =
+        () => {
+
+          reject(
+            request.error
+          );
+
+        };
+
+    }
+  );
 
 }
 
 
 function getVaultFiles(){
 
-  return new Promise((resolve,reject) => {
+  return new Promise(
+    (resolve,reject) => {
 
-    const transaction =
-      db.transaction(
-        STORE_NAME,
-        "readonly"
-      );
+      const transaction =
+        db.transaction(
+          STORE_NAME,
+          "readonly"
+        );
 
-    const store =
-      transaction.objectStore(STORE_NAME);
+      const store =
+        transaction.objectStore(
+          STORE_NAME
+        );
 
-    const request = store.getAll();
+      const request =
+        store.getAll();
 
-    request.onsuccess = () => {
+      request.onsuccess =
+        () => {
 
-      const files = request.result || [];
+          const files =
+            request.result || [];
 
-      files.sort(
-        (a,b) => b.created - a.created
-      );
+          files.sort(
+            (a,b) =>
+              b.created -
+              a.created
+          );
 
-      resolve(files);
+          resolve(files);
 
-    };
+        };
 
-    request.onerror = () => {
+      request.onerror =
+        () => {
 
-      reject(request.error);
+          reject(
+            request.error
+          );
 
-    };
+        };
 
-  });
+    }
+  );
 
 }
 
 
 function getVaultFile(id){
 
-  return new Promise((resolve,reject) => {
+  return new Promise(
+    (resolve,reject) => {
 
-    const transaction =
-      db.transaction(
-        STORE_NAME,
-        "readonly"
-      );
+      const transaction =
+        db.transaction(
+          STORE_NAME,
+          "readonly"
+        );
 
-    const store =
-      transaction.objectStore(STORE_NAME);
+      const store =
+        transaction.objectStore(
+          STORE_NAME
+        );
 
-    const request = store.get(id);
+      const request =
+        store.get(id);
 
-    request.onsuccess = () => {
+      request.onsuccess =
+        () => {
 
-      resolve(request.result);
+          resolve(
+            request.result
+          );
 
-    };
+        };
 
-    request.onerror = () => {
+      request.onerror =
+        () => {
 
-      reject(request.error);
+          reject(
+            request.error
+          );
 
-    };
+        };
 
-  });
+    }
+  );
 
 }
 
 
 function deleteVaultFile(id){
 
-  return new Promise((resolve,reject) => {
+  return new Promise(
+    (resolve,reject) => {
 
-    const transaction =
-      db.transaction(
-        STORE_NAME,
-        "readwrite"
-      );
+      const transaction =
+        db.transaction(
+          STORE_NAME,
+          "readwrite"
+        );
 
-    const store =
-      transaction.objectStore(STORE_NAME);
+      const store =
+        transaction.objectStore(
+          STORE_NAME
+        );
 
-    const request = store.delete(id);
+      const request =
+        store.delete(id);
 
-    request.onsuccess = () => {
-      resolve();
-    };
+      request.onsuccess =
+        () => {
 
-    request.onerror = () => {
-      reject(request.error);
-    };
+          resolve();
 
-  });
+        };
+
+      request.onerror =
+        () => {
+
+          reject(
+            request.error
+          );
+
+        };
+
+    }
+  );
 
 }
 
@@ -1789,14 +3984,20 @@ async function openVault(){
   try{
 
     if(!db){
+
       await openDatabase();
+
     }
 
-    vault.classList.add("show");
+    vault.classList.add(
+      "show"
+    );
 
     await renderVault();
 
-    showToast("Private vault unlocked.");
+    showToast(
+      "Private vault unlocked."
+    );
 
   }catch(error){
 
@@ -1813,120 +4014,193 @@ async function openVault(){
 
 function lockVault(){
 
-  vault.classList.remove("show");
+  vault.classList.remove(
+    "show"
+  );
 
-  document.querySelectorAll(
-    ".vaultObjectUrl"
-  ).forEach(el => {
+  document
+    .querySelectorAll(
+      ".vaultObjectUrl"
+    )
+    .forEach(el => {
 
-    if(el.dataset.url){
-      URL.revokeObjectURL(el.dataset.url);
-    }
+      if(el.dataset.url){
 
-  });
+        URL.revokeObjectURL(
+          el.dataset.url
+        );
+
+      }
+
+    });
 
   vaultGrid.innerHTML = "";
 
-  showToast("Vault locked.");
+  showToast(
+    "Vault locked."
+  );
 
 }
 
 
-document.getElementById("lockVault").addEventListener(
-  "click",
-  lockVault
-);
+document
+  .getElementById(
+    "lockVault"
+  )
+  .addEventListener(
+    "click",
+    lockVault
+  );
 
 
 /* =========================================================
    FILE IMPORT
    ========================================================= */
 
-document.getElementById("addFiles").addEventListener(
-  "click",
-  () => {
+document
+  .getElementById(
+    "addFiles"
+  )
+  .addEventListener(
+    "click",
+    () => {
 
-    document.getElementById("fileInput").click();
-
-  }
-);
-
-
-document.getElementById("fileInput").addEventListener(
-  "change",
-  async event => {
-
-    const files = Array.from(
-      event.target.files || []
-    );
-
-    if(!files.length){
-      return;
-    }
-
-    try{
-
-      if(!db){
-        await openDatabase();
-      }
-
-      vaultStatus.textContent =
-        "IMPORTING " + files.length + " ITEM(S)...";
-
-      for(const file of files){
-
-        await addVaultFile(file);
-
-      }
-
-      event.target.value = "";
-
-      await renderVault();
-
-      showToast(
-        files.length === 1
-          ? "File added to vault."
-          : files.length + " files added to vault."
-      );
-
-    }catch(error){
-
-      console.error(error);
-
-      showToast(
-        "Could not add the selected file(s)."
-      );
-
-      vaultStatus.textContent =
-        "IMPORT ERROR";
+      document
+        .getElementById(
+          "fileInput"
+        )
+        .click();
 
     }
+  );
 
-  }
-);
+
+document
+  .getElementById(
+    "fileInput"
+  )
+  .addEventListener(
+    "change",
+    async event => {
+
+      const files =
+        Array.from(
+          event.target.files || []
+        );
+
+      if(!files.length){
+
+        return;
+
+      }
+
+      try{
+
+        if(!db){
+
+          await openDatabase();
+
+        }
+
+        vaultStatus.textContent =
+          "IMPORTING " +
+          files.length +
+          " ITEM(S)...";
+
+
+        for(
+          const file of files
+        ){
+
+          await addVaultFile(
+            file
+          );
+
+        }
+
+
+        event.target.value =
+          "";
+
+
+        await renderVault();
+
+
+        showToast(
+          files.length === 1
+            ? "File added to vault."
+            : files.length +
+              " files added to vault."
+        );
+
+      }catch(error){
+
+        console.error(
+          error
+        );
+
+        showToast(
+          "Could not add the selected file(s)."
+        );
+
+        vaultStatus.textContent =
+          "IMPORT ERROR";
+
+      }
+
+    }
+  );
 
 
 /* =========================================================
-   FORMAT FILE SIZE
+   FILE SIZE
    ========================================================= */
 
-function formatFileSize(bytes){
+function formatFileSize(
+  bytes
+){
 
   if(bytes < 1024){
+
     return bytes + " B";
+
   }
 
-  if(bytes < 1024 * 1024){
-    return (bytes / 1024).toFixed(1) + " KB";
+  if(
+    bytes <
+    1024 * 1024
+  ){
+
+    return (
+      bytes / 1024
+    ).toFixed(1) +
+    " KB";
+
   }
 
-  if(bytes < 1024 * 1024 * 1024){
-    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+  if(
+    bytes <
+    1024 *
+    1024 *
+    1024
+  ){
+
+    return (
+      bytes /
+      (1024 * 1024)
+    ).toFixed(1) +
+    " MB";
+
   }
 
   return (
-    bytes / (1024 * 1024 * 1024)
-  ).toFixed(2) + " GB";
+    bytes /
+    (1024 *
+     1024 *
+     1024)
+  ).toFixed(2) +
+  " GB";
+
 }
 
 
@@ -1934,53 +4208,93 @@ function formatFileSize(bytes){
    FILE TYPE
    ========================================================= */
 
-function getFileCategory(file){
+function getFileCategory(
+  file
+){
 
-  const type = file.type || "";
-  const name = file.name.toLowerCase();
+  const type =
+    file.type || "";
 
-  if(type.startsWith("image/")){
+  const name =
+    file.name.toLowerCase();
+
+
+  if(
+    type.startsWith(
+      "image/"
+    )
+  ){
+
     return "IMAGE";
+
   }
 
-  if(type.startsWith("video/")){
+
+  if(
+    type.startsWith(
+      "video/"
+    )
+  ){
+
     return "VIDEO";
+
   }
 
-  if(type === "application/pdf" || name.endsWith(".pdf")){
+
+  if(
+    type ===
+      "application/pdf" ||
+    name.endsWith(".pdf")
+  ){
+
     return "PDF";
+
   }
+
 
   if(
     name.endsWith(".doc") ||
     name.endsWith(".docx")
   ){
+
     return "DOCUMENT";
+
   }
+
 
   if(
     name.endsWith(".xls") ||
     name.endsWith(".xlsx") ||
     name.endsWith(".csv")
   ){
+
     return "SPREADSHEET";
+
   }
+
 
   if(
     name.endsWith(".ppt") ||
     name.endsWith(".pptx")
   ){
+
     return "PRESENTATION";
+
   }
+
 
   if(
     name.endsWith(".zip") ||
     name.endsWith(".rar")
   ){
+
     return "ARCHIVE";
+
   }
 
+
   return "FILE";
+
 }
 
 
@@ -1991,17 +4305,26 @@ function getFileCategory(file){
 async function renderVault(){
 
   if(!db){
+
     await openDatabase();
+
   }
 
-  const files = await getVaultFiles();
+  const files =
+    await getVaultFiles();
 
-  vaultGrid.innerHTML = "";
+  vaultGrid.innerHTML =
+    "";
 
   vaultStatus.textContent =
     files.length +
-    (files.length === 1 ? " ITEM" : " ITEMS") +
+    (
+      files.length === 1
+        ? " ITEM"
+        : " ITEMS"
+    ) +
     " SECURED";
+
 
   if(files.length === 0){
 
@@ -2015,330 +4338,415 @@ async function renderVault(){
     `;
 
     return;
+
   }
 
-  files.forEach(file => {
 
-    const card =
-      document.createElement("div");
+  files.forEach(
+    file => {
 
-    card.className = "vaultCard";
+      const card =
+        document.createElement(
+          "div"
+        );
 
-    const preview =
-      document.createElement("div");
-
-    preview.className = "preview";
-
-    const category =
-      getFileCategory(file);
+      card.className =
+        "vaultCard";
 
 
-    if(category === "IMAGE"){
+      const preview =
+        document.createElement(
+          "div"
+        );
 
-      const img =
-        document.createElement("img");
-
-      const url =
-        URL.createObjectURL(file.blob);
-
-      img.src = url;
-
-      img.className =
-        "vaultObjectUrl";
-
-      img.dataset.url = url;
-
-      img.alt = file.name;
-
-      preview.appendChild(img);
-
-    }
-
-    else if(category === "VIDEO"){
-
-      const video =
-        document.createElement("video");
-
-      const url =
-        URL.createObjectURL(file.blob);
-
-      video.src = url;
-
-      video.className =
-        "vaultObjectUrl";
-
-      video.dataset.url = url;
-
-      video.muted = true;
-      video.playsInline = true;
-      video.preload = "metadata";
-
-      preview.appendChild(video);
-
-      const tag =
-        document.createElement("div");
-
-      tag.className = "videoTag";
-
-      tag.textContent = "VIDEO";
-
-      preview.appendChild(tag);
-
-    }
-
-    else{
-
-      preview.innerHTML = `
-        <div class="filePreview">
-          <div class="fileIcon">▣</div>
-          <div class="fileType"></div>
-        </div>
-      `;
-
-      preview.querySelector(
-        ".fileType"
-      ).textContent = category;
-
-    }
+      preview.className =
+        "preview";
 
 
-    const info =
-      document.createElement("div");
-
-    info.className = "cardInfo";
-
-
-    const name =
-      document.createElement("div");
-
-    name.className = "fileName";
-
-    name.textContent = file.name;
-
-    name.title = file.name;
+      const category =
+        getFileCategory(
+          file
+        );
 
 
-    const meta =
-      document.createElement("div");
+      if(category === "IMAGE"){
 
-    meta.className = "fileMeta";
-
-    meta.textContent =
-      category +
-      " • " +
-      formatFileSize(file.size);
-
-
-    const buttons =
-      document.createElement("div");
-
-    buttons.className = "cardButtons";
-
-
-    /* =====================================================
-       DIRECT EXPORT BUTTON
-       ===================================================== */
-
-    const exportButton =
-      document.createElement("button");
-
-    exportButton.className =
-      "exportBtn";
-
-    exportButton.textContent =
-      "EXPORT TO DEVICE";
-
-
-    exportButton.addEventListener(
-      "click",
-      () => exportVaultFile(file.id)
-    );
-
-
-    /* =====================================================
-       DELETE BUTTON
-       ===================================================== */
-
-    const deleteButton =
-      document.createElement("button");
-
-    deleteButton.className =
-      "deleteBtn";
-
-    deleteButton.textContent =
-      "DELETE";
-
-
-    deleteButton.addEventListener(
-      "click",
-      async () => {
-
-        const confirmed =
-          window.confirm(
-            'Delete "' +
-            file.name +
-            '" from the private vault?'
+        const img =
+          document.createElement(
+            "img"
           );
 
-        if(!confirmed){
-          return;
-        }
-
-        try{
-
-          await deleteVaultFile(file.id);
-
-          await renderVault();
-
-          showToast(
-            "Item deleted from vault."
+        const url =
+          URL.createObjectURL(
+            file.blob
           );
 
-        }catch(error){
+        img.src =
+          url;
 
-          console.error(error);
+        img.className =
+          "vaultObjectUrl";
 
-          showToast(
-            "Could not delete item."
-          );
+        img.dataset.url =
+          url;
 
-        }
+        img.alt =
+          file.name;
+
+        preview.appendChild(
+          img
+        );
 
       }
-    );
+
+      else if(
+        category === "VIDEO"
+      ){
+
+        const video =
+          document.createElement(
+            "video"
+          );
+
+        const url =
+          URL.createObjectURL(
+            file.blob
+          );
+
+        video.src =
+          url;
+
+        video.className =
+          "vaultObjectUrl";
+
+        video.dataset.url =
+          url;
+
+        video.muted =
+          true;
+
+        video.playsInline =
+          true;
+
+        video.preload =
+          "metadata";
+
+        preview.appendChild(
+          video
+        );
 
 
-    buttons.appendChild(exportButton);
-    buttons.appendChild(deleteButton);
+        const tag =
+          document.createElement(
+            "div"
+          );
 
-    info.appendChild(name);
-    info.appendChild(meta);
-    info.appendChild(buttons);
+        tag.className =
+          "videoTag";
 
-    card.appendChild(preview);
-    card.appendChild(info);
+        tag.textContent =
+          "VIDEO";
 
-    vaultGrid.appendChild(card);
+        preview.appendChild(
+          tag
+        );
 
-  });
+      }
+
+      else{
+
+        preview.innerHTML = `
+          <div class="filePreview">
+            <div class="fileIcon">▣</div>
+            <div class="fileType"></div>
+          </div>
+        `;
+
+        preview.querySelector(
+          ".fileType"
+        ).textContent =
+          category;
+
+      }
+
+
+      const info =
+        document.createElement(
+          "div"
+        );
+
+      info.className =
+        "cardInfo";
+
+
+      const name =
+        document.createElement(
+          "div"
+        );
+
+      name.className =
+        "fileName";
+
+      name.textContent =
+        file.name;
+
+      name.title =
+        file.name;
+
+
+      const meta =
+        document.createElement(
+          "div"
+        );
+
+      meta.className =
+        "fileMeta";
+
+      meta.textContent =
+        category +
+        " • " +
+        formatFileSize(
+          file.size
+        );
+
+
+      const buttons =
+        document.createElement(
+          "div"
+        );
+
+      buttons.className =
+        "cardButtons";
+
+
+      const exportButton =
+        document.createElement(
+          "button"
+        );
+
+      exportButton.className =
+        "exportBtn";
+
+      exportButton.textContent =
+        "EXPORT TO DEVICE";
+
+
+      exportButton.addEventListener(
+        "click",
+        () =>
+          exportVaultFile(
+            file.id
+          )
+      );
+
+
+      const deleteButton =
+        document.createElement(
+          "button"
+        );
+
+      deleteButton.className =
+        "deleteBtn";
+
+      deleteButton.textContent =
+        "DELETE";
+
+
+      deleteButton.addEventListener(
+        "click",
+        async () => {
+
+          const confirmed =
+            window.confirm(
+              'Delete "' +
+              file.name +
+              '" from the private vault?'
+            );
+
+          if(!confirmed){
+
+            return;
+
+          }
+
+
+          try{
+
+            await deleteVaultFile(
+              file.id
+            );
+
+            await renderVault();
+
+            showToast(
+              "Item deleted from vault."
+            );
+
+          }catch(error){
+
+            console.error(
+              error
+            );
+
+            showToast(
+              "Could not delete item."
+            );
+
+          }
+
+        }
+      );
+
+
+      buttons.appendChild(
+        exportButton
+      );
+
+      buttons.appendChild(
+        deleteButton
+      );
+
+      info.appendChild(
+        name
+      );
+
+      info.appendChild(
+        meta
+      );
+
+      info.appendChild(
+        buttons
+      );
+
+      card.appendChild(
+        preview
+      );
+
+      card.appendChild(
+        info
+      );
+
+      vaultGrid.appendChild(
+        card
+      );
+
+    }
+  );
 
 }
 
 
 /* =========================================================
-   DIRECT EXPORT TO ANDROID DEVICE
+   ANDROID EXPORT
    ========================================================= */
 
-async function exportVaultFile(id){
+async function exportVaultFile(
+  id
+){
 
   try{
 
     const item =
-      await getVaultFile(id);
+      await getVaultFile(
+        id
+      );
 
-    if(!item || !item.blob){
+
+    if(
+      !item ||
+      !item.blob
+    ){
 
       showToast(
         "File could not be found."
       );
 
       return;
+
     }
 
 
-    /*
-      ANDROID APK EXPORT
-
-      The Android wrapper exposes:
-
-      window.Android.saveFile(
-        fileName,
-        mimeType,
-        base64Data
-      )
-
-      Android then uses MediaStore.
-
-      IMAGE:
-      Pictures/SG CALCI
-
-      VIDEO:
-      Movies/SG CALCI
-
-      OTHER:
-      Downloads/SG CALCI
-    */
-
     if(
       window.Android &&
-      typeof window.Android.saveFile === "function"
+      typeof window.Android.saveFile ===
+        "function"
     ){
 
-      showToast("EXPORTING...");
+      showToast(
+        "EXPORTING..."
+      );
+
 
       const reader =
         new FileReader();
 
 
-      reader.onload = function(){
+      reader.onload =
+        function(){
 
-        try{
+          try{
 
-          const dataUrl =
-            reader.result;
+            const dataUrl =
+              reader.result;
 
-          if(
-            typeof dataUrl !== "string" ||
-            !dataUrl.includes(",")
-          ){
+
+            if(
+              typeof dataUrl !==
+                "string" ||
+              !dataUrl.includes(",")
+            ){
+
+              showToast(
+                "Export failed."
+              );
+
+              return;
+
+            }
+
+
+            const base64 =
+              dataUrl.substring(
+                dataUrl.indexOf(",") + 1
+              );
+
+
+            window.Android.saveFile(
+
+              item.name ||
+                "SG_CALCI_export",
+
+              item.type ||
+                "application/octet-stream",
+
+              base64
+
+            );
+
+          }catch(error){
+
+            console.error(
+              "Android export error:",
+              error
+            );
 
             showToast(
               "Export failed."
             );
 
-            return;
           }
 
-
-          const base64 =
-            dataUrl.substring(
-              dataUrl.indexOf(",") + 1
-            );
+        };
 
 
-          window.Android.saveFile(
-            item.name ||
-              "SG_CALCI_export",
-
-            item.type ||
-              "application/octet-stream",
-
-            base64
-          );
-
-        }catch(error){
-
-          console.error(
-            "Android export error:",
-            error
-          );
+      reader.onerror =
+        function(){
 
           showToast(
-            "Export failed."
+            "Could not read file."
           );
 
-        }
-
-      };
-
-
-      reader.onerror = function(){
-
-        showToast(
-          "Could not read file."
-        );
-
-      };
+        };
 
 
       reader.readAsDataURL(
@@ -2346,16 +4754,11 @@ async function exportVaultFile(id){
       );
 
       return;
+
     }
 
 
-    /*
-      BROWSER FALLBACK
-
-      This is only used when SG CALCI
-      is opened as a normal website rather
-      than inside the Android APK.
-    */
+    /* BROWSER FALLBACK */
 
     const url =
       URL.createObjectURL(
@@ -2363,31 +4766,45 @@ async function exportVaultFile(id){
       );
 
     const link =
-      document.createElement("a");
+      document.createElement(
+        "a"
+      );
 
-    link.href = url;
+    link.href =
+      url;
 
     link.download =
       item.name ||
       "SG_CALCI_export";
 
-    link.style.display = "none";
+    link.style.display =
+      "none";
 
-    document.body.appendChild(link);
+    document.body.appendChild(
+      link
+    );
 
     link.click();
 
     link.remove();
 
-    setTimeout(() => {
 
-      URL.revokeObjectURL(url);
+    setTimeout(
+      () => {
 
-    },5000);
+        URL.revokeObjectURL(
+          url
+        );
+
+      },
+      5000
+    );
+
 
     showToast(
       "Export started. Check Downloads."
     );
+
 
   }catch(error){
 
@@ -2418,15 +4835,19 @@ if(
     () => {
 
       navigator.serviceWorker
-        .register("./sw.js")
-        .catch(error => {
+        .register(
+          "./sw.js"
+        )
+        .catch(
+          error => {
 
-          console.log(
-            "Service worker:",
-            error
-          );
+            console.log(
+              "Service worker:",
+              error
+            );
 
-        });
+          }
+        );
 
     }
   );
@@ -2443,6 +4864,8 @@ if(
   checkFirstLaunch();
 
   renderHistory();
+
+  populateCurrencySelectors();
 
   try{
 
