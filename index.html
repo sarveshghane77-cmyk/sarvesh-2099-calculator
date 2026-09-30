@@ -2,21 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#050a12">
+<link rel="manifest" href="./manifest.json">
 
 <title>SG CALCI</title>
-
-<!-- APP / PWA -->
-<link rel="manifest" href="./manifest.json">
-<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
-<link rel="apple-touch-icon" href="./icon-192.png">
-
-<meta name="theme-color" content="#030711">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="application-name" content="SG CALCI">
-<meta name="apple-mobile-web-app-title" content="SG CALCI">
 
 <style>
 *{
@@ -26,532 +16,686 @@
 
 html,body{
   margin:0;
+  width:100%;
   min-height:100%;
   background:#02050b;
-  color:#f4fbff;
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",
-  "Segoe UI",Arial,sans-serif;
+  color:#eaf8ff;
+  font-family:Arial,Helvetica,sans-serif;
+  overflow-x:hidden;
 }
 
 body{
-  overflow-x:hidden;
-  user-select:none;
-}
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
   background:
-    radial-gradient(circle at 15% 8%,rgba(0,220,255,.12),transparent 27%),
-    radial-gradient(circle at 90% 88%,rgba(120,65,255,.13),transparent 30%),
-    linear-gradient(rgba(90,210,255,.018) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(90,210,255,.018) 1px,transparent 1px);
-  background-size:auto,auto,34px 34px,34px 34px;
+    linear-gradient(rgba(0,170,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,170,255,.035) 1px,transparent 1px),
+    radial-gradient(circle at 50% 0%,rgba(0,180,255,.10),transparent 42%),
+    #02050b;
+  background-size:32px 32px,32px 32px,100% 100%,auto;
 }
 
-body::after{
-  content:"";
-  position:fixed;
-  left:0;
-  right:0;
-  top:-10%;
-  height:1px;
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(80,230,255,.35),
-    transparent
-  );
-  box-shadow:0 0 18px rgba(80,230,255,.25);
-  animation:scanScreen 7s linear infinite;
-  pointer-events:none;
-}
-
-@keyframes scanScreen{
-  0%{top:-5%}
-  100%{top:105%}
-}
+/* ---------- APP ---------- */
 
 .app{
-  width:min(100%,520px);
+  width:100%;
+  max-width:560px;
   min-height:100vh;
   margin:auto;
-  padding:
-    max(14px,env(safe-area-inset-top))
-    13px
-    max(22px,env(safe-area-inset-bottom));
+  padding:18px 14px 28px;
   position:relative;
 }
 
-/* HEADER */
-
-.header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:8px 4px 12px;
+.brand{
+  text-align:center;
+  margin:4px 0 18px;
 }
 
-.logo{
-  font-size:20px;
+.brand h1{
+  margin:0;
+  font-size:30px;
+  letter-spacing:7px;
   font-weight:800;
-  letter-spacing:4px;
+  color:#ecfbff;
+  text-shadow:
+    0 0 8px rgba(0,200,255,.8),
+    0 0 22px rgba(0,140,255,.45);
+}
+
+.creator{
+  position:relative;
+  display:inline-block;
+  margin-top:8px;
+  font-size:11px;
+  letter-spacing:3px;
+  font-weight:700;
   background:linear-gradient(
     90deg,
+    #67e8ff,
     #ffffff,
-    #78eaff,
-    #b28cff
+    #58bfff,
+    #67e8ff
   );
+  background-size:300% auto;
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
+  animation:creatorFlow 4s linear infinite;
+  text-shadow:0 0 12px rgba(0,180,255,.35);
 }
 
-.logo small{
-  display:block;
-  margin-top:5px;
-  font-size:7px;
-  letter-spacing:3px;
-  font-weight:700;
-  position:relative;
-  width:max-content;
-  max-width:100%;
-  background:linear-gradient(
-    90deg,
-    #55eaff,
-    #ffffff,
-    #9b7cff,
-    #55eaff,
-    #ffffff
-  );
-  background-size:300% 100%;
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation:
-    creatorFlow 2.8s linear infinite,
-    creatorGlow 1.8s ease-in-out infinite;
+.creator:after{
+  content:"";
+  position:absolute;
+  top:50%;
+  left:-12px;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#62e8ff;
+  box-shadow:0 0 9px #62e8ff;
+  animation:scanner 2.4s linear infinite;
 }
 
 @keyframes creatorFlow{
-  0%{background-position:0% 50%}
-  100%{background-position:300% 50%}
+  0%{background-position:0% center}
+  100%{background-position:300% center}
 }
 
-@keyframes creatorGlow{
-  0%,100%{
-    filter:drop-shadow(0 0 2px rgba(80,230,255,.35));
-    opacity:.82;
-  }
-  50%{
-    filter:
-      drop-shadow(0 0 7px rgba(80,230,255,.75))
-      drop-shadow(0 0 14px rgba(150,100,255,.35));
-    opacity:1;
-  }
-}
-
-.logo small::after{
-  content:"";
-  position:absolute;
-  left:-8px;
-  top:50%;
-  width:3px;
-  height:10px;
-  transform:translateY(-50%);
-  border-radius:50%;
-  background:#fff;
-  box-shadow:
-    0 0 5px #55eaff,
-    0 0 10px #55eaff,
-    0 0 16px #9b7cff;
-  opacity:0;
-  animation:creatorScanner 2.8s linear infinite;
-}
-
-@keyframes creatorScanner{
-  0%{left:-8px;opacity:0}
-  8%{opacity:1}
+@keyframes scanner{
+  0%{transform:translateX(0);opacity:.2}
   50%{opacity:1}
-  92%{opacity:1}
-  100%{
-    left:calc(100% + 8px);
-    opacity:0;
-  }
+  100%{transform:translateX(calc(100% + 150px));opacity:.2}
 }
 
-.modeButton{
-  min-height:38px;
-  padding:0 14px;
-  border-radius:20px;
-  border:1px solid rgba(100,220,255,.22);
-  background:rgba(40,80,110,.12);
-  color:#8eeaff;
-  font-size:10px;
-  letter-spacing:1.5px;
-}
+/* ---------- DISPLAY ---------- */
 
-.modeButton:active{
-  transform:scale(.93);
-}
-
-/* DISPLAY */
-
-.display{
-  min-height:210px;
-  padding:20px 9px 22px;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
+.displayBox{
   position:relative;
-  overflow:hidden;
-  border:1px solid rgba(100,220,255,.14);
-  border-radius:28px;
-  background:
-    linear-gradient(
-      145deg,
-      rgba(11,23,39,.82),
-      rgba(3,8,18,.92)
-    );
-  box-shadow:
-    inset 0 0 40px rgba(0,210,255,.025),
-    0 18px 45px rgba(0,0,0,.28);
-}
-
-.display::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:7%;
-  right:7%;
-  height:1px;
+  border:1px solid rgba(0,190,255,.35);
+  border-radius:22px;
   background:linear-gradient(
-    90deg,
-    transparent,
-    #5ceaff,
-    #9c7cff,
-    transparent
+    145deg,
+    rgba(5,20,32,.92),
+    rgba(2,8,15,.96)
   );
-  opacity:.7;
+  box-shadow:
+    inset 0 0 35px rgba(0,130,255,.06),
+    0 0 25px rgba(0,120,255,.08);
+  padding:17px 15px 14px;
+  margin-bottom:14px;
 }
 
-.systemLabel{
-  position:absolute;
-  top:15px;
-  left:18px;
-  color:#53697c;
-  font-size:7px;
-  letter-spacing:2px;
-}
-
-.systemDot{
-  display:inline-block;
-  width:5px;
-  height:5px;
-  margin-right:5px;
-  border-radius:50%;
-  background:#68f5b7;
-  box-shadow:0 0 9px #68f5b7;
-}
-
-/* BACKSPACE */
-
-.backspaceButton{
-  position:absolute;
-  top:42px;
-  right:16px;
-  width:46px;
-  height:35px;
-  border-radius:12px;
-  border:1px solid rgba(100,220,255,.14);
-  background:rgba(255,255,255,.045);
-  color:#91eaff;
-  font-size:18px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:10;
-  touch-action:none;
-}
-
-.backspaceButton:active{
-  background:rgba(120,80,255,.22);
-  color:#fff;
-}
-
-.backspaceButton.longPress{
-  background:rgba(255,70,120,.25);
-  border-color:rgba(255,100,150,.5);
-  color:#fff;
-  box-shadow:0 0 25px rgba(255,70,120,.25);
+.status{
+  font-size:9px;
+  letter-spacing:2.5px;
+  color:#53dfff;
+  opacity:.85;
+  margin-bottom:8px;
 }
 
 .expression{
-  min-height:28px;
-  padding-right:4px;
-  color:#71869a;
+  min-height:30px;
+  font-size:18px;
+  color:#91dfff;
+  word-break:break-all;
   text-align:right;
-  font-size:17px;
-  overflow-wrap:anywhere;
+  padding-right:48px;
 }
 
 .answer{
-  margin-top:7px;
-  padding-right:2px;
+  min-height:54px;
+  font-size:38px;
+  font-weight:700;
   text-align:right;
-  font-size:clamp(45px,13vw,72px);
-  line-height:1;
-  font-weight:300;
-  letter-spacing:-2px;
-  overflow-wrap:anywhere;
+  word-break:break-all;
+  color:#f5fcff;
+  text-shadow:0 0 15px rgba(0,190,255,.55);
+  padding-right:48px;
 }
 
-/* SCIENTIFIC */
+.backspace{
+  position:absolute;
+  right:12px;
+  bottom:14px;
+  width:42px;
+  height:38px;
+  border-radius:11px;
+  border:1px solid rgba(0,200,255,.35);
+  background:rgba(0,80,120,.15);
+  color:#8eeaff;
+  font-size:19px;
+  cursor:pointer;
+}
+
+.backspace:active{
+  transform:scale(.92);
+  background:rgba(0,170,255,.25);
+}
+
+/* ---------- MODE ---------- */
+
+.modeRow{
+  display:flex;
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.modeBtn{
+  flex:1;
+  height:39px;
+  border-radius:12px;
+  border:1px solid rgba(0,190,255,.25);
+  background:rgba(5,20,30,.8);
+  color:#73dfff;
+  font-weight:700;
+  letter-spacing:2px;
+}
+
+.modeBtn.active{
+  background:linear-gradient(
+    135deg,
+    rgba(0,150,220,.30),
+    rgba(0,80,130,.18)
+  );
+  border-color:rgba(0,210,255,.7);
+  box-shadow:0 0 15px rgba(0,170,255,.12);
+}
+
+/* ---------- KEYPAD ---------- */
 
 .scientific{
   display:none;
   grid-template-columns:repeat(5,1fr);
   gap:7px;
-  margin:10px 0;
+  margin-bottom:10px;
 }
 
 .scientific.show{
   display:grid;
 }
 
-.scientific button{
-  min-height:44px;
-  border-radius:13px;
-  border:1px solid rgba(110,220,255,.09);
-  background:rgba(255,255,255,.045);
-  color:#bfe8f4;
-  font-size:12px;
-}
-
-.scientific button:active{
-  transform:scale(.93);
-  background:rgba(120,80,255,.25);
-}
-
-/* KEYPAD */
-
 .keypad{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:10px;
-  margin-top:11px;
+  gap:8px;
+}
+
+button{
+  font-family:inherit;
 }
 
 .key{
-  min-height:70px;
-  border:1px solid rgba(255,255,255,.025);
-  border-radius:50%;
+  height:58px;
+  border-radius:15px;
+  border:1px solid rgba(0,180,255,.20);
   background:
     linear-gradient(
       145deg,
-      rgba(38,45,55,.96),
-      rgba(20,25,33,.96)
+      rgba(10,27,40,.96),
+      rgba(3,12,20,.96)
     );
-  color:#f5fbff;
-  font-size:24px;
-  font-weight:400;
+  color:#dff8ff;
+  font-size:18px;
   box-shadow:
-    inset 0 1px rgba(255,255,255,.035),
-    0 5px 18px rgba(0,0,0,.25);
-  transition:.08s ease;
+    inset 0 0 12px rgba(0,150,255,.035),
+    0 5px 15px rgba(0,0,0,.18);
+  transition:.12s ease;
 }
 
 .key:active{
-  transform:scale(.91);
-  filter:brightness(1.35);
+  transform:scale(.95);
+  border-color:rgba(0,220,255,.75);
+  box-shadow:0 0 18px rgba(0,180,255,.2);
 }
 
-.function{
+.key.operator{
+  color:#63e4ff;
+  border-color:rgba(0,200,255,.30);
+}
+
+.key.danger{
+  color:#ff8d9d;
+}
+
+.key.equal{
+  color:#ffffff;
   background:
     linear-gradient(
       145deg,
-      rgba(91,101,112,.98),
-      rgba(61,68,76,.98)
+      rgba(0,125,190,.75),
+      rgba(0,65,105,.75)
     );
+  border-color:rgba(60,220,255,.75);
+  box-shadow:0 0 20px rgba(0,160,255,.18);
 }
 
-.operator{
-  background:
-    linear-gradient(
-      145deg,
-      rgba(132,82,255,.95),
-      rgba(84,49,181,.95)
-    );
-}
-
-.operator.active{
-  background:#f4fbff;
-  color:#774aff;
-}
-
-.equals{
-  background:
-    linear-gradient(
-      145deg,
-      #a981ff,
-      #7144ed
-    );
-}
-
-.zero{
-  grid-column:span 2;
-  border-radius:38px;
-  text-align:left;
-  padding-left:29px;
-}
-
-/* TOOLS */
-
-.tools{
+.memory{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-  margin-top:13px;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin-top:9px;
 }
 
-.tool{
-  min-height:44px;
-  border-radius:14px;
-  border:1px solid rgba(100,220,255,.09);
-  background:rgba(255,255,255,.035);
-  color:#91a8bb;
-  font-size:9px;
-  letter-spacing:1px;
+.memory button{
+  height:38px;
+  border-radius:11px;
+  border:1px solid rgba(0,170,255,.18);
+  background:rgba(5,18,28,.8);
+  color:#6edfff;
 }
 
-.tool:active{
-  transform:scale(.94);
-}
+/* ---------- HISTORY ---------- */
 
-.tool.historyActive{
-  border-color:rgba(156,124,255,.55);
-  color:#d7c9ff;
-  background:rgba(120,80,255,.14);
-}
-
-/* HISTORY */
-
-.history{
+.historyPanel{
   display:none;
   margin-top:14px;
-  padding:15px;
-  border-radius:20px;
-  background:rgba(8,13,23,.96);
-  border:1px solid rgba(100,220,255,.11);
+  border:1px solid rgba(0,180,255,.25);
+  border-radius:18px;
+  padding:12px;
+  background:rgba(3,12,20,.92);
 }
 
-.history.show{
+.historyPanel.show{
   display:block;
-  animation:historyIn .18s ease;
-}
-
-@keyframes historyIn{
-  from{
-    opacity:0;
-    transform:translateY(-8px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
 }
 
 .historyHead{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  color:#7890a4;
-  font-size:9px;
+  color:#65dcff;
+  font-size:11px;
   letter-spacing:2px;
-  margin-bottom:9px;
+  margin-bottom:8px;
 }
 
 .historyClear{
-  border:0;
   background:none;
-  color:#9e7aff;
-  font-size:10px;
-  padding:6px;
-}
-
-.historyList{
-  max-height:230px;
-  overflow:auto;
-}
-
-.historyItem{
-  width:100%;
-  padding:10px 4px;
-  text-align:right;
   border:0;
-  border-bottom:1px solid rgba(255,255,255,.05);
-  background:transparent;
-  color:inherit;
-  font-family:inherit;
-}
-
-.historyItem:active{
-  transform:scale(.98);
-  background:rgba(120,80,255,.12);
-}
-
-.historyExpression{
-  color:#687b8d;
+  color:#ff8c9c;
   font-size:11px;
 }
 
+.historyItem{
+  padding:10px 5px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  cursor:pointer;
+}
+
+.historyItem:last-child{
+  border-bottom:0;
+}
+
+.historyExpr{
+  font-size:12px;
+  color:#70cce9;
+  word-break:break-all;
+}
+
 .historyResult{
-  margin-top:4px;
-  color:#eaf9ff;
-  font-size:18px;
+  font-size:16px;
+  color:white;
+  margin-top:3px;
 }
 
-.historyHint{
-  margin-top:5px;
-  color:#50677b;
-  font-size:7px;
-  letter-spacing:1px;
+/* ---------- SETUP ---------- */
+
+.overlay{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(0,100,150,.16),
+      rgba(0,0,0,.96) 65%
+    );
+  backdrop-filter:blur(12px);
 }
 
-.emptyHistory{
+.setupCard{
+  width:100%;
+  max-width:410px;
+  padding:26px 22px;
+  border-radius:24px;
+  border:1px solid rgba(0,210,255,.45);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(5,24,38,.98),
+      rgba(2,8,14,.99)
+    );
+  box-shadow:
+    0 0 45px rgba(0,140,255,.13),
+    inset 0 0 35px rgba(0,150,255,.04);
   text-align:center;
-  color:#667889;
-  padding:20px 5px;
+}
+
+.setupLogo{
+  font-size:26px;
+  font-weight:800;
+  letter-spacing:5px;
+  color:#eaffff;
+  text-shadow:0 0 16px rgba(0,200,255,.65);
+}
+
+.setupTitle{
+  margin-top:12px;
+  font-size:19px;
+  color:#69e2ff;
+  letter-spacing:2px;
+}
+
+.setupText{
+  color:#91aeb9;
+  font-size:12px;
+  line-height:1.6;
+  margin:12px 0 18px;
+}
+
+.setupInput{
+  width:100%;
+  height:52px;
+  border-radius:13px;
+  border:1px solid rgba(0,190,255,.35);
+  outline:none;
+  background:#020a11;
+  color:#fff;
+  text-align:center;
+  font-size:22px;
+  letter-spacing:6px;
+  margin-bottom:10px;
+}
+
+.setupInput:focus{
+  border-color:#54dfff;
+  box-shadow:0 0 16px rgba(0,190,255,.15);
+}
+
+.setupButton{
+  width:100%;
+  height:48px;
+  border-radius:13px;
+  border:1px solid rgba(0,210,255,.65);
+  background:linear-gradient(
+    135deg,
+    rgba(0,150,220,.65),
+    rgba(0,65,105,.75)
+  );
+  color:white;
+  font-weight:700;
+  letter-spacing:2px;
+}
+
+.setupError{
+  min-height:20px;
+  color:#ff8999;
+  font-size:11px;
+  margin:7px 0;
+}
+
+/* ---------- VAULT ---------- */
+
+.vault{
+  position:fixed;
+  inset:0;
+  z-index:900;
+  display:none;
+  overflow:auto;
+  background:
+    linear-gradient(rgba(0,150,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,150,255,.025) 1px,transparent 1px),
+    radial-gradient(circle at 50% 0%,rgba(0,150,255,.12),transparent 48%),
+    #02050b;
+  background-size:28px 28px,28px 28px,100% 100%,auto;
+}
+
+.vault.show{
+  display:block;
+}
+
+.vaultInner{
+  width:100%;
+  max-width:800px;
+  margin:auto;
+  padding:20px 14px 35px;
+}
+
+.vaultTop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding-bottom:15px;
+  border-bottom:1px solid rgba(0,190,255,.18);
+}
+
+.vaultTitle{
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:3px;
+  color:#eafcff;
+  text-shadow:0 0 13px rgba(0,190,255,.45);
+}
+
+.vaultSubtitle{
+  margin-top:5px;
+  font-size:9px;
+  letter-spacing:2px;
+  color:#58cfea;
+}
+
+.lockBtn{
+  min-width:100px;
+  height:39px;
+  border-radius:11px;
+  border:1px solid rgba(255,100,120,.35);
+  background:rgba(90,20,30,.22);
+  color:#ff9baa;
   font-size:10px;
+  font-weight:700;
   letter-spacing:1px;
 }
 
-@media(max-width:360px){
-  .app{
-    padding-left:8px;
-    padding-right:8px;
-  }
+.vaultActions{
+  display:flex;
+  gap:9px;
+  margin:16px 0;
+}
 
-  .keypad{
-    gap:7px;
-  }
+.addFiles{
+  flex:1;
+  height:46px;
+  border-radius:13px;
+  border:1px solid rgba(0,210,255,.65);
+  background:linear-gradient(
+    135deg,
+    rgba(0,150,220,.55),
+    rgba(0,70,110,.55)
+  );
+  color:white;
+  font-weight:800;
+  letter-spacing:1px;
+}
 
-  .key{
-    min-height:62px;
-    font-size:21px;
-  }
+.vaultInfo{
+  color:#7795a1;
+  font-size:11px;
+  line-height:1.5;
+  margin-bottom:14px;
+}
 
-  .display{
-    min-height:180px;
-  }
+.vaultStatus{
+  color:#54dcff;
+  font-size:10px;
+  letter-spacing:1.5px;
+  margin-bottom:10px;
+}
+
+.vaultGrid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px;
 }
 
 @media(min-width:600px){
-  .key{
-    min-height:78px;
+  .vaultGrid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
   }
+}
+
+.vaultCard{
+  min-width:0;
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid rgba(0,180,255,.18);
+  background:linear-gradient(
+    145deg,
+    rgba(8,23,35,.94),
+    rgba(2,9,15,.96)
+  );
+  box-shadow:0 8px 22px rgba(0,0,0,.2);
+}
+
+.preview{
+  width:100%;
+  aspect-ratio:1/1;
+  background:#02070c;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  position:relative;
+}
+
+.preview img,
+.preview video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.filePreview{
+  padding:15px;
+  text-align:center;
+}
+
+.fileIcon{
+  font-size:38px;
+  color:#65dcff;
+  margin-bottom:8px;
+}
+
+.fileType{
+  font-size:9px;
+  color:#76a9ba;
+  letter-spacing:1px;
+  word-break:break-all;
+}
+
+.videoTag{
+  position:absolute;
+  bottom:7px;
+  left:7px;
+  padding:4px 7px;
+  border-radius:6px;
+  background:rgba(0,0,0,.65);
+  color:#fff;
+  font-size:9px;
+}
+
+.cardInfo{
+  padding:9px;
+}
+
+.fileName{
+  font-size:11px;
+  color:#dff8ff;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.fileMeta{
+  font-size:9px;
+  color:#64818c;
+  margin-top:4px;
+}
+
+.cardButtons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+  margin-top:8px;
+}
+
+.exportBtn,
+.deleteBtn{
+  height:35px;
+  border-radius:9px;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.7px;
+}
+
+.exportBtn{
+  border:1px solid rgba(0,210,255,.38);
+  background:rgba(0,120,170,.17);
+  color:#70e3ff;
+}
+
+.deleteBtn{
+  border:1px solid rgba(255,90,110,.30);
+  background:rgba(100,20,30,.15);
+  color:#ff8999;
+}
+
+.exportBtn:active,
+.deleteBtn:active,
+.addFiles:active,
+.lockBtn:active{
+  transform:scale(.96);
+}
+
+.emptyVault{
+  grid-column:1/-1;
+  text-align:center;
+  padding:55px 20px;
+  border:1px dashed rgba(0,180,255,.18);
+  border-radius:18px;
+  color:#57717c;
+  font-size:12px;
+  line-height:1.7;
+}
+
+/* ---------- TOAST ---------- */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:22px;
+  transform:translate(-50%,20px);
+  z-index:2000;
+  max-width:90%;
+  padding:11px 15px;
+  border-radius:12px;
+  background:rgba(3,16,25,.96);
+  border:1px solid rgba(0,200,255,.35);
+  color:#dffaff;
+  font-size:11px;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s ease;
+  text-align:center;
+  box-shadow:0 8px 30px rgba(0,0,0,.35);
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
 }
 </style>
 </head>
@@ -560,475 +704,353 @@ body::after{
 
 <div class="app">
 
-<header class="header">
+  <div class="brand">
+    <h1>SG CALCI</h1>
+    <div class="creator">SARVESH GHANE'S CREATION</div>
+  </div>
 
-<div class="logo">
-  SG CALCI
-  <small>SARVESH GHANE'S CREATION</small>
-</div>
+  <div class="displayBox">
+    <div class="status">CALCULATION CORE ACTIVE</div>
+    <div class="expression" id="expression"></div>
+    <div class="answer" id="answer">0</div>
 
-<button
-  class="modeButton"
-  id="scientificToggle"
-  type="button">
-  SCI
-</button>
+    <button
+      class="backspace"
+      id="backspace"
+      aria-label="Backspace"
+    >⌫</button>
+  </div>
 
-</header>
+  <div class="modeRow">
+    <button class="modeBtn active" id="basicBtn">BASIC</button>
+    <button class="modeBtn" id="sciBtn">SCI</button>
+  </div>
 
-<section class="display">
+  <div class="scientific" id="scientific">
 
-<div class="systemLabel">
-  <span class="systemDot"></span>
-  CALCULATION CORE ACTIVE
-</div>
+    <button class="key" data-value="sin(">sin</button>
+    <button class="key" data-value="cos(">cos</button>
+    <button class="key" data-value="tan(">tan</button>
+    <button class="key" data-value="asin(">sin⁻¹</button>
+    <button class="key" data-value="acos(">cos⁻¹</button>
 
-<button
-  class="backspaceButton"
-  id="backspaceButton"
-  type="button"
-  aria-label="Backspace">
-  ⌫
-</button>
+    <button class="key" data-value="atan(">tan⁻¹</button>
+    <button class="key" data-value="log(">log</button>
+    <button class="key" data-value="ln(">ln</button>
+    <button class="key" data-value="sqrt(">√</button>
+    <button class="key" data-value="cbrt(">∛</button>
 
-<div
-  class="expression"
-  id="expression">
-</div>
+    <button class="key" data-value="^2">x²</button>
+    <button class="key" data-value="^3">x³</button>
+    <button class="key" data-value="^-1">x⁻¹</button>
+    <button class="key" data-value="!">x!</button>
+    <button class="key" data-value="π">π</button>
 
-<div
-  class="answer"
-  id="answer">
-  0
-</div>
+    <button class="key" data-value="e">e</button>
+    <button class="key" data-value="(">(</button>
+    <button class="key" data-value=")">)</button>
+    <button class="key" data-value="^">xʸ</button>
+    <button class="key" data-value="EXP">EXP</button>
 
-</section>
+  </div>
 
-<section
-  class="scientific"
-  id="scientificPanel">
+  <div class="keypad">
 
-<button type="button" onclick="scientific('sin')">sin</button>
-<button type="button" onclick="scientific('cos')">cos</button>
-<button type="button" onclick="scientific('tan')">tan</button>
-<button type="button" onclick="scientific('asin')">sin⁻¹</button>
-<button type="button" onclick="scientific('acos')">cos⁻¹</button>
+    <button class="key danger" data-action="clear">AC</button>
+    <button class="key" data-action="sign">+/−</button>
+    <button class="key" data-value="%">%</button>
+    <button class="key operator" data-value="/">÷</button>
 
-<button type="button" onclick="scientific('atan')">tan⁻¹</button>
-<button type="button" onclick="scientific('log')">log</button>
-<button type="button" onclick="scientific('ln')">ln</button>
-<button type="button" onclick="scientific('sqrt')">√</button>
-<button type="button" onclick="scientific('cbrt')">∛</button>
+    <button class="key" data-value="7">7</button>
+    <button class="key" data-value="8">8</button>
+    <button class="key" data-value="9">9</button>
+    <button class="key operator" data-value="*">×</button>
 
-<button type="button" onclick="scientific('square')">x²</button>
-<button type="button" onclick="scientific('cube')">x³</button>
-<button type="button" onclick="scientific('inverse')">1/x</button>
-<button type="button" onclick="scientific('factorial')">x!</button>
-<button type="button" onclick="insert('π')">π</button>
+    <button class="key" data-value="4">4</button>
+    <button class="key" data-value="5">5</button>
+    <button class="key" data-value="6">6</button>
+    <button class="key operator" data-value="-">−</button>
 
-<button type="button" onclick="insert('e')">e</button>
-<button type="button" onclick="insert('(')">(</button>
-<button type="button" onclick="insert(')')">)</button>
-<button type="button" onclick="insert('^')">xʸ</button>
-<button type="button" onclick="scientific('exp')">EXP</button>
+    <button class="key" data-value="1">1</button>
+    <button class="key" data-value="2">2</button>
+    <button class="key" data-value="3">3</button>
+    <button class="key operator" data-value="+">+</button>
 
-</section>
+    <button class="key" data-value="0">0</button>
+    <button class="key" data-value=".">.</button>
+    <button class="key" data-action="history">HIS</button>
+    <button class="key equal" data-action="calculate">=</button>
 
-<section class="keypad">
+  </div>
 
-<button
-  class="key function"
-  type="button"
-  onclick="clearCalculator()">
-  AC
-</button>
+  <div class="memory">
+    <button id="memoryAdd">M+</button>
+    <button id="memoryRecall">MR</button>
+    <button id="memoryClear">MC</button>
+  </div>
 
-<button
-  class="key function"
-  type="button"
-  onclick="toggleSign()">
-  +/−
-</button>
-
-<button
-  class="key function"
-  type="button"
-  onclick="percent()">
-  %
-</button>
-
-<button
-  class="key operator"
-  data-op="÷"
-  type="button"
-  onclick="operator('÷')">
-  ÷
-</button>
-
-<button class="key" type="button" onclick="insert('7')">7</button>
-<button class="key" type="button" onclick="insert('8')">8</button>
-<button class="key" type="button" onclick="insert('9')">9</button>
-
-<button
-  class="key operator"
-  data-op="×"
-  type="button"
-  onclick="operator('×')">
-  ×
-</button>
-
-<button class="key" type="button" onclick="insert('4')">4</button>
-<button class="key" type="button" onclick="insert('5')">5</button>
-<button class="key" type="button" onclick="insert('6')">6</button>
-
-<button
-  class="key operator"
-  data-op="−"
-  type="button"
-  onclick="operator('−')">
-  −
-</button>
-
-<button class="key" type="button" onclick="insert('1')">1</button>
-<button class="key" type="button" onclick="insert('2')">2</button>
-<button class="key" type="button" onclick="insert('3')">3</button>
-
-<button
-  class="key operator"
-  data-op="+"
-  type="button"
-  onclick="operator('+')">
-  +
-</button>
-
-<button class="key zero" type="button" onclick="insert('0')">0</button>
-
-<button class="key" type="button" onclick="insert('.')">.</button>
-
-<button
-  class="key equals"
-  type="button"
-  onclick="calculate()">
-  =
-</button>
-
-</section>
-
-<div class="tools">
-
-<button
-  class="tool"
-  id="historyButton"
-  type="button"
-  onclick="toggleHistory()">
-  HISTORY
-</button>
-
-<button
-  class="tool"
-  type="button"
-  onclick="memoryAdd()">
-  M+
-</button>
-
-<button
-  class="tool"
-  type="button"
-  onclick="memoryRecall()">
-  MR
-</button>
-
-<button
-  class="tool"
-  type="button"
-  onclick="memoryClear()">
-  MC
-</button>
+  <div class="historyPanel" id="historyPanel">
+    <div class="historyHead">
+      <span>CALCULATION HISTORY</span>
+      <button class="historyClear" id="historyClear">CLEAR</button>
+    </div>
+    <div id="historyList"></div>
+  </div>
 
 </div>
 
-<section
-  class="history"
-  id="historyPanel">
 
-<div class="historyHead">
+<!-- FIRST LAUNCH SECRET CODE SETUP -->
 
-<span>CALCULATION HISTORY</span>
+<div class="overlay" id="setupOverlay">
 
-<button
-  class="historyClear"
-  type="button"
-  onclick="clearHistory()">
-  CLEAR
-</button>
+  <div class="setupCard">
+
+    <div class="setupLogo">SG CALCI</div>
+
+    <div class="setupTitle">PRIVATE VAULT SETUP</div>
+
+    <div class="setupText">
+      Create a secret numeric code for your private vault.
+      <br>
+      Later, enter this code in the calculator and press
+      <b>=</b> to open the vault.
+      <br><br>
+      Your code is stored only on this device/browser.
+    </div>
+
+    <input
+      class="setupInput"
+      id="newCode"
+      type="password"
+      inputmode="numeric"
+      maxlength="12"
+      placeholder="SECRET CODE"
+      autocomplete="new-password"
+    >
+
+    <input
+      class="setupInput"
+      id="confirmCode"
+      type="password"
+      inputmode="numeric"
+      maxlength="12"
+      placeholder="CONFIRM CODE"
+      autocomplete="new-password"
+    >
+
+    <div class="setupError" id="setupError"></div>
+
+    <button class="setupButton" id="saveCode">
+      CREATE SECURE CODE
+    </button>
+
+  </div>
 
 </div>
 
-<div
-  class="historyList"
-  id="historyList">
+
+<!-- PRIVATE VAULT -->
+
+<div class="vault" id="vault">
+
+  <div class="vaultInner">
+
+    <div class="vaultTop">
+
+      <div>
+        <div class="vaultTitle">PRIVATE VAULT</div>
+        <div class="vaultSubtitle">SECURE LOCAL STORAGE</div>
+      </div>
+
+      <button class="lockBtn" id="lockVault">
+        LOCK VAULT
+      </button>
+
+    </div>
+
+    <div class="vaultActions">
+
+      <button class="addFiles" id="addFiles">
+        + ADD FILES
+      </button>
+
+      <input
+        type="file"
+        id="fileInput"
+        multiple
+        accept="image/*,video/*,.pdf,.txt,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.rar,.csv,.json"
+        hidden
+      >
+
+    </div>
+
+    <div class="vaultInfo">
+      Imported items are stored as copies inside the SG CALCI
+      vault. Exporting an item creates a copy on your device;
+      the vault copy remains until you delete it.
+    </div>
+
+    <div class="vaultStatus" id="vaultStatus">
+      VAULT READY
+    </div>
+
+    <div class="vaultGrid" id="vaultGrid"></div>
+
+  </div>
+
 </div>
 
-</section>
 
-</div>
+<div class="toast" id="toast"></div>
+
 
 <script>
+/* =========================================================
+   SG CALCI + PRIVATE VAULT
+   ========================================================= */
 
-let expression="";
-let memory=0;
-let history=[];
+const SECRET_KEY = "sg_calci_secret_v1";
 
-try{
-  const saved=localStorage.getItem("sg_calci_history");
+const DB_NAME = "SG_CALCI_PRIVATE_VAULT";
+const DB_VERSION = 1;
+const STORE_NAME = "files";
+
+let expression = "";
+let memoryValue = 0;
+let scientificMode = false;
+let db = null;
+
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
+const expressionEl = document.getElementById("expression");
+const answerEl = document.getElementById("answer");
+
+const setupOverlay = document.getElementById("setupOverlay");
+const newCodeEl = document.getElementById("newCode");
+const confirmCodeEl = document.getElementById("confirmCode");
+const setupError = document.getElementById("setupError");
+
+const vault = document.getElementById("vault");
+const vaultGrid = document.getElementById("vaultGrid");
+const vaultStatus = document.getElementById("vaultStatus");
+
+const toastEl = document.getElementById("toast");
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+let toastTimer = null;
+
+function showToast(message){
+
+  clearTimeout(toastTimer);
+
+  toastEl.textContent = message;
+  toastEl.classList.add("show");
+
+  toastTimer = setTimeout(() => {
+    toastEl.classList.remove("show");
+  }, 2600);
+}
+
+
+/* =========================================================
+   SETUP
+   ========================================================= */
+
+function checkFirstLaunch(){
+
+  const saved = localStorage.getItem(SECRET_KEY);
 
   if(saved){
-    const parsed=JSON.parse(saved);
-
-    if(Array.isArray(parsed)){
-      history=parsed;
-    }
+    setupOverlay.style.display = "none";
+  }else{
+    setupOverlay.style.display = "flex";
   }
-}catch{
-  history=[];
 }
 
-const expressionEl=document.getElementById("expression");
-const answerEl=document.getElementById("answer");
-const historyPanel=document.getElementById("historyPanel");
-const historyList=document.getElementById("historyList");
-const historyButton=document.getElementById("historyButton");
-const scientificPanel=document.getElementById("scientificPanel");
-const scientificToggle=document.getElementById("scientificToggle");
-const backspaceButton=document.getElementById("backspaceButton");
+
+function createSecretCode(){
+
+  const code = newCodeEl.value.trim();
+  const confirm = confirmCodeEl.value.trim();
+
+  setupError.textContent = "";
+
+  if(!/^\d{4,12}$/.test(code)){
+    setupError.textContent =
+      "Use a numeric code containing 4–12 digits.";
+    return;
+  }
+
+  if(code !== confirm){
+    setupError.textContent =
+      "The confirmation code does not match.";
+    return;
+  }
+
+  localStorage.setItem(SECRET_KEY, code);
+
+  setupOverlay.style.display = "none";
+
+  newCodeEl.value = "";
+  confirmCodeEl.value = "";
+
+  showToast("Secure vault code created.");
+}
+
+
+document.getElementById("saveCode").addEventListener(
+  "click",
+  createSecretCode
+);
+
+
+[newCodeEl,confirmCodeEl].forEach(input => {
+
+  input.addEventListener("keydown", event => {
+
+    if(event.key === "Enter"){
+      createSecretCode();
+    }
+
+  });
+
+});
+
+
+/* =========================================================
+   DISPLAY
+   ========================================================= */
 
 function updateDisplay(){
-  expressionEl.textContent=expression;
-}
 
-function liveCalculate(){
+  expressionEl.textContent = expression;
 
-  if(!expression){
-    answerEl.textContent="0";
+  if(expression === ""){
+    answerEl.textContent = "0";
     return;
   }
 
   try{
 
-    const last=expression.slice(-1);
+    const result = evaluateExpression(expression);
 
-    if("+-×÷^(".includes(last)){
-      return;
+    if(Number.isFinite(result)){
+      answerEl.textContent = formatNumber(result);
     }
 
-    const value=evaluateExpression(expression);
-
-    if(Number.isFinite(value)){
-      answerEl.textContent=formatNumber(value);
-    }
-
-  }catch{}
-}
-
-function insert(value){
-
-  if(answerEl.textContent==="Error"){
-    expression="";
-    answerEl.textContent="0";
-  }
-
-  expression+=value;
-
-  updateDisplay();
-  liveCalculate();
-}
-
-function clearCalculator(){
-
-  expression="";
-  answerEl.textContent="0";
-
-  document
-    .querySelectorAll(".operator")
-    .forEach(button=>{
-      button.classList.remove("active");
-    });
-
-  updateDisplay();
-}
-
-function operator(op){
-
-  if(!expression){
-    return;
-  }
-
-  const last=expression.slice(-1);
-
-  if("+-×÷".includes(last)){
-    expression=expression.slice(0,-1)+op;
-  }else{
-    expression+=op;
-  }
-
-  document
-    .querySelectorAll(".operator")
-    .forEach(button=>{
-      button.classList.remove("active");
-    });
-
-  const selected=document.querySelector(
-    '.operator[data-op="'+op+'"]'
-  );
-
-  if(selected){
-    selected.classList.add("active");
-  }
-
-  updateDisplay();
-  liveCalculate();
-}
-
-function backspace(){
-
-  if(!expression){
-    return;
-  }
-
-  expression=expression.slice(0,-1);
-
-  document
-    .querySelectorAll(".operator")
-    .forEach(button=>{
-      button.classList.remove("active");
-    });
-
-  updateDisplay();
-  liveCalculate();
-
-  if(!expression){
-    answerEl.textContent="0";
+  }catch{
+    answerEl.textContent = "0";
   }
 }
 
-/* LONG PRESS BACKSPACE = AC */
-
-let backspaceTimer=null;
-let longPressTriggered=false;
-
-function startBackspacePress(event){
-
-  event.preventDefault();
-  longPressTriggered=false;
-
-  if(
-    event.pointerId!==undefined &&
-    backspaceButton.setPointerCapture
-  ){
-    try{
-      backspaceButton.setPointerCapture(event.pointerId);
-    }catch{}
-  }
-
-  backspaceButton.classList.remove("longPress");
-
-  backspaceTimer=setTimeout(()=>{
-
-    longPressTriggered=true;
-
-    clearCalculator();
-
-    backspaceButton.classList.add("longPress");
-
-    if(navigator.vibrate){
-      navigator.vibrate([30,40,30]);
-    }
-
-    setTimeout(()=>{
-      backspaceButton.classList.remove("longPress");
-    },220);
-
-  },700);
-}
-
-function endBackspacePress(event){
-
-  event.preventDefault();
-
-  if(backspaceTimer){
-    clearTimeout(backspaceTimer);
-    backspaceTimer=null;
-  }
-
-  if(!longPressTriggered){
-    backspace();
-  }
-
-  longPressTriggered=false;
-}
-
-function cancelBackspacePress(){
-
-  if(backspaceTimer){
-    clearTimeout(backspaceTimer);
-    backspaceTimer=null;
-  }
-
-  longPressTriggered=false;
-
-  backspaceButton.classList.remove("longPress");
-}
-
-backspaceButton.addEventListener(
-  "pointerdown",
-  startBackspacePress
-);
-
-backspaceButton.addEventListener(
-  "pointerup",
-  endBackspacePress
-);
-
-backspaceButton.addEventListener(
-  "pointercancel",
-  cancelBackspacePress
-);
-
-/* CALCULATOR ENGINE */
-
-function normalize(input){
-
-  return input
-    .replaceAll("×","*")
-    .replaceAll("÷","/")
-    .replaceAll("−","-")
-    .replaceAll("π","Math.PI")
-    .replace(/\be\b/g,"Math.E")
-    .replace(/\^/g,"**");
-}
-
-function evaluateExpression(input){
-
-  const prepared=normalize(input);
-
-  if(
-    !/^[0-9+\-*/().\sA-Za-z_*]+$/.test(prepared)
-  ){
-    throw new Error("Invalid");
-  }
-
-  const value=Function(
-    '"use strict";return ('+
-    prepared+
-    ')'
-  )();
-
-  if(!Number.isFinite(value)){
-    throw new Error("Invalid");
-  }
-
-  return value;
-}
 
 function formatNumber(value){
 
@@ -1036,20 +1058,160 @@ function formatNumber(value){
     return "Error";
   }
 
-  if(Math.abs(value)<1e-12){
-    value=0;
+  if(Math.abs(value) < 1e-12){
+    value = 0;
   }
 
-  if(Number.isInteger(value)){
-    return String(value);
-  }
-
-  return Number(
-    value.toPrecision(12)
-  ).toString();
+  return Number(value.toPrecision(12)).toString();
 }
 
+
+/* =========================================================
+   SECRET CODE
+   ========================================================= */
+
+function isSecretCode(){
+
+  const savedCode = localStorage.getItem(SECRET_KEY);
+
+  return (
+    !!savedCode &&
+    expression === savedCode
+  );
+}
+
+
+/* =========================================================
+   SAFE CALCULATOR ENGINE
+   ========================================================= */
+
+function factorial(n){
+
+  if(!Number.isFinite(n)){
+    throw new Error("Invalid factorial");
+  }
+
+  if(n < 0 || Math.floor(n) !== n){
+    throw new Error("Invalid factorial");
+  }
+
+  if(n > 170){
+    throw new Error("Too large");
+  }
+
+  let result = 1;
+
+  for(let i = 2; i <= n; i++){
+    result *= i;
+  }
+
+  return result;
+}
+
+
+function evaluateExpression(expr){
+
+  let e = expr;
+
+  e = e.replace(/π/g,"Math.PI");
+  e = e.replace(/\be\b/g,"Math.E");
+
+  e = e.replace(/\bsin\(/g,"Math.sin(");
+  e = e.replace(/\bcos\(/g,"Math.cos(");
+  e = e.replace(/\btan\(/g,"Math.tan(");
+
+  e = e.replace(/\basin\(/g,"Math.asin(");
+  e = e.replace(/\bacos\(/g,"Math.acos(");
+  e = e.replace(/\batan\(/g,"Math.atan(");
+
+  e = e.replace(/\blog\(/g,"Math.log10(");
+  e = e.replace(/\bln\(/g,"Math.log(");
+
+  e = e.replace(/\bsqrt\(/g,"Math.sqrt(");
+  e = e.replace(/\bcbrt\(/g,"Math.cbrt(");
+
+  e = e.replace(/\^/g,"**");
+
+  e = e.replace(/(\d+(?:\.\d+)?)%/g,"($1/100)");
+
+  /*
+    Handle factorials.
+  */
+  e = e.replace(
+    /(\d+(?:\.\d+)?|\([^()]+\))!/g,
+    "factorial($1)"
+  );
+
+  /*
+    EXP button behaves as scientific notation helper.
+  */
+  e = e.replace(/EXP/g,"*10**");
+
+  /*
+    Allow only calculator-safe characters.
+  */
+  if(!/^[0-9+\-*/().,\sA-Za-z_*]+$/.test(e)){
+    throw new Error("Invalid");
+  }
+
+  /*
+    Function names allowed after replacement.
+  */
+  const allowedWords = [
+    "Math",
+    "PI",
+    "E",
+    "sin",
+    "cos",
+    "tan",
+    "asin",
+    "acos",
+    "atan",
+    "log10",
+    "log",
+    "sqrt",
+    "cbrt",
+    "factorial"
+  ];
+
+  /*
+    Final basic safety check.
+  */
+  const cleaned = e
+    .replace(/Math\.(PI|E|sin|cos|tan|asin|acos|atan|log10|log|sqrt|cbrt)/g,"")
+    .replace(/factorial/g,"")
+    .replace(/[0-9+\-*/().,\s]/g,"");
+
+  if(cleaned.length > 0){
+    throw new Error("Invalid");
+  }
+
+  return Function(
+    "factorial",
+    '"use strict"; return (' + e + ')'
+  )(factorial);
+}
+
+
+/* =========================================================
+   CALCULATE
+   ========================================================= */
+
 function calculate(){
+
+  /*
+    SECRET CODE CHECK MUST HAPPEN BEFORE NORMAL CALCULATION.
+  */
+  if(isSecretCode()){
+
+    expression = "";
+    answerEl.textContent = "0";
+    updateDisplay();
+
+    openVault();
+
+    return;
+  }
 
   if(!expression){
     return;
@@ -1057,461 +1219,1267 @@ function calculate(){
 
   try{
 
-    const value=evaluateExpression(expression);
-    const result=formatNumber(value);
+    const result = evaluateExpression(expression);
 
-    addHistory(expression,result);
+    if(!Number.isFinite(result)){
+      throw new Error("Invalid result");
+    }
 
-    expression=result;
-    answerEl.textContent=result;
+    const formatted = formatNumber(result);
 
-    document
-      .querySelectorAll(".operator")
-      .forEach(button=>{
-        button.classList.remove("active");
-      });
+    saveHistory(expression,formatted);
+
+    expression = formatted;
+
+    answerEl.textContent = formatted;
 
     updateDisplay();
 
   }catch{
-    answerEl.textContent="Error";
+
+    answerEl.textContent = "Error";
+
+    showToast("Invalid calculation.");
+
+    setTimeout(() => {
+      updateDisplay();
+    },900);
   }
 }
+
+
+/* =========================================================
+   KEYPAD INPUT
+   ========================================================= */
+
+function appendValue(value){
+
+  expression += value;
+
+  updateDisplay();
+}
+
+
+function clearAll(){
+
+  expression = "";
+
+  updateDisplay();
+}
+
 
 function toggleSign(){
 
   if(!expression){
-    return;
-  }
-
-  try{
-
-    const value=evaluateExpression(expression);
-
-    expression=formatNumber(-value);
-    answerEl.textContent=expression;
-
-  }catch{
-
-    if(expression.startsWith("-")){
-      expression=expression.substring(1);
-    }else{
-      expression="-"+expression;
-    }
+    expression = "-";
+  }else{
+    expression = "(-" + expression + ")";
   }
 
   updateDisplay();
-  liveCalculate();
 }
 
-function percent(){
 
-  if(!expression){
-    return;
-  }
+document.querySelectorAll("[data-value]").forEach(button => {
 
-  try{
+  button.addEventListener("click", () => {
 
-    const value=evaluateExpression(expression);
-    const result=value/100;
+    appendValue(button.dataset.value);
 
-    expression=formatNumber(result);
-    answerEl.textContent=expression;
-
-    updateDisplay();
-
-  }catch{
-    answerEl.textContent="Error";
-  }
-}
-
-/* SCIENTIFIC */
-
-function scientific(type){
-
-  try{
-
-    let value;
-
-    if(expression){
-      value=evaluateExpression(expression);
-    }else{
-      value=Number(answerEl.textContent);
-    }
-
-    if(!Number.isFinite(value)){
-      throw new Error();
-    }
-
-    let result;
-
-    switch(type){
-
-      case "sin":
-        result=Math.sin(value*Math.PI/180);
-        break;
-
-      case "cos":
-        result=Math.cos(value*Math.PI/180);
-        break;
-
-      case "tan":
-        result=Math.tan(value*Math.PI/180);
-        break;
-
-      case "asin":
-        result=Math.asin(value)*180/Math.PI;
-        break;
-
-      case "acos":
-        result=Math.acos(value)*180/Math.PI;
-        break;
-
-      case "atan":
-        result=Math.atan(value)*180/Math.PI;
-        break;
-
-      case "log":
-        result=Math.log10(value);
-        break;
-
-      case "ln":
-        result=Math.log(value);
-        break;
-
-      case "sqrt":
-        result=Math.sqrt(value);
-        break;
-
-      case "cbrt":
-        result=Math.cbrt(value);
-        break;
-
-      case "square":
-        result=value**2;
-        break;
-
-      case "cube":
-        result=value**3;
-        break;
-
-      case "inverse":
-        result=1/value;
-        break;
-
-      case "factorial":
-
-        if(
-          value<0 ||
-          !Number.isInteger(value) ||
-          value>170
-        ){
-          throw new Error();
-        }
-
-        result=1;
-
-        for(let i=2;i<=value;i++){
-          result*=i;
-        }
-
-        break;
-
-      case "exp":
-        result=Math.exp(value);
-        break;
-
-      default:
-        throw new Error();
-    }
-
-    if(!Number.isFinite(result)){
-      throw new Error();
-    }
-
-    const formatted=formatNumber(result);
-
-    addHistory(
-      type+"("+value+")",
-      formatted
-    );
-
-    expression=formatted;
-    answerEl.textContent=formatted;
-
-    updateDisplay();
-
-  }catch{
-    answerEl.textContent="Error";
-  }
-}
-
-/* MEMORY */
-
-function currentValue(){
-
-  const value=Number(answerEl.textContent);
-
-  return Number.isFinite(value)
-    ? value
-    : 0;
-}
-
-function memoryAdd(){
-  memory+=currentValue();
-}
-
-function memoryRecall(){
-
-  expression+=formatNumber(memory);
-
-  updateDisplay();
-  liveCalculate();
-}
-
-function memoryClear(){
-  memory=0;
-}
-
-/* HISTORY */
-
-function saveHistory(){
-
-  try{
-    localStorage.setItem(
-      "sg_calci_history",
-      JSON.stringify(history)
-    );
-  }catch{}
-}
-
-function addHistory(exp,result){
-
-  history.unshift({
-    expression:exp,
-    result:result
   });
 
-  if(history.length>50){
-    history.pop();
+});
+
+
+document.querySelectorAll("[data-action]").forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    const action = button.dataset.action;
+
+    if(action === "clear"){
+      clearAll();
+    }
+
+    if(action === "sign"){
+      toggleSign();
+    }
+
+    if(action === "calculate"){
+      calculate();
+    }
+
+    if(action === "history"){
+      toggleHistory();
+    }
+
+  });
+
+});
+
+
+/* =========================================================
+   BASIC / SCI MODE
+   ========================================================= */
+
+const basicBtn = document.getElementById("basicBtn");
+const sciBtn = document.getElementById("sciBtn");
+const scientific = document.getElementById("scientific");
+
+basicBtn.addEventListener("click", () => {
+
+  scientificMode = false;
+
+  basicBtn.classList.add("active");
+  sciBtn.classList.remove("active");
+
+  scientific.classList.remove("show");
+
+});
+
+
+sciBtn.addEventListener("click", () => {
+
+  scientificMode = true;
+
+  sciBtn.classList.add("active");
+  basicBtn.classList.remove("active");
+
+  scientific.classList.add("show");
+
+});
+
+
+/* =========================================================
+   BACKSPACE
+   ========================================================= */
+
+const backspaceButton =
+  document.getElementById("backspace");
+
+let backspaceTimer = null;
+let longPressTriggered = false;
+
+function deleteOne(){
+
+  expression = expression.slice(0,-1);
+
+  updateDisplay();
+}
+
+
+backspaceButton.addEventListener("pointerdown", () => {
+
+  longPressTriggered = false;
+
+  backspaceTimer = setTimeout(() => {
+
+    longPressTriggered = true;
+
+    clearAll();
+
+    showToast("All cleared.");
+
+  },700);
+
+});
+
+
+backspaceButton.addEventListener("pointerup", () => {
+
+  clearTimeout(backspaceTimer);
+
+  if(!longPressTriggered){
+    deleteOne();
   }
 
-  saveHistory();
+});
+
+
+backspaceButton.addEventListener("pointerleave", () => {
+
+  clearTimeout(backspaceTimer);
+
+});
+
+
+backspaceButton.addEventListener("pointercancel", () => {
+
+  clearTimeout(backspaceTimer);
+
+});
+
+
+/* =========================================================
+   KEYBOARD
+   ========================================================= */
+
+document.addEventListener("keydown", event => {
+
+  if(
+    event.key >= "0" &&
+    event.key <= "9"
+  ){
+    appendValue(event.key);
+    return;
+  }
+
+  if(
+    ["+","-","*","/","(",")",".","%","^"].includes(event.key)
+  ){
+    appendValue(event.key);
+    return;
+  }
+
+  if(event.key === "Enter" || event.key === "="){
+    calculate();
+    return;
+  }
+
+  if(event.key === "Backspace"){
+    deleteOne();
+    return;
+  }
+
+  if(event.key === "Escape"){
+    clearAll();
+  }
+
+});
+
+
+/* =========================================================
+   MEMORY
+   ========================================================= */
+
+document.getElementById("memoryAdd").addEventListener(
+  "click",
+  () => {
+
+    try{
+
+      memoryValue += evaluateExpression(expression);
+
+      showToast("Memory updated.");
+
+    }catch{
+
+      showToast("Nothing to store.");
+
+    }
+
+  }
+);
+
+
+document.getElementById("memoryRecall").addEventListener(
+  "click",
+  () => {
+
+    expression += formatNumber(memoryValue);
+
+    updateDisplay();
+
+  }
+);
+
+
+document.getElementById("memoryClear").addEventListener(
+  "click",
+  () => {
+
+    memoryValue = 0;
+
+    showToast("Memory cleared.");
+
+  }
+);
+
+
+/* =========================================================
+   HISTORY
+   ========================================================= */
+
+const HISTORY_KEY = "sg_calci_history";
+
+
+function getHistory(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(HISTORY_KEY) || "[]"
+    );
+
+  }catch{
+
+    return [];
+
+  }
+}
+
+
+function saveHistory(expr,result){
+
+  const history = getHistory();
+
+  history.unshift({
+    expression:expr,
+    result:result,
+    time:Date.now()
+  });
+
+  if(history.length > 50){
+    history.length = 50;
+  }
+
+  localStorage.setItem(
+    HISTORY_KEY,
+    JSON.stringify(history)
+  );
+
   renderHistory();
 }
+
 
 function renderHistory(){
 
-  if(history.length===0){
+  const list = document.getElementById("historyList");
 
-    historyList.innerHTML=
-      '<div class="emptyHistory">'+
-      'NO CALCULATIONS YET'+
-      '</div>';
+  const history = getHistory();
+
+  list.innerHTML = "";
+
+  if(history.length === 0){
+
+    list.innerHTML =
+      '<div style="color:#55727d;font-size:11px;padding:12px 5px">No calculation history.</div>';
 
     return;
   }
 
-  historyList.innerHTML=history.map(
-    (item,index)=>`
+  history.forEach(item => {
 
-      <button
-        class="historyItem"
-        type="button"
-        onclick="useHistory(${index})">
+    const div = document.createElement("div");
 
-        <div class="historyExpression">
-          ${escapeHTML(item.expression)}
-        </div>
+    div.className = "historyItem";
 
-        <div class="historyResult">
-          = ${escapeHTML(item.result)}
-        </div>
+    div.innerHTML = `
+      <div class="historyExpr"></div>
+      <div class="historyResult"></div>
+    `;
 
-        <div class="historyHint">
-          TAP TO CONTINUE
-        </div>
+    div.querySelector(".historyExpr").textContent =
+      item.expression;
 
-      </button>
-    `
-  ).join("");
-}
+    div.querySelector(".historyResult").textContent =
+      "= " + item.result;
 
-function useHistory(index){
+    div.addEventListener("click", () => {
 
-  if(
-    index<0 ||
-    index>=history.length
-  ){
-    return;
-  }
+      expression = item.result;
 
-  const item=history[index];
+      updateDisplay();
 
-  expression=String(item.result);
-  answerEl.textContent=String(item.result);
+      toggleHistory(false);
 
-  updateDisplay();
-
-  document
-    .querySelectorAll(".operator")
-    .forEach(button=>{
-      button.classList.remove("active");
     });
 
-  historyPanel.classList.remove("show");
-  historyButton.classList.remove("historyActive");
+    list.appendChild(div);
 
-  if(navigator.vibrate){
-    navigator.vibrate(20);
-  }
+  });
+
 }
 
-function toggleHistory(){
 
-  const isOpen=
-    historyPanel.classList.contains("show");
+function toggleHistory(force){
 
-  if(isOpen){
+  const panel =
+    document.getElementById("historyPanel");
 
-    historyPanel.classList.remove("show");
-    historyButton.classList.remove("historyActive");
+  if(typeof force === "boolean"){
+
+    panel.classList.toggle("show",force);
 
   }else{
 
-    historyPanel.classList.add("show");
-    historyButton.classList.add("historyActive");
+    panel.classList.toggle("show");
 
-    renderHistory();
-
-    setTimeout(()=>{
-      historyPanel.scrollIntoView({
-        behavior:"smooth",
-        block:"nearest"
-      });
-    },50);
   }
-}
 
-function clearHistory(){
-
-  history=[];
-
-  saveHistory();
   renderHistory();
 }
 
-function escapeHTML(value){
 
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+document.getElementById("historyClear").addEventListener(
+  "click",
+  () => {
+
+    localStorage.removeItem(HISTORY_KEY);
+
+    renderHistory();
+
+    showToast("History cleared.");
+
+  }
+);
+
+
+/* =========================================================
+   INDEXED DB
+   ========================================================= */
+
+function openDatabase(){
+
+  return new Promise((resolve,reject) => {
+
+    const request = indexedDB.open(
+      DB_NAME,
+      DB_VERSION
+    );
+
+    request.onupgradeneeded = event => {
+
+      const database = event.target.result;
+
+      if(!database.objectStoreNames.contains(STORE_NAME)){
+
+        database.createObjectStore(
+          STORE_NAME,
+          {
+            keyPath:"id",
+            autoIncrement:true
+          }
+        );
+
+      }
+
+    };
+
+    request.onsuccess = event => {
+
+      db = event.target.result;
+
+      resolve(db);
+
+    };
+
+    request.onerror = () => {
+
+      reject(request.error);
+
+    };
+
+  });
+
 }
 
-/* SCI / BASIC */
 
-scientificToggle.addEventListener(
+function addVaultFile(file){
+
+  return new Promise((resolve,reject) => {
+
+    const transaction =
+      db.transaction(
+        STORE_NAME,
+        "readwrite"
+      );
+
+    const store =
+      transaction.objectStore(STORE_NAME);
+
+    const data = {
+
+      name:file.name,
+
+      type:file.type || "application/octet-stream",
+
+      size:file.size,
+
+      created:Date.now(),
+
+      blob:file
+
+    };
+
+    const request = store.add(data);
+
+    request.onsuccess = () => {
+      resolve(request.result);
+    };
+
+    request.onerror = () => {
+      reject(request.error);
+    };
+
+  });
+
+}
+
+
+function getVaultFiles(){
+
+  return new Promise((resolve,reject) => {
+
+    const transaction =
+      db.transaction(
+        STORE_NAME,
+        "readonly"
+      );
+
+    const store =
+      transaction.objectStore(STORE_NAME);
+
+    const request = store.getAll();
+
+    request.onsuccess = () => {
+
+      const files = request.result || [];
+
+      files.sort(
+        (a,b) => b.created - a.created
+      );
+
+      resolve(files);
+
+    };
+
+    request.onerror = () => {
+
+      reject(request.error);
+
+    };
+
+  });
+
+}
+
+
+function getVaultFile(id){
+
+  return new Promise((resolve,reject) => {
+
+    const transaction =
+      db.transaction(
+        STORE_NAME,
+        "readonly"
+      );
+
+    const store =
+      transaction.objectStore(STORE_NAME);
+
+    const request = store.get(id);
+
+    request.onsuccess = () => {
+
+      resolve(request.result);
+
+    };
+
+    request.onerror = () => {
+
+      reject(request.error);
+
+    };
+
+  });
+
+}
+
+
+function deleteVaultFile(id){
+
+  return new Promise((resolve,reject) => {
+
+    const transaction =
+      db.transaction(
+        STORE_NAME,
+        "readwrite"
+      );
+
+    const store =
+      transaction.objectStore(STORE_NAME);
+
+    const request = store.delete(id);
+
+    request.onsuccess = () => {
+      resolve();
+    };
+
+    request.onerror = () => {
+      reject(request.error);
+    };
+
+  });
+
+}
+
+
+/* =========================================================
+   VAULT OPEN / LOCK
+   ========================================================= */
+
+async function openVault(){
+
+  try{
+
+    if(!db){
+      await openDatabase();
+    }
+
+    vault.classList.add("show");
+
+    await renderVault();
+
+    showToast("Private vault unlocked.");
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast(
+      "Vault could not be opened."
+    );
+
+  }
+
+}
+
+
+function lockVault(){
+
+  vault.classList.remove("show");
+
+  /*
+    Revoke all temporary preview URLs.
+  */
+  document.querySelectorAll(
+    ".vaultObjectUrl"
+  ).forEach(el => {
+
+    if(el.dataset.url){
+      URL.revokeObjectURL(el.dataset.url);
+    }
+
+  });
+
+  vaultGrid.innerHTML = "";
+
+  showToast("Vault locked.");
+
+}
+
+
+document.getElementById("lockVault").addEventListener(
   "click",
-  ()=>{
-    scientificPanel.classList.toggle("show");
-
-    scientificToggle.textContent=
-      scientificPanel.classList.contains("show")
-        ? "BASIC"
-        : "SCI";
-  }
+  lockVault
 );
 
-/* KEYBOARD */
 
-document.addEventListener(
-  "keydown",
-  event=>{
+/* =========================================================
+   FILE IMPORT
+   ========================================================= */
 
-    const key=event.key;
+document.getElementById("addFiles").addEventListener(
+  "click",
+  () => {
 
-    if(/[0-9]/.test(key)){
-      insert(key);
-      return;
-    }
-
-    if(key==="."){
-      insert(".");
-      return;
-    }
-
-    if(key==="+"){
-      operator("+");
-      return;
-    }
-
-    if(key==="-"){
-      operator("−");
-      return;
-    }
-
-    if(key==="*"){
-      operator("×");
-      return;
-    }
-
-    if(key==="/"){
-      operator("÷");
-      return;
-    }
-
-    if(key==="(" || key===")"){
-      insert(key);
-      return;
-    }
-
-    if(key==="Enter" || key==="="){
-
-      event.preventDefault();
-      calculate();
-      return;
-    }
-
-    if(key==="Backspace"){
-
-      event.preventDefault();
-      backspace();
-      return;
-    }
-
-    if(key==="Escape"){
-      clearCalculator();
-    }
+    document.getElementById("fileInput").click();
 
   }
 );
 
-renderHistory();
-updateDisplay();
 
-/* APP INSTALL / SERVICE WORKER */
+document.getElementById("fileInput").addEventListener(
+  "change",
+  async event => {
 
-if("serviceWorker" in navigator){
+    const files = Array.from(
+      event.target.files || []
+    );
+
+    if(!files.length){
+      return;
+    }
+
+    try{
+
+      if(!db){
+        await openDatabase();
+      }
+
+      vaultStatus.textContent =
+        "IMPORTING " + files.length + " ITEM(S)...";
+
+      for(const file of files){
+
+        await addVaultFile(file);
+
+      }
+
+      event.target.value = "";
+
+      await renderVault();
+
+      showToast(
+        files.length === 1
+          ? "File added to vault."
+          : files.length + " files added to vault."
+      );
+
+    }catch(error){
+
+      console.error(error);
+
+      showToast(
+        "Could not add the selected file(s)."
+      );
+
+      vaultStatus.textContent =
+        "IMPORT ERROR";
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   FORMAT FILE SIZE
+   ========================================================= */
+
+function formatFileSize(bytes){
+
+  if(bytes < 1024){
+    return bytes + " B";
+  }
+
+  if(bytes < 1024 * 1024){
+    return (bytes / 1024).toFixed(1) + " KB";
+  }
+
+  if(bytes < 1024 * 1024 * 1024){
+    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+  }
+
+  return (
+    bytes / (1024 * 1024 * 1024)
+  ).toFixed(2) + " GB";
+}
+
+
+/* =========================================================
+   FILE TYPE
+   ========================================================= */
+
+function getFileCategory(file){
+
+  const type = file.type || "";
+  const name = file.name.toLowerCase();
+
+  if(type.startsWith("image/")){
+    return "IMAGE";
+  }
+
+  if(type.startsWith("video/")){
+    return "VIDEO";
+  }
+
+  if(type === "application/pdf" || name.endsWith(".pdf")){
+    return "PDF";
+  }
+
+  if(
+    name.endsWith(".doc") ||
+    name.endsWith(".docx")
+  ){
+    return "DOCUMENT";
+  }
+
+  if(
+    name.endsWith(".xls") ||
+    name.endsWith(".xlsx") ||
+    name.endsWith(".csv")
+  ){
+    return "SPREADSHEET";
+  }
+
+  if(
+    name.endsWith(".ppt") ||
+    name.endsWith(".pptx")
+  ){
+    return "PRESENTATION";
+  }
+
+  if(
+    name.endsWith(".zip") ||
+    name.endsWith(".rar")
+  ){
+    return "ARCHIVE";
+  }
+
+  return "FILE";
+}
+
+
+/* =========================================================
+   RENDER VAULT
+   ========================================================= */
+
+async function renderVault(){
+
+  if(!db){
+    await openDatabase();
+  }
+
+  const files = await getVaultFiles();
+
+  vaultGrid.innerHTML = "";
+
+  vaultStatus.textContent =
+    files.length +
+    (files.length === 1 ? " ITEM" : " ITEMS") +
+    " SECURED";
+
+  if(files.length === 0){
+
+    vaultGrid.innerHTML = `
+      <div class="emptyVault">
+        VAULT EMPTY
+        <br><br>
+        Tap <b>+ ADD FILES</b> to import
+        photos, videos or files.
+      </div>
+    `;
+
+    return;
+  }
+
+  files.forEach(file => {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "vaultCard";
+
+    const preview =
+      document.createElement("div");
+
+    preview.className = "preview";
+
+    const category =
+      getFileCategory(file);
+
+    /*
+      IMAGE PREVIEW
+    */
+    if(category === "IMAGE"){
+
+      const img =
+        document.createElement("img");
+
+      const url =
+        URL.createObjectURL(file.blob);
+
+      img.src = url;
+
+      img.className =
+        "vaultObjectUrl";
+
+      img.dataset.url = url;
+
+      img.alt = file.name;
+
+      preview.appendChild(img);
+
+    }
+
+    /*
+      VIDEO PREVIEW
+    */
+    else if(category === "VIDEO"){
+
+      const video =
+        document.createElement("video");
+
+      const url =
+        URL.createObjectURL(file.blob);
+
+      video.src = url;
+
+      video.className =
+        "vaultObjectUrl";
+
+      video.dataset.url = url;
+
+      video.muted = true;
+      video.playsInline = true;
+      video.preload = "metadata";
+
+      preview.appendChild(video);
+
+      const tag =
+        document.createElement("div");
+
+      tag.className = "videoTag";
+
+      tag.textContent = "VIDEO";
+
+      preview.appendChild(tag);
+
+    }
+
+    /*
+      OTHER FILES
+    */
+    else{
+
+      preview.innerHTML = `
+        <div class="filePreview">
+          <div class="fileIcon">▣</div>
+          <div class="fileType"></div>
+        </div>
+      `;
+
+      preview.querySelector(
+        ".fileType"
+      ).textContent = category;
+
+    }
+
+
+    const info =
+      document.createElement("div");
+
+    info.className = "cardInfo";
+
+
+    const name =
+      document.createElement("div");
+
+    name.className = "fileName";
+
+    name.textContent = file.name;
+
+    name.title = file.name;
+
+
+    const meta =
+      document.createElement("div");
+
+    meta.className = "fileMeta";
+
+    meta.textContent =
+      category +
+      " • " +
+      formatFileSize(file.size);
+
+
+    const buttons =
+      document.createElement("div");
+
+    buttons.className = "cardButtons";
+
+
+    /*
+      NEW EXPORT BUTTON
+    */
+    const exportButton =
+      document.createElement("button");
+
+    exportButton.className =
+      "exportBtn";
+
+    exportButton.textContent =
+      "EXPORT TO DEVICE";
+
+
+    exportButton.addEventListener(
+      "click",
+      () => exportVaultFile(file.id)
+    );
+
+
+    /*
+      DELETE BUTTON
+    */
+    const deleteButton =
+      document.createElement("button");
+
+    deleteButton.className =
+      "deleteBtn";
+
+    deleteButton.textContent =
+      "DELETE";
+
+
+    deleteButton.addEventListener(
+      "click",
+      async () => {
+
+        const confirmed =
+          window.confirm(
+            'Delete "' +
+            file.name +
+            '" from the private vault?'
+          );
+
+        if(!confirmed){
+          return;
+        }
+
+        try{
+
+          await deleteVaultFile(file.id);
+
+          await renderVault();
+
+          showToast(
+            "Item deleted from vault."
+          );
+
+        }catch(error){
+
+          console.error(error);
+
+          showToast(
+            "Could not delete item."
+          );
+
+        }
+
+      }
+    );
+
+
+    buttons.appendChild(exportButton);
+    buttons.appendChild(deleteButton);
+
+    info.appendChild(name);
+    info.appendChild(meta);
+    info.appendChild(buttons);
+
+    card.appendChild(preview);
+    card.appendChild(info);
+
+    vaultGrid.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================================================
+   EXPORT TO DEVICE
+   ========================================================= */
+
+async function exportVaultFile(id){
+
+  try{
+
+    const item =
+      await getVaultFile(id);
+
+    if(!item || !item.blob){
+
+      showToast(
+        "File could not be found."
+      );
+
+      return;
+    }
+
+
+    /*
+      BEST METHOD:
+      File System Access API, where supported.
+      This lets the user choose a location/file name.
+    */
+    if(
+      "showSaveFilePicker" in window
+    ){
+
+      try{
+
+        const extension =
+          getExtension(item.name);
+
+        const options = {
+          suggestedName:item.name,
+          types:[
+            {
+              description:
+                item.type ||
+                "File",
+              accept:{
+                [item.type || "application/octet-stream"]:
+                  extension
+                    ? ["." + extension]
+                    : []
+              }
+            }
+          ]
+        };
+
+        const handle =
+          await window.showSaveFilePicker(
+            options
+          );
+
+        const writable =
+          await handle.createWritable();
+
+        await writable.write(item.blob);
+
+        await writable.close();
+
+        showToast(
+          "File exported to device."
+        );
+
+        return;
+
+      }catch(error){
+
+        /*
+          User cancelled the save picker.
+          Do not show an error.
+        */
+        if(
+          error &&
+          error.name === "AbortError"
+        ){
+          return;
+        }
+
+        console.log(
+          "Save picker unavailable:",
+          error
+        );
+
+      }
+
+    }
+
+
+    /*
+      FALLBACK:
+      Browser download flow.
+      On Android this normally sends the file
+      to the browser's Downloads handling.
+    */
+    const url =
+      URL.createObjectURL(item.blob);
+
+    const link =
+      document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+      item.name || "SG_CALCI_export";
+
+    link.style.display = "none";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    setTimeout(() => {
+
+      URL.revokeObjectURL(url);
+
+    },5000);
+
+    showToast(
+      "Export started. Check your Downloads/files."
+    );
+
+  }catch(error){
+
+    console.error(
+      "Export error:",
+      error
+    );
+
+    showToast(
+      "Export failed."
+    );
+
+  }
+
+}
+
+
+function getExtension(filename){
+
+  const parts =
+    filename.split(".");
+
+  if(parts.length < 2){
+    return "";
+  }
+
+  return parts.pop()
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g,"");
+
+}
+
+
+/* =========================================================
+   SERVICE WORKER
+   ========================================================= */
+
+if(
+  "serviceWorker" in navigator
+){
 
   window.addEventListener(
     "load",
-    ()=>{
+    () => {
+
       navigator.serviceWorker
         .register("./sw.js")
-        .then(()=>{
-          console.log("SG CALCI app engine ready");
-        })
-        .catch(()=>{
-          console.log("Service worker will be available after sw.js is added.");
+        .catch(error => {
+          console.log(
+            "Service worker:",
+            error
+          );
         });
+
     }
   );
 
 }
 
+
+/* =========================================================
+   START
+   ========================================================= */
+
+(async function(){
+
+  checkFirstLaunch();
+
+  renderHistory();
+
+  try{
+
+    await openDatabase();
+
+  }catch(error){
+
+    console.error(
+      "IndexedDB unavailable:",
+      error
+    );
+
+  }
+
+})();
 </script>
 
 </body>
