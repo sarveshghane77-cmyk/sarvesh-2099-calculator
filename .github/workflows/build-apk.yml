@@ -82,8 +82,8 @@ jobs:
                   applicationId 'com.sarvesh.sgcalci'
                   minSdk 23
                   targetSdk 35
-                  versionCode 2
-                  versionName '1.1'
+                  versionCode 3
+                  versionName '1.2'
               }
           }
           EOF
@@ -110,7 +110,8 @@ jobs:
 
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-              <uses-permission android:name="android.permission.INTERNET" />
+              <uses-permission
+                  android:name="android.permission.INTERNET" />
 
               <application
                   android:allowBackup="false"
@@ -126,8 +127,13 @@ jobs:
                       android:exported="true">
 
                       <intent-filter>
-                          <action android:name="android.intent.action.MAIN" />
-                          <category android:name="android.intent.category.LAUNCHER" />
+
+                          <action
+                              android:name="android.intent.action.MAIN" />
+
+                          <category
+                              android:name="android.intent.category.LAUNCHER" />
+
                       </intent-filter>
 
                   </activity>
@@ -141,14 +147,21 @@ jobs:
           package com.sarvesh.sgcalci;
 
           import android.app.Activity;
+          import android.content.ContentValues;
           import android.content.Intent;
           import android.net.Uri;
           import android.os.Bundle;
+          import android.os.Environment;
+          import android.provider.MediaStore;
+          import android.webkit.JavascriptInterface;
           import android.webkit.ValueCallback;
           import android.webkit.WebChromeClient;
           import android.webkit.WebSettings;
           import android.webkit.WebView;
           import android.webkit.WebViewClient;
+
+          import java.io.OutputStream;
+          import java.util.Base64;
 
           public class MainActivity extends Activity {
 
@@ -160,53 +173,74 @@ jobs:
 
               @Override
               protected void onCreate(Bundle savedInstanceState) {
+
                   super.onCreate(savedInstanceState);
 
                   webView = new WebView(this);
 
                   WebView.setWebContentsDebuggingEnabled(false);
 
-                  webView.setWebViewClient(new WebViewClient());
+                  webView.setWebViewClient(
+                      new WebViewClient()
+                  );
 
-                  webView.setWebChromeClient(new WebChromeClient() {
+                  webView.addJavascriptInterface(
+                      new AndroidBridge(),
+                      "Android"
+                  );
 
-                      @Override
-                      public boolean onShowFileChooser(
+                  webView.setWebChromeClient(
+                      new WebChromeClient() {
+
+                          @Override
+                          public boolean onShowFileChooser(
                               WebView webView,
-                              ValueCallback<Uri[]> filePathCallback,
-                              FileChooserParams fileChooserParams) {
+                              ValueCallback<Uri[]> callback,
+                              FileChooserParams params) {
 
-                          if (MainActivity.this.filePathCallback != null) {
-                              MainActivity.this.filePathCallback.onReceiveValue(null);
-                          }
+                              if (filePathCallback != null) {
 
-                          MainActivity.this.filePathCallback = filePathCallback;
+                                  filePathCallback
+                                      .onReceiveValue(null);
 
-                          Intent intent =
-                                  fileChooserParams.createIntent();
+                              }
 
-                          try {
-                              startActivityForResult(
+                              filePathCallback = callback;
+
+                              Intent intent =
+                                  params.createIntent();
+
+                              try {
+
+                                  startActivityForResult(
                                       intent,
                                       FILE_CHOOSER_REQUEST
-                              );
-                          } catch (Exception e) {
-                              MainActivity.this.filePathCallback = null;
-                              return false;
+                                  );
+
+                              } catch (Exception e) {
+
+                                  filePathCallback = null;
+
+                                  return false;
+                              }
+
+                              return true;
                           }
-
-                          return true;
                       }
-                  });
+                  );
 
-                  WebSettings settings = webView.getSettings();
+                  WebSettings settings =
+                      webView.getSettings();
 
                   settings.setJavaScriptEnabled(true);
                   settings.setDomStorageEnabled(true);
                   settings.setDatabaseEnabled(true);
                   settings.setAllowFileAccess(true);
                   settings.setAllowContentAccess(true);
-                  settings.setMediaPlaybackRequiresUserGesture(false);
+
+                  settings.setMediaPlaybackRequiresUserGesture(
+                      false
+                  );
 
                   webView.loadUrl(
                       "https://sarveshghane77-cmyk.github.io/sarvesh-2099-calculator/"
@@ -215,39 +249,236 @@ jobs:
                   setContentView(webView);
               }
 
+              public class AndroidBridge {
+
+                  @JavascriptInterface
+                  public void saveFile(
+                      String fileName,
+                      String mimeType,
+                      String base64Data) {
+
+                      runOnUiThread(() -> {
+
+                          try {
+
+                              byte[] data =
+                                  Base64.getDecoder()
+                                      .decode(base64Data);
+
+                              boolean isImage =
+                                  mimeType != null &&
+                                  mimeType.startsWith("image/");
+
+                              boolean isVideo =
+                                  mimeType != null &&
+                                  mimeType.startsWith("video/");
+
+                              ContentValues values =
+                                  new ContentValues();
+
+                              values.put(
+                                  MediaStore.MediaColumns.DISPLAY_NAME,
+                                  fileName
+                              );
+
+                              values.put(
+                                  MediaStore.MediaColumns.MIME_TYPE,
+                                  mimeType
+                              );
+
+                              Uri collection;
+
+                              if (isImage) {
+
+                                  collection =
+                                      MediaStore.Images.Media
+                                          .getContentUri(
+                                              MediaStore.VOLUME_EXTERNAL_PRIMARY
+                                          );
+
+                                  values.put(
+                                      MediaStore.Images.Media.RELATIVE_PATH,
+                                      Environment.DIRECTORY_PICTURES
+                                          + "/SG CALCI"
+                                  );
+
+                              } else if (isVideo) {
+
+                                  collection =
+                                      MediaStore.Video.Media
+                                          .getContentUri(
+                                              MediaStore.VOLUME_EXTERNAL_PRIMARY
+                                          );
+
+                                  values.put(
+                                      MediaStore.Video.Media.RELATIVE_PATH,
+                                      Environment.DIRECTORY_MOVIES
+                                          + "/SG CALCI"
+                                  );
+
+                              } else {
+
+                                  collection =
+                                      MediaStore.Downloads.Media
+                                          .getContentUri(
+                                              MediaStore.VOLUME_EXTERNAL_PRIMARY
+                                          );
+
+                                  values.put(
+                                      MediaStore.Downloads.Media.RELATIVE_PATH,
+                                      Environment.DIRECTORY_DOWNLOADS
+                                          + "/SG CALCI"
+                                  );
+                              }
+
+                              Uri uri =
+                                  getContentResolver()
+                                      .insert(
+                                          collection,
+                                          values
+                                      );
+
+                              if (uri == null) {
+
+                                  showExportResult(
+                                      "Export failed."
+                                  );
+
+                                  return;
+                              }
+
+                              try (
+                                  OutputStream output =
+                                      getContentResolver()
+                                          .openOutputStream(uri)
+                              ) {
+
+                                  if (output == null) {
+
+                                      showExportResult(
+                                          "Export failed."
+                                      );
+
+                                      return;
+                                  }
+
+                                  output.write(data);
+                                  output.flush();
+                              }
+
+                              values.clear();
+
+                              values.put(
+                                  MediaStore.MediaColumns.IS_PENDING,
+                                  0
+                              );
+
+                              getContentResolver()
+                                  .update(
+                                      uri,
+                                      values,
+                                      null,
+                                      null
+                                  );
+
+                              if (isImage || isVideo) {
+
+                                  showExportResult(
+                                      "Saved to Gallery."
+                                  );
+
+                              } else {
+
+                                  showExportResult(
+                                      "Saved to Downloads."
+                                  );
+                              }
+
+                          } catch (Exception error) {
+
+                              error.printStackTrace();
+
+                              showExportResult(
+                                  "Export failed."
+                              );
+                          }
+                      });
+                  }
+
+                  private void showExportResult(
+                      String message) {
+
+                      webView.evaluateJavascript(
+                          "showToast(" +
+                          JSONObjectQuote(message) +
+                          ")",
+                          null
+                      );
+                  }
+
+                  private String JSONObjectQuote(
+                      String value) {
+
+                      return "\"" +
+                          value
+                              .replace("\\", "\\\\")
+                              .replace("\"", "\\\"")
+                              .replace("\n", "\\n")
+                              .replace("\r", "\\r") +
+                          "\"";
+                  }
+              }
+
               @Override
               protected void onActivityResult(
-                      int requestCode,
-                      int resultCode,
-                      Intent data) {
+                  int requestCode,
+                  int resultCode,
+                  Intent data) {
 
                   super.onActivityResult(
-                          requestCode,
-                          resultCode,
-                          data
+                      requestCode,
+                      resultCode,
+                      data
                   );
 
-                  if (requestCode == FILE_CHOOSER_REQUEST) {
+                  if (
+                      requestCode ==
+                      FILE_CHOOSER_REQUEST
+                  ) {
 
                       Uri[] results = null;
 
-                      if (resultCode == RESULT_OK && data != null) {
+                      if (
+                          resultCode == RESULT_OK &&
+                          data != null
+                      ) {
 
-                          if (data.getClipData() != null) {
+                          if (
+                              data.getClipData() != null
+                          ) {
 
                               int count =
-                                      data.getClipData().getItemCount();
+                                  data.getClipData()
+                                      .getItemCount();
 
-                              results = new Uri[count];
+                              results =
+                                  new Uri[count];
 
-                              for (int i = 0; i < count; i++) {
+                              for (
+                                  int i = 0;
+                                  i < count;
+                                  i++
+                              ) {
+
                                   results[i] =
                                       data.getClipData()
                                           .getItemAt(i)
                                           .getUri();
                               }
 
-                          } else if (data.getData() != null) {
+                          } else if (
+                              data.getData() != null
+                          ) {
 
                               results =
                                   new Uri[]{
@@ -256,11 +487,12 @@ jobs:
                           }
                       }
 
-                      if (filePathCallback != null) {
+                      if (
+                          filePathCallback != null
+                      ) {
 
-                          filePathCallback.onReceiveValue(
-                                  results
-                          );
+                          filePathCallback
+                              .onReceiveValue(results);
 
                           filePathCallback = null;
                       }
@@ -271,8 +503,11 @@ jobs:
               public void onBackPressed() {
 
                   if (webView.canGoBack()) {
+
                       webView.goBack();
+
                   } else {
+
                       super.onBackPressed();
                   }
               }
@@ -282,7 +517,8 @@ jobs:
       - name: Download Gradle
         run: |
 
-          wget -q https://services.gradle.org/distributions/gradle-8.7-bin.zip
+          wget -q \
+            https://services.gradle.org/distributions/gradle-8.7-bin.zip
 
           unzip -q gradle-8.7-bin.zip
 
