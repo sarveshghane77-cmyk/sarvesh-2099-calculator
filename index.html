@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta name="theme-color" content="#050a12">
 <link rel="manifest" href="./manifest.json">
-
 <title>SG CALCI</title>
 
 <style>
@@ -16,27 +15,38 @@
 
 html,body{
   margin:0;
+  padding:0;
   width:100%;
   min-height:100%;
-  background:#02050b;
-  color:#eaf8ff;
+  background:#03070d;
+  color:#eaf6ff;
   font-family:Arial,Helvetica,sans-serif;
-  overflow-x:hidden;
 }
 
 body{
+  overflow-x:hidden;
   background:
-    linear-gradient(rgba(0,170,255,.035) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,170,255,.035) 1px,transparent 1px),
-    radial-gradient(circle at 50% 0%,rgba(0,180,255,.10),transparent 42%),
-    #02050b;
-  background-size:32px 32px,32px 32px,100% 100%,auto;
+    radial-gradient(circle at 20% 10%,rgba(0,180,255,.12),transparent 30%),
+    radial-gradient(circle at 80% 80%,rgba(0,90,255,.10),transparent 35%),
+    linear-gradient(135deg,#02050a,#07111d 50%,#02050a);
+}
+
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.22;
+  background-image:
+    linear-gradient(rgba(0,180,255,.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,180,255,.07) 1px,transparent 1px);
+  background-size:28px 28px;
 }
 
 button,
 input,
 select{
-  font-family:inherit;
+  font:inherit;
 }
 
 button{
@@ -44,177 +54,153 @@ button{
 }
 
 .app{
+  position:relative;
   width:100%;
-  max-width:560px;
+  max-width:620px;
   min-height:100vh;
   margin:auto;
-  padding:18px 14px 32px;
-  position:relative;
+  padding:18px 12px 30px;
+  z-index:1;
 }
 
 .brand{
   text-align:center;
-  margin:4px 0 18px;
+  margin-bottom:14px;
 }
 
 .brand h1{
   margin:0;
   font-size:30px;
-  letter-spacing:7px;
-  font-weight:800;
-  color:#ecfbff;
+  letter-spacing:5px;
+  color:#62d9ff;
   text-shadow:
-    0 0 8px rgba(0,200,255,.8),
-    0 0 22px rgba(0,140,255,.45);
+    0 0 8px rgba(0,190,255,.8),
+    0 0 25px rgba(0,120,255,.45);
 }
 
 .creator{
-  position:relative;
-  display:inline-block;
-  margin-top:8px;
-  font-size:11px;
-  letter-spacing:3px;
-  font-weight:700;
-  background:linear-gradient(
-    90deg,
-    #67e8ff,
-    #ffffff,
-    #58bfff,
-    #67e8ff
-  );
-  background-size:300% auto;
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  animation:creatorFlow 4s linear infinite;
-  text-shadow:0 0 12px rgba(0,180,255,.35);
-}
-
-.creator:after{
-  content:"";
-  position:absolute;
-  top:50%;
-  left:-12px;
-  width:5px;
-  height:5px;
-  border-radius:50%;
-  background:#62e8ff;
-  box-shadow:0 0 9px #62e8ff;
-  animation:scanner 2.4s linear infinite;
-}
-
-@keyframes creatorFlow{
-  0%{background-position:0% center}
-  100%{background-position:300% center}
-}
-
-@keyframes scanner{
-  0%{transform:translateX(0);opacity:.2}
-  50%{opacity:1}
-  100%{transform:translateX(calc(100% + 150px));opacity:.2}
+  margin-top:4px;
+  color:#71899d;
+  font-size:9px;
+  letter-spacing:2.5px;
 }
 
 .displayBox{
   position:relative;
-  border:1px solid rgba(0,190,255,.35);
-  border-radius:22px;
-  background:linear-gradient(
-    145deg,
-    rgba(5,20,32,.92),
-    rgba(2,8,15,.96)
-  );
+  min-height:122px;
+  padding:17px 54px 14px 16px;
+  border:1px solid rgba(0,190,255,.32);
+  border-radius:18px;
+  background:linear-gradient(145deg,rgba(6,18,31,.96),rgba(2,9,17,.96));
   box-shadow:
-    inset 0 0 35px rgba(0,130,255,.06),
-    0 0 25px rgba(0,120,255,.08);
-  padding:17px 15px 14px;
-  margin-bottom:14px;
+    inset 0 0 25px rgba(0,150,255,.07),
+    0 0 20px rgba(0,130,255,.08);
+  overflow:hidden;
 }
 
-.status{
-  font-size:9px;
-  letter-spacing:2.5px;
-  color:#53dfff;
-  opacity:.85;
-  margin-bottom:8px;
+.displayBox:after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,#28c9ff,transparent);
+  opacity:.8;
 }
 
 .expression{
-  min-height:30px;
-  font-size:18px;
-  color:#91dfff;
-  word-break:break-all;
+  min-height:29px;
+  color:#7895a9;
+  font-size:16px;
   text-align:right;
-  padding-right:48px;
+  word-break:break-all;
 }
 
 .answer{
-  min-height:54px;
-  font-size:38px;
+  margin-top:8px;
+  color:#eafaff;
+  font-size:31px;
   font-weight:700;
   text-align:right;
   word-break:break-all;
-  color:#f5fcff;
-  text-shadow:0 0 15px rgba(0,190,255,.55);
-  padding-right:48px;
-  transition:font-size .15s ease;
+  text-shadow:0 0 12px rgba(0,200,255,.35);
 }
 
 .backspace{
   position:absolute;
   right:12px;
-  bottom:14px;
-  width:42px;
-  height:38px;
+  bottom:12px;
+  width:39px;
+  height:39px;
+  border:1px solid rgba(0,190,255,.3);
   border-radius:11px;
-  border:1px solid rgba(0,200,255,.35);
-  background:rgba(0,80,120,.15);
-  color:#8eeaff;
-  font-size:19px;
-  cursor:pointer;
+  color:#66d8ff;
+  background:rgba(0,120,180,.09);
 }
 
 .backspace:active{
   transform:scale(.92);
-  background:rgba(0,170,255,.25);
+  background:rgba(0,160,240,.2);
 }
 
 .modeRow{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:1fr 1fr 1.2fr;
   gap:7px;
-  margin-bottom:12px;
+  margin:12px 0;
 }
 
 .modeBtn{
-  height:39px;
+  height:43px;
+  border:1px solid rgba(0,170,255,.25);
   border-radius:12px;
-  border:1px solid rgba(0,190,255,.25);
-  background:rgba(5,20,30,.8);
-  color:#73dfff;
-  font-weight:700;
-  letter-spacing:1.5px;
-  font-size:10px;
+  color:#7691a5;
+  background:rgba(5,18,30,.9);
+  letter-spacing:1px;
+  font-size:11px;
+  font-weight:bold;
 }
 
 .modeBtn.active{
-  background:linear-gradient(
-    135deg,
-    rgba(0,150,220,.30),
-    rgba(0,80,130,.18)
-  );
-  border-color:rgba(0,210,255,.7);
-  box-shadow:0 0 15px rgba(0,170,255,.12);
+  color:#e8fbff;
+  border-color:#1cc9ff;
+  background:linear-gradient(135deg,rgba(0,130,200,.25),rgba(0,60,120,.25));
+  box-shadow:0 0 16px rgba(0,190,255,.12);
 }
 
 .scientific{
   display:none;
   grid-template-columns:repeat(5,1fr);
   gap:7px;
-  margin-bottom:10px;
+  margin-bottom:9px;
 }
 
 .scientific.show{
   display:grid;
+}
+
+.calcBtn{
+  min-height:48px;
+  border:1px solid rgba(0,160,230,.18);
+  border-radius:13px;
+  color:#d8edf8;
+  background:linear-gradient(145deg,#0b1724,#07101a);
+  box-shadow:inset 0 0 12px rgba(0,120,200,.035);
+}
+
+.calcBtn:active{
+  transform:scale(.95);
+  border-color:#21c9ff;
+  background:#0d2738;
+}
+
+.calcBtn.operator{
+  color:#63d8ff;
+}
+
+.calcBtn.special{
+  color:#89a9bb;
 }
 
 .keypad{
@@ -223,49 +209,21 @@ button{
   gap:8px;
 }
 
-.key{
-  height:58px;
-  border-radius:15px;
-  border:1px solid rgba(0,180,255,.20);
-  background:
-    linear-gradient(
-      145deg,
-      rgba(10,27,40,.96),
-      rgba(3,12,20,.96)
-    );
-  color:#dff8ff;
+.keypad .calcBtn{
+  min-height:62px;
   font-size:18px;
-  box-shadow:
-    inset 0 0 12px rgba(0,150,255,.035),
-    0 5px 15px rgba(0,0,0,.18);
-  transition:.12s ease;
 }
 
-.key:active{
-  transform:scale(.95);
-  border-color:rgba(0,220,255,.75);
-  box-shadow:0 0 18px rgba(0,180,255,.2);
+.keypad .equal{
+  color:#001018;
+  background:linear-gradient(135deg,#39d5ff,#5df0ff);
+  border-color:#65eaff;
+  font-weight:bold;
+  box-shadow:0 0 18px rgba(0,210,255,.25);
 }
 
-.key.operator{
-  color:#63e4ff;
-  border-color:rgba(0,200,255,.30);
-}
-
-.key.danger{
-  color:#ff8d9d;
-}
-
-.key.equal{
-  color:#ffffff;
-  background:
-    linear-gradient(
-      145deg,
-      rgba(0,125,190,.75),
-      rgba(0,65,105,.75)
-    );
-  border-color:rgba(60,220,255,.75);
-  box-shadow:0 0 20px rgba(0,160,255,.18);
+.keypad .clear{
+  color:#ff8292;
 }
 
 .memory{
@@ -276,46 +234,49 @@ button{
 }
 
 .memory button{
-  height:38px;
-  border-radius:11px;
-  border:1px solid rgba(0,170,255,.18);
-  background:rgba(5,18,28,.8);
-  color:#6edfff;
+  height:39px;
+  border:1px solid rgba(0,150,220,.2);
+  border-radius:10px;
+  background:#07131f;
+  color:#79a1b7;
+  font-size:11px;
+  font-weight:bold;
 }
 
 .historyPanel{
-  display:none;
   margin-top:14px;
-  border:1px solid rgba(0,180,255,.25);
-  border-radius:18px;
-  padding:12px;
-  background:rgba(3,12,20,.92);
+  border:1px solid rgba(0,170,230,.17);
+  border-radius:15px;
+  overflow:hidden;
+  background:rgba(3,12,21,.75);
 }
 
-.historyPanel.show{
-  display:block;
-}
-
-.historyHead{
+.historyHeader{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  color:#65dcff;
+  padding:11px 13px;
+  color:#6ecfff;
   font-size:11px;
-  letter-spacing:2px;
-  margin-bottom:8px;
+  letter-spacing:1.5px;
+  border-bottom:1px solid rgba(0,170,230,.12);
 }
 
-.historyClear{
-  background:none;
+.historyHeader button{
   border:0;
-  color:#ff8c9c;
-  font-size:11px;
+  background:transparent;
+  color:#657e90;
+  font-size:10px;
+}
+
+.historyList{
+  max-height:190px;
+  overflow-y:auto;
 }
 
 .historyItem{
-  padding:10px 5px;
-  border-bottom:1px solid rgba(255,255,255,.06);
+  padding:10px 13px;
+  border-bottom:1px solid rgba(255,255,255,.04);
   cursor:pointer;
 }
 
@@ -324,657 +285,407 @@ button{
 }
 
 .historyExpr{
-  font-size:12px;
-  color:#70cce9;
-  word-break:break-all;
+  color:#637e91;
+  font-size:11px;
 }
 
 .historyResult{
-  font-size:16px;
-  color:white;
+  color:#d9f6ff;
   margin-top:3px;
+  font-size:15px;
 }
 
-/* =========================================================
-   CURRENCY
-   ========================================================= */
+.emptyHistory{
+  color:#526b7b;
+  text-align:center;
+  padding:22px;
+  font-size:12px;
+}
+
+/* CURRENCY */
 
 .currencyPanel{
   display:none;
-  margin-top:2px;
+  border:1px solid rgba(0,190,255,.28);
+  border-radius:18px;
+  padding:14px;
+  background:
+    linear-gradient(145deg,rgba(5,20,34,.97),rgba(2,8,15,.98));
+  box-shadow:
+    inset 0 0 25px rgba(0,160,255,.05),
+    0 0 22px rgba(0,130,255,.08);
 }
 
 .currencyPanel.show{
   display:block;
 }
 
-.currencyHeader{
-  border:1px solid rgba(0,190,255,.28);
-  border-radius:19px;
-  padding:15px;
-  background:
-    linear-gradient(
-      145deg,
-      rgba(5,23,36,.96),
-      rgba(2,9,16,.98)
-    );
-  box-shadow:
-    inset 0 0 25px rgba(0,150,255,.04),
-    0 8px 25px rgba(0,0,0,.18);
-}
-
 .currencyTitle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.currencyTitle strong{
+  color:#68dcff;
   font-size:15px;
-  letter-spacing:3px;
-  font-weight:800;
-  color:#e8fbff;
+  letter-spacing:2px;
 }
 
-.currencySub{
-  font-size:9px;
-  letter-spacing:1.5px;
-  color:#5bdcff;
-  margin-top:5px;
-}
-
-.rateStatus{
-  margin-top:10px;
-  min-height:16px;
+.currencyStatus{
+  color:#5d8197;
   font-size:9px;
   letter-spacing:1px;
-  color:#7998a5;
 }
 
-.currencyAmountBox{
-  margin-top:14px;
-}
-
+.currencyAmountLabel,
 .currencyLabel{
   display:block;
-  font-size:9px;
-  color:#69dfff;
-  letter-spacing:1.5px;
-  margin-bottom:6px;
+  color:#6d91a5;
+  font-size:10px;
+  letter-spacing:1px;
+  margin:9px 0 5px;
 }
 
 .currencyAmount{
   width:100%;
-  height:54px;
-  border-radius:13px;
-  border:1px solid rgba(0,190,255,.30);
+  height:52px;
+  padding:0 13px;
+  border:1px solid rgba(0,190,255,.25);
+  border-radius:12px;
   outline:none;
-  background:#020a11;
-  color:#f4fcff;
-  font-size:24px;
-  font-weight:700;
-  padding:0 14px;
+  color:#ecfbff;
+  background:#040d16;
+  font-size:21px;
 }
 
 .currencyAmount:focus{
-  border-color:#58dfff;
-  box-shadow:0 0 18px rgba(0,190,255,.12);
+  border-color:#1ccaff;
+  box-shadow:0 0 14px rgba(0,190,255,.1);
 }
 
-.currencyPair{
-  display:grid;
-  grid-template-columns:1fr 46px 1fr;
-  gap:8px;
-  align-items:end;
-  margin-top:12px;
-}
-
-.currencyField select{
+.currencySelect{
   width:100%;
   height:47px;
-  border-radius:12px;
-  border:1px solid rgba(0,180,255,.25);
-  background:#06131d;
-  color:#eaffff;
-  padding:0 9px;
+  padding:0 10px;
+  border:1px solid rgba(0,180,240,.2);
+  border-radius:11px;
   outline:none;
-  font-size:12px;
+  color:#dff7ff;
+  background:#07141f;
 }
 
-.currencyField select:focus{
-  border-color:#58dfff;
+.currencySelect:focus{
+  border-color:#1ccaff;
 }
 
-.swapCurrency{
-  width:46px;
-  height:47px;
-  border-radius:12px;
-  border:1px solid rgba(0,210,255,.40);
-  background:rgba(0,120,170,.18);
-  color:#69e5ff;
-  font-size:19px;
+.currencyActions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin:12px 0;
 }
 
-.convertButton{
-  width:100%;
-  height:48px;
-  margin-top:12px;
-  border-radius:13px;
-  border:1px solid rgba(0,215,255,.68);
-  background:
-    linear-gradient(
-      135deg,
-      rgba(0,150,220,.62),
-      rgba(0,65,105,.70)
-    );
-  color:#fff;
-  font-weight:800;
-  letter-spacing:1.5px;
+.currencyAction{
+  height:44px;
+  border:1px solid rgba(0,190,255,.28);
+  border-radius:11px;
+  color:#65d8ff;
+  background:#071827;
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:1px;
 }
 
-.convertButton:active,
-.swapCurrency:active{
+.currencyAction.primary{
+  color:#001017;
+  background:linear-gradient(135deg,#38d4ff,#69efff);
+}
+
+.currencyAction:active{
   transform:scale(.97);
 }
 
-.currencyResult{
-  margin-top:14px;
-  border:1px solid rgba(0,190,255,.24);
-  border-radius:16px;
-  padding:15px;
-  background:rgba(0,80,120,.08);
+.compareList{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:8px;
 }
 
-.resultLabel{
-  font-size:9px;
-  color:#7296a4;
-  letter-spacing:1.5px;
-}
-
-.resultValue{
-  margin-top:5px;
-  font-size:30px;
-  font-weight:800;
-  color:#f5ffff;
-  word-break:break-word;
-  text-shadow:0 0 15px rgba(0,190,255,.35);
-}
-
-.resultRate{
-  margin-top:6px;
-  color:#5edbff;
-  font-size:10px;
-  line-height:1.5;
-}
-
-.compareSection{
-  margin-top:13px;
-  border:1px solid rgba(0,180,255,.22);
-  border-radius:17px;
-  padding:13px;
-  background:rgba(3,13,21,.80);
+.compareCard{
+  border:1px solid rgba(0,160,230,.18);
+  border-radius:12px;
+  padding:10px;
+  background:rgba(3,13,22,.85);
 }
 
 .compareTop{
   display:flex;
+  gap:8px;
   align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:10px;
 }
 
-.compareTitle{
+.compareTop .currencySelect{
+  flex:1;
+}
+
+.removeCompare{
+  width:40px;
+  height:42px;
+  border:1px solid rgba(255,90,110,.2);
+  border-radius:10px;
+  color:#ff788a;
+  background:rgba(80,10,20,.2);
+}
+
+.rateText{
+  margin-top:8px;
+  color:#7392a4;
   font-size:11px;
-  color:#70e1ff;
-  letter-spacing:2px;
-  font-weight:800;
 }
 
-.refreshRates{
-  height:32px;
-  padding:0 10px;
-  border-radius:9px;
-  border:1px solid rgba(0,190,255,.25);
-  background:rgba(0,100,140,.14);
-  color:#68dcff;
-  font-size:9px;
-  font-weight:700;
+.convertedText{
+  margin-top:4px;
+  color:#e6fbff;
+  font-size:20px;
+  font-weight:bold;
 }
 
-.compareGrid{
-  display:grid;
-  gap:7px;
-}
-
-.compareCard{
-  display:grid;
-  grid-template-columns:42px 1fr auto;
-  align-items:center;
-  gap:9px;
-  min-height:54px;
-  border:1px solid rgba(255,255,255,.055);
-  border-radius:11px;
-  padding:7px 9px;
-  background:rgba(255,255,255,.018);
-}
-
-.compareFlag{
-  font-size:23px;
-  text-align:center;
-}
-
-.compareName{
-  font-size:11px;
-  color:#dff8ff;
-  font-weight:700;
-}
-
-.compareCode{
-  font-size:8px;
-  color:#648895;
-  margin-top:2px;
-  letter-spacing:1px;
-}
-
-.compareValue{
-  text-align:right;
-  font-size:13px;
-  color:#77e4ff;
-  font-weight:700;
-  word-break:break-all;
-}
-
-.favouriteRow{
-  display:flex;
-  gap:6px;
-  overflow-x:auto;
-  padding:2px 0 5px;
-  margin-top:10px;
-  scrollbar-width:none;
-}
-
-.favouriteRow::-webkit-scrollbar{
-  display:none;
-}
-
-.currencyChip{
-  flex:0 0 auto;
-  height:32px;
-  padding:0 10px;
-  border-radius:9px;
-  border:1px solid rgba(0,180,255,.20);
-  background:rgba(5,20,30,.75);
-  color:#70dfff;
-  font-size:9px;
-  font-weight:700;
-}
-
-.currencyChip.active{
-  border-color:rgba(0,215,255,.70);
-  background:rgba(0,120,170,.22);
-}
-
-.currencyNote{
-  margin-top:10px;
-  color:#55717d;
+.currencyFooter{
+  margin-top:12px;
+  padding-top:10px;
+  border-top:1px solid rgba(0,160,220,.12);
+  color:#536f80;
   font-size:9px;
   line-height:1.5;
 }
 
-/* =========================================================
-   SETUP
-   ========================================================= */
+.currencyMessage{
+  padding:14px 5px;
+  text-align:center;
+  color:#7897a9;
+  font-size:11px;
+}
+
+.addCompare{
+  width:100%;
+  height:40px;
+  margin-top:9px;
+  border:1px dashed rgba(0,180,240,.25);
+  border-radius:10px;
+  color:#61c9eb;
+  background:rgba(0,100,150,.06);
+  font-size:10px;
+  letter-spacing:1px;
+}
+
+/* OVERLAY */
 
 .overlay{
   position:fixed;
   inset:0;
-  z-index:1000;
-  display:flex;
+  z-index:50;
+  display:none;
   align-items:center;
   justify-content:center;
   padding:20px;
-  background:
-    radial-gradient(
-      circle at center,
-      rgba(0,100,150,.16),
-      rgba(0,0,0,.96) 65%
-    );
-  backdrop-filter:blur(12px);
+  background:rgba(0,4,9,.88);
+  backdrop-filter:blur(10px);
 }
 
-.setupCard{
+.overlay.show{
+  display:flex;
+}
+
+.setupBox{
   width:100%;
-  max-width:410px;
-  padding:26px 22px;
-  border-radius:24px;
-  border:1px solid rgba(0,210,255,.45);
-  background:
-    linear-gradient(
-      145deg,
-      rgba(5,24,38,.98),
-      rgba(2,8,14,.99)
-    );
-  box-shadow:
-    0 0 45px rgba(0,140,255,.13),
-    inset 0 0 35px rgba(0,150,255,.04);
-  text-align:center;
+  max-width:390px;
+  padding:22px;
+  border:1px solid rgba(0,190,255,.3);
+  border-radius:18px;
+  background:#06101b;
+  box-shadow:0 0 35px rgba(0,160,255,.12);
 }
 
-.setupLogo{
-  font-size:26px;
-  font-weight:800;
-  letter-spacing:5px;
-  color:#eaffff;
-  text-shadow:0 0 16px rgba(0,200,255,.65);
-}
-
-.setupTitle{
-  margin-top:12px;
-  font-size:19px;
-  color:#69e2ff;
+.setupBox h2{
+  margin:0 0 8px;
+  color:#69ddff;
   letter-spacing:2px;
+  font-size:18px;
 }
 
-.setupText{
-  color:#91aeb9;
+.setupBox p{
+  color:#7590a1;
   font-size:12px;
-  line-height:1.6;
-  margin:12px 0 18px;
+  line-height:1.5;
 }
 
 .setupInput{
   width:100%;
-  height:52px;
-  border-radius:13px;
-  border:1px solid rgba(0,190,255,.35);
-  outline:none;
-  background:#020a11;
-  color:#fff;
-  text-align:center;
-  font-size:22px;
-  letter-spacing:6px;
-  margin-bottom:10px;
-}
-
-.setupInput:focus{
-  border-color:#54dfff;
-  box-shadow:0 0 16px rgba(0,190,255,.15);
-}
-
-.setupButton{
-  width:100%;
   height:48px;
-  border-radius:13px;
-  border:1px solid rgba(0,210,255,.65);
-  background:linear-gradient(
-    135deg,
-    rgba(0,150,220,.65),
-    rgba(0,65,105,.75)
-  );
-  color:white;
-  font-weight:700;
-  letter-spacing:2px;
+  margin-top:8px;
+  border:1px solid rgba(0,190,255,.25);
+  border-radius:11px;
+  outline:none;
+  padding:0 13px;
+  color:#fff;
+  background:#020912;
+  text-align:center;
+  letter-spacing:5px;
 }
 
-.setupError{
-  min-height:20px;
-  color:#ff8999;
-  font-size:11px;
-  margin:7px 0;
+.setupBtn{
+  width:100%;
+  height:46px;
+  margin-top:12px;
+  border:0;
+  border-radius:11px;
+  color:#001018;
+  background:#49dfff;
+  font-weight:bold;
 }
 
-/* =========================================================
-   VAULT
-   ========================================================= */
+/* VAULT */
 
 .vault{
   position:fixed;
   inset:0;
-  z-index:900;
+  z-index:40;
   display:none;
-  overflow:auto;
-  background:
-    linear-gradient(rgba(0,150,255,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,150,255,.025) 1px,transparent 1px),
-    radial-gradient(circle at 50% 0%,rgba(0,150,255,.12),transparent 48%),
-    #02050b;
-  background-size:28px 28px,28px 28px,100% 100%,auto;
+  flex-direction:column;
+  background:#03080f;
 }
 
 .vault.show{
-  display:block;
+  display:flex;
 }
 
-.vaultInner{
-  width:100%;
-  max-width:800px;
-  margin:auto;
-  padding:20px 14px 35px;
-}
-
-.vaultTop{
+.vaultHeader{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:10px;
-  padding-bottom:15px;
-  border-bottom:1px solid rgba(0,190,255,.18);
+  padding:14px;
+  border-bottom:1px solid rgba(0,180,240,.2);
+  background:#06111c;
 }
 
 .vaultTitle{
-  font-size:22px;
-  font-weight:800;
-  letter-spacing:3px;
-  color:#eafcff;
-  text-shadow:0 0 13px rgba(0,190,255,.45);
-}
-
-.vaultSubtitle{
-  margin-top:5px;
-  font-size:9px;
+  color:#69dcff;
+  font-size:16px;
+  font-weight:bold;
   letter-spacing:2px;
-  color:#58cfea;
 }
 
-.lockBtn{
-  min-width:100px;
-  height:39px;
-  border-radius:11px;
-  border:1px solid rgba(255,100,120,.35);
-  background:rgba(90,20,30,.22);
-  color:#ff9baa;
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:1px;
+.vaultClose{
+  width:38px;
+  height:38px;
+  border:1px solid rgba(0,180,240,.25);
+  border-radius:10px;
+  color:#75cfea;
+  background:#081722;
 }
 
-.vaultActions{
-  display:flex;
-  gap:9px;
-  margin:16px 0;
-}
-
-.addFiles{
-  flex:1;
-  height:46px;
-  border-radius:13px;
-  border:1px solid rgba(0,210,255,.65);
-  background:linear-gradient(
-    135deg,
-    rgba(0,150,220,.55),
-    rgba(0,70,110,.55)
-  );
-  color:white;
-  font-weight:800;
-  letter-spacing:1px;
-}
-
-.vaultInfo{
-  color:#7795a1;
-  font-size:11px;
-  line-height:1.5;
-  margin-bottom:14px;
-}
-
-.vaultStatus{
-  color:#54dcff;
-  font-size:10px;
-  letter-spacing:1.5px;
-  margin-bottom:10px;
-}
-
-.vaultGrid{
+.vaultTools{
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:11px;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  padding:10px;
 }
 
-@media(min-width:600px){
-  .vaultGrid{
-    grid-template-columns:repeat(3,minmax(0,1fr));
-  }
+.vaultTools button{
+  height:43px;
+  border:1px solid rgba(0,180,240,.25);
+  border-radius:10px;
+  color:#6ed9fb;
+  background:#071521;
+  font-size:10px;
+  font-weight:bold;
 }
 
-.vaultCard{
-  min-width:0;
-  border-radius:16px;
+.vaultFiles{
+  flex:1;
+  overflow-y:auto;
+  padding:10px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  align-content:start;
+}
+
+.vaultFile{
+  min-height:160px;
+  border:1px solid rgba(0,160,220,.16);
+  border-radius:13px;
   overflow:hidden;
-  border:1px solid rgba(0,180,255,.18);
-  background:linear-gradient(
-    145deg,
-    rgba(8,23,35,.94),
-    rgba(2,9,15,.96)
-  );
-  box-shadow:0 8px 22px rgba(0,0,0,.2);
+  background:#06111a;
 }
 
-.preview{
+.vaultPreview{
   width:100%;
-  aspect-ratio:1/1;
+  height:115px;
+  object-fit:cover;
+  display:block;
   background:#02070c;
+}
+
+.vaultGeneric{
+  height:115px;
   display:flex;
   align-items:center;
   justify-content:center;
-  overflow:hidden;
-  position:relative;
+  color:#5ebfe0;
+  font-size:28px;
+  background:#06131e;
 }
 
-.preview img,
-.preview video{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.filePreview{
-  padding:15px;
-  text-align:center;
-}
-
-.fileIcon{
-  font-size:38px;
-  color:#65dcff;
-  margin-bottom:8px;
-}
-
-.fileType{
-  font-size:9px;
-  color:#76a9ba;
-  letter-spacing:1px;
-  word-break:break-all;
-}
-
-.videoTag{
-  position:absolute;
-  bottom:7px;
-  left:7px;
-  padding:4px 7px;
-  border-radius:6px;
-  background:rgba(0,0,0,.65);
-  color:#fff;
-  font-size:9px;
-}
-
-.cardInfo{
-  padding:9px;
-}
-
-.fileName{
-  font-size:11px;
-  color:#dff8ff;
+.vaultName{
+  padding:8px;
+  color:#b9d5e2;
+  font-size:10px;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
 
-.fileMeta{
+.vaultDelete{
+  margin:0 8px 8px;
+  width:calc(100% - 16px);
+  height:30px;
+  border:1px solid rgba(255,80,100,.2);
+  border-radius:8px;
+  color:#ff7184;
+  background:rgba(80,10,20,.2);
   font-size:9px;
-  color:#64818c;
-  margin-top:4px;
 }
 
-.cardButtons{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:6px;
-  margin-top:8px;
-}
-
-.exportBtn,
-.deleteBtn{
-  height:35px;
-  border-radius:9px;
-  font-size:9px;
-  font-weight:800;
-  letter-spacing:.7px;
-}
-
-.exportBtn{
-  border:1px solid rgba(0,210,255,.38);
-  background:rgba(0,120,170,.17);
-  color:#70e3ff;
-}
-
-.deleteBtn{
-  border:1px solid rgba(255,90,110,.30);
-  background:rgba(100,20,30,.15);
-  color:#ff8999;
-}
-
-.exportBtn:active,
-.deleteBtn:active,
-.addFiles:active,
-.lockBtn:active{
-  transform:scale(.96);
-}
-
-.emptyVault{
+.vaultEmpty{
   grid-column:1/-1;
   text-align:center;
-  padding:55px 20px;
-  border:1px dashed rgba(0,180,255,.18);
-  border-radius:18px;
-  color:#57717c;
+  color:#536d7d;
+  padding:50px 20px;
   font-size:12px;
-  line-height:1.7;
 }
 
-/* =========================================================
-   TOAST
-   ========================================================= */
+/* TOAST */
 
 .toast{
   position:fixed;
   left:50%;
   bottom:22px;
   transform:translate(-50%,20px);
-  z-index:2000;
+  z-index:100;
   max-width:90%;
-  padding:11px 15px;
-  border-radius:12px;
-  background:rgba(3,16,25,.96);
-  border:1px solid rgba(0,200,255,.35);
-  color:#dffaff;
+  padding:10px 15px;
+  border:1px solid rgba(0,200,255,.3);
+  border-radius:10px;
+  background:#071522;
+  color:#dff9ff;
   font-size:11px;
   opacity:0;
   pointer-events:none;
-  transition:.25s ease;
-  text-align:center;
-  box-shadow:0 8px 30px rgba(0,0,0,.35);
+  transition:.25s;
 }
 
 .toast.show{
@@ -982,38 +693,18 @@ button{
   transform:translate(-50%,0);
 }
 
-/* =========================================================
-   LANDSCAPE
-   ========================================================= */
-
-@media (orientation:landscape) and (max-height:600px){
-
-  .app{
-    max-width:900px;
-    padding-top:10px;
-  }
-
-  .brand{
-    margin-bottom:10px;
-  }
-
+@media(max-width:380px){
   .brand h1{
-    font-size:23px;
+    font-size:26px;
   }
 
-  .displayBox{
-    padding:10px 14px;
+  .scientific{
+    grid-template-columns:repeat(4,1fr);
   }
 
-  .answer{
-    min-height:42px;
-    font-size:30px;
+  .keypad .calcBtn{
+    min-height:57px;
   }
-
-  .key{
-    height:48px;
-  }
-
 }
 </style>
 </head>
@@ -1027,2161 +718,1252 @@ button{
     <div class="creator">SARVESH GHANE'S CREATION</div>
   </div>
 
-  <div class="displayBox">
-    <div class="status" id="coreStatus">
-      CALCULATION CORE ACTIVE
-    </div>
-
-    <div class="expression" id="expression"></div>
-
+  <div class="displayBox" id="calculatorDisplay">
+    <div class="expression" id="expression">0</div>
     <div class="answer" id="answer">0</div>
-
-    <button
-      class="backspace"
-      id="backspace"
-      aria-label="Backspace"
-    >⌫</button>
+    <button class="backspace" id="backspaceBtn">⌫</button>
   </div>
 
   <div class="modeRow">
-
-    <button
-      class="modeBtn active"
-      id="basicBtn"
-    >
-      BASIC
-    </button>
-
-    <button
-      class="modeBtn"
-      id="sciBtn"
-    >
-      SCI
-    </button>
-
-    <button
-      class="modeBtn"
-      id="currencyBtn"
-    >
-      CURRENCY
-    </button>
-
+    <button class="modeBtn active" id="basicBtn">BASIC</button>
+    <button class="modeBtn" id="sciBtn">SCI</button>
+    <button class="modeBtn" id="currencyBtn">CURRENCY</button>
   </div>
 
-  <!-- =====================================================
-       SCIENTIFIC
-       ===================================================== -->
+  <div id="calculatorUI">
 
-  <div
-    class="scientific"
-    id="scientific"
-  >
+    <div class="scientific" id="scientific">
 
-    <button class="key" data-value="sin(">sin</button>
-    <button class="key" data-value="cos(">cos</button>
-    <button class="key" data-value="tan(">tan</button>
-    <button class="key" data-value="asin(">sin⁻¹</button>
-    <button class="key" data-value="acos(">cos⁻¹</button>
+      <button class="calcBtn special" data-value="sin(">sin</button>
+      <button class="calcBtn special" data-value="cos(">cos</button>
+      <button class="calcBtn special" data-value="tan(">tan</button>
+      <button class="calcBtn special" data-value="asin(">sin⁻¹</button>
+      <button class="calcBtn special" data-value="acos(">cos⁻¹</button>
 
-    <button class="key" data-value="atan(">tan⁻¹</button>
-    <button class="key" data-value="log(">log</button>
-    <button class="key" data-value="ln(">ln</button>
-    <button class="key" data-value="sqrt(">√</button>
-    <button class="key" data-value="cbrt(">∛</button>
+      <button class="calcBtn special" data-value="atan(">tan⁻¹</button>
+      <button class="calcBtn special" data-value="log(">log</button>
+      <button class="calcBtn special" data-value="ln(">ln</button>
+      <button class="calcBtn special" data-value="sqrt(">√</button>
+      <button class="calcBtn special" data-value="cbrt(">∛</button>
 
-    <button class="key" data-value="^2">x²</button>
-    <button class="key" data-value="^3">x³</button>
-    <button class="key" data-value="^-1">x⁻¹</button>
-    <button class="key" data-value="!">x!</button>
-    <button class="key" data-value="π">π</button>
+      <button class="calcBtn special" data-value="^2">x²</button>
+      <button class="calcBtn special" data-value="^3">x³</button>
+      <button class="calcBtn special" data-value="^">xʸ</button>
+      <button class="calcBtn special" data-value="!">x!</button>
+      <button class="calcBtn special" data-value="π">π</button>
 
-    <button class="key" data-value="e">e</button>
-    <button class="key" data-value="(">(</button>
-    <button class="key" data-value=")">)</button>
-    <button class="key" data-value="^">xʸ</button>
-    <button class="key" data-value="EXP">EXP</button>
-
-  </div>
-
-  <!-- =====================================================
-       CALCULATOR
-       ===================================================== -->
-
-  <div
-    class="keypad"
-    id="calculatorPad"
-  >
-
-    <button
-      class="key danger"
-      data-action="clear"
-    >AC</button>
-
-    <button
-      class="key"
-      data-action="sign"
-    >+/−</button>
-
-    <button
-      class="key"
-      data-value="%"
-    >%</button>
-
-    <button
-      class="key operator"
-      data-value="/"
-    >÷</button>
-
-    <button class="key" data-value="7">7</button>
-    <button class="key" data-value="8">8</button>
-    <button class="key" data-value="9">9</button>
-
-    <button
-      class="key operator"
-      data-value="*"
-    >×</button>
-
-    <button class="key" data-value="4">4</button>
-    <button class="key" data-value="5">5</button>
-    <button class="key" data-value="6">6</button>
-
-    <button
-      class="key operator"
-      data-value="-"
-    >−</button>
-
-    <button class="key" data-value="1">1</button>
-    <button class="key" data-value="2">2</button>
-    <button class="key" data-value="3">3</button>
-
-    <button
-      class="key operator"
-      data-value="+"
-    >+</button>
-
-    <button class="key" data-value="0">0</button>
-    <button class="key" data-value=".">.</button>
-
-    <button
-      class="key"
-      data-action="history"
-    >HIS</button>
-
-    <button
-      class="key equal"
-      data-action="calculate"
-    >=</button>
-
-  </div>
-
-  <div class="memory">
-
-    <button id="memoryAdd">M+</button>
-    <button id="memoryRecall">MR</button>
-    <button id="memoryClear">MC</button>
-
-  </div>
-
-  <!-- =====================================================
-       HISTORY
-       ===================================================== -->
-
-  <div
-    class="historyPanel"
-    id="historyPanel"
-  >
-
-    <div class="historyHead">
-
-      <span>
-        CALCULATION HISTORY
-      </span>
-
-      <button
-        class="historyClear"
-        id="historyClear"
-      >
-        CLEAR
-      </button>
+      <button class="calcBtn special" data-value="e">e</button>
+      <button class="calcBtn special" data-value="(">(</button>
+      <button class="calcBtn special" data-value=")">)</button>
+      <button class="calcBtn special" data-value="EXP">EXP</button>
+      <button class="calcBtn special" id="percentSci">%</button>
 
     </div>
 
-    <div id="historyList"></div>
+    <div class="keypad">
 
-  </div>
+      <button class="calcBtn clear" data-action="clear">C</button>
+      <button class="calcBtn special" data-value="(">(</button>
+      <button class="calcBtn special" data-value=")">)</button>
+      <button class="calcBtn operator" data-value="/">÷</button>
 
-  <!-- =====================================================
-       CURRENCY
-       ===================================================== -->
+      <button class="calcBtn" data-value="7">7</button>
+      <button class="calcBtn" data-value="8">8</button>
+      <button class="calcBtn" data-value="9">9</button>
+      <button class="calcBtn operator" data-value="*">×</button>
 
-  <div
-    class="currencyPanel"
-    id="currencyPanel"
-  >
+      <button class="calcBtn" data-value="4">4</button>
+      <button class="calcBtn" data-value="5">5</button>
+      <button class="calcBtn" data-value="6">6</button>
+      <button class="calcBtn operator" data-value="-">−</button>
 
-    <div class="currencyHeader">
+      <button class="calcBtn" data-value="1">1</button>
+      <button class="calcBtn" data-value="2">2</button>
+      <button class="calcBtn" data-value="3">3</button>
+      <button class="calcBtn operator" data-value="+">+</button>
 
-      <div class="currencyTitle">
-        CURRENCY CORE
+      <button class="calcBtn special" id="signBtn">±</button>
+      <button class="calcBtn" data-value="0">0</button>
+      <button class="calcBtn" data-value=".">.</button>
+      <button class="calcBtn equal" id="equalsBtn">=</button>
+
+    </div>
+
+    <div class="memory">
+      <button id="memoryAdd">M+</button>
+      <button id="memoryRecall">MR</button>
+      <button id="memoryClear">MC</button>
+    </div>
+
+    <div class="historyPanel">
+
+      <div class="historyHeader">
+        <span>CALCULATION HISTORY</span>
+        <button id="clearHistory">CLEAR</button>
       </div>
 
-      <div class="currencySub">
-        LIVE EXCHANGE RATE • COUNTRY COMPARISON
-      </div>
-
-      <div
-        class="rateStatus"
-        id="rateStatus"
-      >
-        CONNECTING TO RATE SERVICE...
-      </div>
-
-      <div class="currencyAmountBox">
-
-        <label
-          class="currencyLabel"
-          for="currencyAmount"
-        >
-          AMOUNT
-        </label>
-
-        <input
-          id="currencyAmount"
-          class="currencyAmount"
-          type="number"
-          inputmode="decimal"
-          value="1000"
-          min="0"
-          step="any"
-        >
-
-      </div>
-
-      <div class="currencyPair">
-
-        <div class="currencyField">
-
-          <label
-            class="currencyLabel"
-            for="fromCurrency"
-          >
-            FROM
-          </label>
-
-          <select id="fromCurrency"></select>
-
-        </div>
-
-        <button
-          class="swapCurrency"
-          id="swapCurrency"
-          aria-label="Swap currencies"
-        >
-          ⇄
-        </button>
-
-        <div class="currencyField">
-
-          <label
-            class="currencyLabel"
-            for="toCurrency"
-          >
-            TO
-          </label>
-
-          <select id="toCurrency"></select>
-
-        </div>
-
-      </div>
-
-      <button
-        class="convertButton"
-        id="convertCurrency"
-      >
-        CONVERT
-      </button>
-
-      <div class="currencyResult">
-
-        <div class="resultLabel">
-          CONVERTED VALUE
-        </div>
-
-        <div
-          class="resultValue"
-          id="currencyResult"
-        >
-          —
-        </div>
-
-        <div
-          class="resultRate"
-          id="currencyRate"
-        >
-          Enter an amount and tap CONVERT.
-        </div>
-
-      </div>
-
-      <div class="favouriteRow">
-
-        <button
-          class="currencyChip active"
-          data-currency="USD"
-        >
-          USD
-        </button>
-
-        <button
-          class="currencyChip"
-          data-currency="EUR"
-        >
-          EUR
-        </button>
-
-        <button
-          class="currencyChip"
-          data-currency="GBP"
-        >
-          GBP
-        </button>
-
-        <button
-          class="currencyChip"
-          data-currency="JPY"
-        >
-          JPY
-        </button>
-
-        <button
-          class="currencyChip"
-          data-currency="AED"
-        >
-          AED
-        </button>
-
-        <button
-          class="currencyChip"
-          data-currency="CAD"
-        >
-          CAD
-        </button>
-
-        <button
-          class="currencyChip"
-          data-currency="AUD"
-        >
-          AUD
-        </button>
-
+      <div class="historyList" id="historyList">
+        <div class="emptyHistory">No calculations yet</div>
       </div>
 
     </div>
 
-    <!-- ===================================================
-         COUNTRY COMPARISON
-         =================================================== -->
+  </div>
 
-    <div class="compareSection">
+  <!-- CURRENCY MODE -->
 
-      <div class="compareTop">
+  <div class="currencyPanel" id="currencyPanel">
 
-        <div class="compareTitle">
-          COUNTRY COMPARISON
-        </div>
+    <div class="currencyTitle">
+      <strong>CURRENCY LAB</strong>
+      <span class="currencyStatus" id="currencyStatus">READY</span>
+    </div>
 
-        <button
-          class="refreshRates"
-          id="refreshRates"
-        >
-          ↻ REFRESH
-        </button>
+    <label class="currencyAmountLabel">AMOUNT</label>
+    <input
+      class="currencyAmount"
+      id="currencyAmount"
+      type="number"
+      inputmode="decimal"
+      min="0"
+      step="any"
+      value="100"
+      placeholder="Enter amount"
+    >
 
-      </div>
+    <label class="currencyLabel">FROM COUNTRY / CURRENCY</label>
+    <select class="currencySelect" id="currencyBase"></select>
 
-      <div
-        class="compareGrid"
-        id="compareGrid"
-      >
+    <div class="currencyActions">
+      <button class="currencyAction primary" id="compareBtn">
+        COMPARE RATES
+      </button>
 
-        <div class="compareCard">
+      <button class="currencyAction" id="refreshCurrencyBtn">
+        REFRESH
+      </button>
+    </div>
 
-          <div class="compareFlag">
-            🇺🇸
-          </div>
+    <div id="compareList" class="compareList"></div>
 
-          <div>
-            <div class="compareName">
-              United States
-            </div>
-            <div class="compareCode">
-              USD
-            </div>
-          </div>
+    <button class="addCompare" id="addCompareBtn">
+      + ADD ANOTHER COUNTRY
+    </button>
 
-          <div
-            class="compareValue"
-            data-compare="USD"
-          >
-            —
-          </div>
+    <div class="currencyMessage" id="currencyMessage">
+      Select currencies and tap COMPARE RATES.
+    </div>
 
-        </div>
-
-        <div class="compareCard">
-
-          <div class="compareFlag">
-            🇬🇧
-          </div>
-
-          <div>
-            <div class="compareName">
-              United Kingdom
-            </div>
-            <div class="compareCode">
-              GBP
-            </div>
-          </div>
-
-          <div
-            class="compareValue"
-            data-compare="GBP"
-          >
-            —
-          </div>
-
-        </div>
-
-        <div class="compareCard">
-
-          <div class="compareFlag">
-            🇪🇺
-          </div>
-
-          <div>
-            <div class="compareName">
-              Eurozone
-            </div>
-            <div class="compareCode">
-              EUR
-            </div>
-          </div>
-
-          <div
-            class="compareValue"
-            data-compare="EUR"
-          >
-            —
-          </div>
-
-        </div>
-
-        <div class="compareCard">
-
-          <div class="compareFlag">
-            🇯🇵
-          </div>
-
-          <div>
-            <div class="compareName">
-              Japan
-            </div>
-            <div class="compareCode">
-              JPY
-            </div>
-          </div>
-
-          <div
-            class="compareValue"
-            data-compare="JPY"
-          >
-            —
-          </div>
-
-        </div>
-
-        <div class="compareCard">
-
-          <div class="compareFlag">
-            🇦🇪
-          </div>
-
-          <div>
-            <div class="compareName">
-              United Arab Emirates
-            </div>
-            <div class="compareCode">
-              AED
-            </div>
-          </div>
-
-          <div
-            class="compareValue"
-            data-compare="AED"
-          >
-            —
-          </div>
-
-        </div>
-
-        <div class="compareCard">
-
-          <div class="compareFlag">
-            🇨🇦
-          </div>
-
-          <div>
-            <div class="compareName">
-              Canada
-            </div>
-            <div class="compareCode">
-              CAD
-            </div>
-          </div>
-
-          <div
-            class="compareValue"
-            data-compare="CAD"
-          >
-            —
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="currencyNote">
-        Rates are retrieved from an online exchange-rate service.
-        The displayed rate can change over time and should not be
-        treated as a guaranteed transaction rate.
-      </div>
-
+    <div class="currencyFooter">
+      Rates are fetched from the Frankfurter exchange-rate API.
+      They are reference/mid-market rates and are not live trading quotes.
+      The API does not require an API key.
     </div>
 
   </div>
 
 </div>
 
+<!-- FIRST LAUNCH VAULT SETUP -->
 
-<!-- =========================================================
-     FIRST LAUNCH SECRET CODE SETUP
-     ========================================================= -->
+<div class="overlay" id="setupOverlay">
 
-<div
-  class="overlay"
-  id="setupOverlay"
->
+  <div class="setupBox">
 
-  <div class="setupCard">
+    <h2>PRIVATE VAULT</h2>
 
-    <div class="setupLogo">
-      SG CALCI
-    </div>
-
-    <div class="setupTitle">
-      PRIVATE VAULT SETUP
-    </div>
-
-    <div class="setupText">
-
-      Create a secret numeric code for your private vault.
-
-      <br>
-
-      Later, enter this code in the calculator and press
-      <b>=</b> to open the vault.
-
-      <br><br>
-
-      Your code is stored only on this device/browser.
-
-    </div>
+    <p>
+      Create a private numeric access code.
+      Use 4–12 digits. This code is required to open the hidden vault.
+    </p>
 
     <input
+      id="setupCode"
       class="setupInput"
-      id="newCode"
       type="password"
       inputmode="numeric"
       maxlength="12"
-      placeholder="SECRET CODE"
-      autocomplete="new-password"
+      placeholder="ENTER CODE"
     >
 
     <input
+      id="setupCodeConfirm"
       class="setupInput"
-      id="confirmCode"
       type="password"
       inputmode="numeric"
       maxlength="12"
       placeholder="CONFIRM CODE"
-      autocomplete="new-password"
     >
 
-    <div
-      class="setupError"
-      id="setupError"
-    ></div>
-
-    <button
-      class="setupButton"
-      id="saveCode"
-    >
-      CREATE SECURE CODE
+    <button class="setupBtn" id="setupSave">
+      CREATE PRIVATE VAULT
     </button>
 
   </div>
 
 </div>
 
+<!-- VAULT -->
 
-<!-- =========================================================
-     PRIVATE VAULT
-     ========================================================= -->
+<div class="vault" id="vault">
 
-<div
-  class="vault"
-  id="vault"
->
+  <div class="vaultHeader">
+    <div class="vaultTitle">PRIVATE VAULT</div>
+    <button class="vaultClose" id="vaultClose">×</button>
+  </div>
 
-  <div class="vaultInner">
+  <div class="vaultTools">
 
-    <div class="vaultTop">
+    <button id="importVault">
+      IMPORT FILES
+    </button>
 
-      <div>
-
-        <div class="vaultTitle">
-          PRIVATE VAULT
-        </div>
-
-        <div class="vaultSubtitle">
-          SECURE LOCAL STORAGE
-        </div>
-
-      </div>
-
-      <button
-        class="lockBtn"
-        id="lockVault"
-      >
-        LOCK VAULT
-      </button>
-
-    </div>
-
-    <div class="vaultActions">
-
-      <button
-        class="addFiles"
-        id="addFiles"
-      >
-        + ADD FILES
-      </button>
-
-      <input
-        type="file"
-        id="fileInput"
-        multiple
-        accept="image/*,video/*,.pdf,.txt,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.rar,.csv,.json"
-        hidden
-      >
-
-    </div>
-
-    <div class="vaultInfo">
-
-      Imported items are stored as copies inside the SG CALCI
-      vault. Exporting an item creates a copy on your device;
-      the vault copy remains until you delete it.
-
-    </div>
-
-    <div
-      class="vaultStatus"
-      id="vaultStatus"
-    >
-      VAULT READY
-    </div>
-
-    <div
-      class="vaultGrid"
-      id="vaultGrid"
-    ></div>
+    <button id="exportAllVault">
+      EXPORT TO DEVICE
+    </button>
 
   </div>
 
+  <input
+    id="vaultFileInput"
+    type="file"
+    multiple
+    hidden
+    accept="image/*,video/*,.pdf,.txt,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.rar,.7z"
+  >
+
+  <div class="vaultFiles" id="vaultFiles"></div>
+
 </div>
 
-
-<div
-  class="toast"
-  id="toast"
-></div>
-
+<div class="toast" id="toast"></div>
 
 <script>
-/* =========================================================
-   SG CALCI 2.0
-   CALCULATOR + SCIENTIFIC + CURRENCY + PRIVATE VAULT
-   ========================================================= */
+"use strict";
 
-const SECRET_KEY = "sg_calci_secret_v1";
+/* =========================================================
+   BASIC APP STORAGE
+========================================================= */
+
+const HISTORY_KEY = "sg_calci_history_v4";
+const MEMORY_KEY = "sg_calci_memory_v4";
+const SECRET_KEY = "sg_calci_vault_secret_v4";
 
 const DB_NAME = "SG_CALCI_PRIVATE_VAULT";
 const DB_VERSION = 1;
 const STORE_NAME = "files";
 
-const HISTORY_KEY = "sg_calci_history";
-
 let expression = "";
-let memoryValue = 0;
-let scientificMode = false;
-let currencyMode = false;
-let db = null;
+let memoryValue = Number(localStorage.getItem(MEMORY_KEY) || 0);
+let history = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
 
-let currencyRates = {};
-let currencyRateDate = null;
+const expressionEl = document.getElementById("expression");
+const answerEl = document.getElementById("answer");
+const scientificEl = document.getElementById("scientific");
+const calculatorUI = document.getElementById("calculatorUI");
+const calculatorDisplay = document.getElementById("calculatorDisplay");
 
+const basicBtn = document.getElementById("basicBtn");
+const sciBtn = document.getElementById("sciBtn");
+const currencyBtn = document.getElementById("currencyBtn");
 
-/* =========================================================
-   ELEMENTS
-   ========================================================= */
+const currencyPanel = document.getElementById("currencyPanel");
 
-const expressionEl =
-  document.getElementById("expression");
-
-const answerEl =
-  document.getElementById("answer");
-
-const coreStatus =
-  document.getElementById("coreStatus");
-
-const setupOverlay =
-  document.getElementById("setupOverlay");
-
-const newCodeEl =
-  document.getElementById("newCode");
-
-const confirmCodeEl =
-  document.getElementById("confirmCode");
-
-const setupError =
-  document.getElementById("setupError");
-
-const vault =
-  document.getElementById("vault");
-
-const vaultGrid =
-  document.getElementById("vaultGrid");
-
-const vaultStatus =
-  document.getElementById("vaultStatus");
-
-const toastEl =
-  document.getElementById("toast");
-
-const basicBtn =
-  document.getElementById("basicBtn");
-
-const sciBtn =
-  document.getElementById("sciBtn");
-
-const currencyBtn =
-  document.getElementById("currencyBtn");
-
-const scientific =
-  document.getElementById("scientific");
-
-const currencyPanel =
-  document.getElementById("currencyPanel");
-
-const calculatorPad =
-  document.getElementById("calculatorPad");
-
+const toastEl = document.getElementById("toast");
 
 /* =========================================================
    TOAST
-   ========================================================= */
+========================================================= */
 
-let toastTimer = null;
+let toastTimer;
 
-function showToast(message){
-
+function toast(message){
   clearTimeout(toastTimer);
 
   toastEl.textContent = message;
-
   toastEl.classList.add("show");
 
-  toastTimer = setTimeout(() => {
-
+  toastTimer = setTimeout(()=>{
     toastEl.classList.remove("show");
-
-  },2600);
-
+  },2400);
 }
-
-
-/* =========================================================
-   SETUP
-   ========================================================= */
-
-function checkFirstLaunch(){
-
-  const saved =
-    localStorage.getItem(SECRET_KEY);
-
-  if(saved){
-
-    setupOverlay.style.display = "none";
-
-  }else{
-
-    setupOverlay.style.display = "flex";
-
-  }
-
-}
-
-
-function createSecretCode(){
-
-  const code =
-    newCodeEl.value.trim();
-
-  const confirm =
-    confirmCodeEl.value.trim();
-
-  setupError.textContent = "";
-
-  if(!/^\d{4,12}$/.test(code)){
-
-    setupError.textContent =
-      "Use a numeric code containing 4–12 digits.";
-
-    return;
-
-  }
-
-  if(code !== confirm){
-
-    setupError.textContent =
-      "The confirmation code does not match.";
-
-    return;
-
-  }
-
-  localStorage.setItem(
-    SECRET_KEY,
-    code
-  );
-
-  setupOverlay.style.display = "none";
-
-  newCodeEl.value = "";
-  confirmCodeEl.value = "";
-
-  showToast(
-    "Secure vault code created."
-  );
-
-}
-
-
-document
-  .getElementById("saveCode")
-  .addEventListener(
-    "click",
-    createSecretCode
-  );
-
-
-[newCodeEl,confirmCodeEl].forEach(input => {
-
-  input.addEventListener(
-    "keydown",
-    event => {
-
-      if(event.key === "Enter"){
-
-        createSecretCode();
-
-      }
-
-    }
-  );
-
-});
-
 
 /* =========================================================
    DISPLAY
-   ========================================================= */
+========================================================= */
 
 function updateDisplay(){
+  expressionEl.textContent = expression || "0";
 
-  expressionEl.textContent =
-    expression;
-
-  if(expression === ""){
-
+  if(!expression){
     answerEl.textContent = "0";
-
     return;
-
   }
 
   try{
-
-    const result =
-      evaluateExpression(expression);
+    const result = evaluateExpression(expression);
 
     if(Number.isFinite(result)){
-
-      answerEl.textContent =
-        formatNumber(result);
-
+      answerEl.textContent = formatNumber(result);
+    }else{
+      answerEl.textContent = "—";
     }
-
   }catch{
-
-    answerEl.textContent = "0";
-
+    answerEl.textContent = "—";
   }
-
 }
-
 
 function formatNumber(value){
+  if(!Number.isFinite(value)) return "Error";
 
-  if(!Number.isFinite(value)){
-
-    return "Error";
-
+  if(Math.abs(value) >= 1e12 || (Math.abs(value) > 0 && Math.abs(value) < 1e-9)){
+    return value.toExponential(8);
   }
 
-  if(Math.abs(value) < 1e-12){
-
-    value = 0;
-
-  }
-
-  return Number(
-    value.toPrecision(12)
-  ).toString();
-
+  return Number(value.toFixed(12)).toString();
 }
-
-
-/* =========================================================
-   SECRET CODE
-   ========================================================= */
-
-function isSecretCode(){
-
-  const savedCode =
-    localStorage.getItem(
-      SECRET_KEY
-    );
-
-  return (
-    !!savedCode &&
-    expression === savedCode
-  );
-
-}
-
 
 /* =========================================================
    CALCULATOR ENGINE
-   ========================================================= */
+========================================================= */
 
 function factorial(n){
-
-  if(!Number.isFinite(n)){
-
-    throw new Error(
-      "Invalid factorial"
-    );
-
-  }
-
-  if(
-    n < 0 ||
-    Math.floor(n) !== n
-  ){
-
-    throw new Error(
-      "Invalid factorial"
-    );
-
-  }
-
-  if(n > 170){
-
-    throw new Error(
-      "Too large"
-    );
-
+  if(!Number.isFinite(n) || n < 0 || n > 170 || Math.floor(n) !== n){
+    throw new Error("Invalid factorial");
   }
 
   let result = 1;
 
-  for(let i = 2; i <= n; i++){
-
+  for(let i=2;i<=n;i++){
     result *= i;
-
   }
 
   return result;
-
 }
 
+function evaluateExpression(input){
 
-function evaluateExpression(expr){
+  let s = input;
 
-  let e = expr;
+  s = s.replace(/π/g,"Math.PI");
+  s = s.replace(/\be\b/g,"Math.E");
 
-  e = e.replace(
-    /π/g,
-    "Math.PI"
-  );
+  s = s.replace(/asin\(/g,"Math.asin(");
+  s = s.replace(/acos\(/g,"Math.acos(");
+  s = s.replace(/atan\(/g,"Math.atan(");
 
-  e = e.replace(
-    /\be\b/g,
-    "Math.E"
-  );
+  s = s.replace(/sin\(/g,"Math.sin(");
+  s = s.replace(/cos\(/g,"Math.cos(");
+  s = s.replace(/tan\(/g,"Math.tan(");
 
-  e = e.replace(
-    /\bsin\(/g,
-    "Math.sin("
-  );
+  s = s.replace(/log\(/g,"Math.log10(");
+  s = s.replace(/ln\(/g,"Math.log(");
 
-  e = e.replace(
-    /\bcos\(/g,
-    "Math.cos("
-  );
+  s = s.replace(/sqrt\(/g,"Math.sqrt(");
+  s = s.replace(/cbrt\(/g,"Math.cbrt(");
 
-  e = e.replace(
-    /\btan\(/g,
-    "Math.tan("
-  );
+  s = s.replace(/\^/g,"**");
 
-  e = e.replace(
-    /\basin\(/g,
-    "Math.asin("
-  );
+  /*
+    Convert simple factorial expressions.
+    Example:
+    5! -> factorial(5)
+  */
+  s = s.replace(/(\d+(?:\.\d+)?)!/g,"factorial($1)");
 
-  e = e.replace(
-    /\bacos\(/g,
-    "Math.acos("
-  );
+  /*
+    Percentage:
+    50% -> (50/100)
+  */
+  s = s.replace(/(\d+(?:\.\d+)?)%/g,"($1/100)");
 
-  e = e.replace(
-    /\batan\(/g,
-    "Math.atan("
-  );
+  /*
+    EXP helper:
+    5EXP3 -> 5*10**3
+  */
+  s = s.replace(/EXP/g,"*10**");
 
-  e = e.replace(
-    /\blog\(/g,
-    "Math.log10("
-  );
-
-  e = e.replace(
-    /\bln\(/g,
-    "Math.log("
-  );
-
-  e = e.replace(
-    /\bsqrt\(/g,
-    "Math.sqrt("
-  );
-
-  e = e.replace(
-    /\bcbrt\(/g,
-    "Math.cbrt("
-  );
-
-  e = e.replace(
-    /\^/g,
-    "**"
-  );
-
-  e = e.replace(
-    /(\d+(?:\.\d+)?)%/g,
-    "($1/100)"
-  );
-
-  e = e.replace(
-    /(\d+(?:\.\d+)?|\([^()]+\))!/g,
-    "factorial($1)"
-  );
-
-  e = e.replace(
-    /EXP/g,
-    "*10**"
-  );
+  /*
+    Security whitelist.
+  */
+  if(!/^[0-9+\-*/%().,\sA-Za-z_*!]*$/.test(s)){
+    throw new Error("Invalid expression");
+  }
 
   if(
-    !/^[0-9+\-*/().,\sA-Za-z_*]+$/.test(e)
+    /(?:constructor|prototype|window|document|globalThis|eval|Function|fetch|localStorage|sessionStorage)/i.test(s)
   ){
-
-    throw new Error(
-      "Invalid"
-    );
-
+    throw new Error("Blocked");
   }
 
-  const cleaned =
-    e
-      .replace(
-        /Math\.(PI|E|sin|cos|tan|asin|acos|atan|log10|log|sqrt|cbrt)/g,
-        ""
-      )
-      .replace(
-        /factorial/g,
-        ""
-      )
-      .replace(
-        /[0-9+\-*/().,\s]/g,
-        ""
-      );
-
-  if(cleaned.length > 0){
-
-    throw new Error(
-      "Invalid"
-    );
-
-  }
-
-  return Function(
+  const fn = new Function(
     "factorial",
-    '"use strict"; return (' +
-      e +
-      ')'
-  )(factorial);
+    `"use strict"; return (${s})`
+  );
 
+  const result = fn(factorial);
+
+  if(!Number.isFinite(result)){
+    throw new Error("Math error");
+  }
+
+  return result;
 }
 
-
 /* =========================================================
-   CALCULATE
-   ========================================================= */
+   BUTTON INPUT
+========================================================= */
 
-function calculate(){
+function addValue(value){
 
-  if(isSecretCode()){
+  if(value === "π" || value === "e"){
+    expression += value;
+  }else{
+    expression += value;
+  }
 
-    expression = "";
+  updateDisplay();
+}
 
-    answerEl.textContent =
-      "0";
+document.querySelectorAll("[data-value]").forEach(button=>{
+
+  button.addEventListener("click",()=>{
+
+    const value = button.dataset.value;
+
+    if(value === "EXP"){
+      expression += "EXP";
+    }else{
+      expression += value;
+    }
 
     updateDisplay();
 
-    openVault();
+  });
+
+});
+
+/* =========================================================
+   CLEAR
+========================================================= */
+
+function clearAll(){
+  expression = "";
+  updateDisplay();
+}
+
+document.querySelector("[data-action='clear']").addEventListener(
+  "click",
+  clearAll
+);
+
+/* =========================================================
+   EQUAL
+========================================================= */
+
+function calculate(){
+
+  if(!expression) return;
+
+  try{
+
+    const result = evaluateExpression(expression);
+
+    const formatted = formatNumber(result);
+
+    history.unshift({
+      expression:expression,
+      result:formatted,
+      time:Date.now()
+    });
+
+    history = history.slice(0,50);
+
+    localStorage.setItem(
+      HISTORY_KEY,
+      JSON.stringify(history)
+    );
+
+    expression = formatted;
+
+    renderHistory();
+    updateDisplay();
+
+  }catch{
+
+    toast("Invalid calculation");
+
+  }
+}
+
+document.getElementById("equalsBtn").addEventListener(
+  "click",
+  calculate
+);
+
+/* =========================================================
+   BACKSPACE + LONG PRESS CLEAR
+========================================================= */
+
+const backspaceBtn = document.getElementById("backspaceBtn");
+
+let longPressTimer = null;
+
+backspaceBtn.addEventListener("click",()=>{
+  if(expression.length){
+    expression = expression.slice(0,-1);
+    updateDisplay();
+  }
+});
+
+backspaceBtn.addEventListener("pointerdown",()=>{
+  longPressTimer = setTimeout(()=>{
+    clearAll();
+    toast("Cleared");
+  },700);
+});
+
+["pointerup","pointerleave","pointercancel"].forEach(event=>{
+  backspaceBtn.addEventListener(event,()=>{
+    clearTimeout(longPressTimer);
+  });
+});
+
+/* =========================================================
+   SIGN
+========================================================= */
+
+document.getElementById("signBtn").addEventListener("click",()=>{
+
+  if(!expression) return;
+
+  try{
+
+    const value = evaluateExpression(expression);
+
+    expression = formatNumber(-value);
+
+    updateDisplay();
+
+  }catch{
+
+    if(expression.startsWith("-")){
+      expression = expression.slice(1);
+    }else{
+      expression = "-" + expression;
+    }
+
+    updateDisplay();
+  }
+
+});
+
+/* =========================================================
+   PERCENT
+========================================================= */
+
+document.getElementById("percentSci").addEventListener("click",()=>{
+
+  expression += "%";
+  updateDisplay();
+
+});
+
+/* =========================================================
+   MEMORY
+========================================================= */
+
+document.getElementById("memoryAdd").addEventListener("click",()=>{
+
+  try{
+
+    memoryValue += evaluateExpression(expression || "0");
+
+    localStorage.setItem(
+      MEMORY_KEY,
+      memoryValue
+    );
+
+    toast("Memory added");
+
+  }catch{
+
+    toast("Memory error");
+
+  }
+
+});
+
+document.getElementById("memoryRecall").addEventListener("click",()=>{
+
+  expression += formatNumber(memoryValue);
+  updateDisplay();
+
+});
+
+document.getElementById("memoryClear").addEventListener("click",()=>{
+
+  memoryValue = 0;
+
+  localStorage.setItem(
+    MEMORY_KEY,
+    "0"
+  );
+
+  toast("Memory cleared");
+
+});
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function renderHistory(){
+
+  const list = document.getElementById("historyList");
+
+  if(!history.length){
+
+    list.innerHTML =
+      `<div class="emptyHistory">No calculations yet</div>`;
+
+    return;
+  }
+
+  list.innerHTML = history.map((item,index)=>{
+
+    return `
+      <div class="historyItem" data-history="${index}">
+        <div class="historyExpr">${escapeHTML(item.expression)}</div>
+        <div class="historyResult">= ${escapeHTML(item.result)}</div>
+      </div>
+    `;
+
+  }).join("");
+
+  list.querySelectorAll(".historyItem").forEach(item=>{
+
+    item.addEventListener("click",()=>{
+
+      const index = Number(item.dataset.history);
+
+      if(history[index]){
+        expression = history[index].result;
+        updateDisplay();
+      }
+
+    });
+
+  });
+
+}
+
+document.getElementById("clearHistory").addEventListener("click",()=>{
+
+  history = [];
+
+  localStorage.setItem(
+    HISTORY_KEY,
+    "[]"
+  );
+
+  renderHistory();
+
+});
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+/* =========================================================
+   MODES
+========================================================= */
+
+function setMode(mode){
+
+  basicBtn.classList.toggle("active",mode === "basic");
+  sciBtn.classList.toggle("active",mode === "sci");
+  currencyBtn.classList.toggle("active",mode === "currency");
+
+  if(mode === "currency"){
+
+    calculatorUI.style.display = "none";
+    calculatorDisplay.style.display = "none";
+    currencyPanel.classList.add("show");
+
+  }else{
+
+    calculatorUI.style.display = "";
+    calculatorDisplay.style.display = "";
+    currencyPanel.classList.remove("show");
+
+    scientificEl.classList.toggle(
+      "show",
+      mode === "sci"
+    );
+
+  }
+
+}
+
+basicBtn.addEventListener("click",()=>{
+  setMode("basic");
+});
+
+sciBtn.addEventListener("click",()=>{
+  setMode("sci");
+});
+
+currencyBtn.addEventListener("click",()=>{
+  setMode("currency");
+});
+
+/* =========================================================
+   CURRENCY SYSTEM
+   CURRENT FRANKFURTER V2 API
+========================================================= */
+
+const CURRENCY_API =
+  "https://api.frankfurter.dev/v2/rates";
+
+const CURRENCY_CACHE_KEY =
+  "sg_calci_currency_cache_v2";
+
+/*
+  Common countries/currencies.
+  Frankfurter currently covers a large set of currencies.
+*/
+
+const currencies = [
+
+  ["India","INR"],
+  ["United States","USD"],
+  ["Euro Area","EUR"],
+  ["United Kingdom","GBP"],
+  ["Japan","JPY"],
+  ["China","CNY"],
+  ["United Arab Emirates","AED"],
+  ["Saudi Arabia","SAR"],
+  ["Canada","CAD"],
+  ["Australia","AUD"],
+  ["Singapore","SGD"],
+  ["Switzerland","CHF"],
+  ["Hong Kong","HKD"],
+  ["South Korea","KRW"],
+  ["Brazil","BRL"],
+  ["Mexico","MXN"],
+  ["South Africa","ZAR"],
+  ["New Zealand","NZD"],
+  ["Thailand","THB"],
+  ["Malaysia","MYR"],
+  ["Indonesia","IDR"],
+  ["Turkey","TRY"],
+  ["Norway","NOK"],
+  ["Sweden","SEK"],
+  ["Denmark","DKK"],
+  ["Poland","PLN"],
+  ["Czechia","CZK"],
+  ["Hungary","HUF"],
+  ["Israel","ILS"],
+  ["Philippines","PHP"],
+  ["Bulgaria","BGN"],
+  ["Romania","RON"],
+  ["Iceland","ISK"]
+
+];
+
+let comparisonCurrencies = [
+  "INR",
+  "EUR",
+  "GBP",
+  "JPY",
+  "AED"
+];
+
+const currencyBase =
+  document.getElementById("currencyBase");
+
+const compareList =
+  document.getElementById("compareList");
+
+const currencyAmount =
+  document.getElementById("currencyAmount");
+
+const currencyStatus =
+  document.getElementById("currencyStatus");
+
+const currencyMessage =
+  document.getElementById("currencyMessage");
+
+function currencyOptionHTML(selectedCode){
+
+  return currencies.map(item=>{
+
+    const country = item[0];
+    const code = item[1];
+
+    return `
+      <option
+        value="${code}"
+        ${code === selectedCode ? "selected" : ""}
+      >
+        ${country} — ${code}
+      </option>
+    `;
+
+  }).join("");
+
+}
+
+function buildBaseCurrency(){
+
+  currencyBase.innerHTML =
+    currencyOptionHTML("USD");
+
+}
+
+function buildComparisonList(){
+
+  compareList.innerHTML = "";
+
+  comparisonCurrencies.forEach((code,index)=>{
+
+    addComparisonCard(code,index);
+
+  });
+
+}
+
+function addComparisonCard(code,index){
+
+  const card =
+    document.createElement("div");
+
+  card.className = "compareCard";
+
+  card.dataset.index = index;
+
+  card.innerHTML = `
+    <div class="compareTop">
+
+      <select class="currencySelect compareSelect">
+        ${currencyOptionHTML(code)}
+      </select>
+
+      <button
+        class="removeCompare"
+        type="button"
+        aria-label="Remove comparison"
+      >
+        ×
+      </button>
+
+    </div>
+
+    <div class="rateText">
+      Waiting for rate...
+    </div>
+
+    <div class="convertedText">
+      —
+    </div>
+  `;
+
+  card
+    .querySelector(".removeCompare")
+    .addEventListener("click",()=>{
+
+      if(comparisonCurrencies.length <= 1){
+
+        toast("Keep at least one currency");
+
+        return;
+      }
+
+      comparisonCurrencies.splice(index,1);
+
+      buildComparisonList();
+
+    });
+
+  card
+    .querySelector(".compareSelect")
+    .addEventListener("change",()=>{
+
+      comparisonCurrencies[index] =
+        card.querySelector(".compareSelect").value;
+
+      saveCurrencySelections();
+
+    });
+
+  compareList.appendChild(card);
+
+}
+
+function saveCurrencySelections(){
+
+  try{
+
+    localStorage.setItem(
+      "sg_calci_currency_selections",
+      JSON.stringify({
+        base:currencyBase.value,
+        targets:comparisonCurrencies
+      })
+    );
+
+  }catch{}
+
+}
+
+function loadCurrencySelections(){
+
+  try{
+
+    const saved =
+      JSON.parse(
+        localStorage.getItem(
+          "sg_calci_currency_selections"
+        ) || "null"
+      );
+
+    if(saved){
+
+      if(
+        saved.base &&
+        currencies.some(c=>c[1] === saved.base)
+      ){
+
+        currencyBase.value = saved.base;
+
+      }
+
+      if(
+        Array.isArray(saved.targets) &&
+        saved.targets.length
+      ){
+
+        comparisonCurrencies =
+          saved.targets.filter(code=>
+            currencies.some(c=>c[1] === code)
+          );
+
+      }
+
+    }
+
+  }catch{}
+
+}
+
+function getUniqueTargets(){
+
+  return [
+    ...new Set(
+      comparisonCurrencies
+        .filter(code=>code)
+    )
+  ];
+
+}
+
+function formatCurrencyNumber(value,code){
+
+  if(!Number.isFinite(value)){
+    return "—";
+  }
+
+  let maximumFractionDigits = 2;
+
+  if(
+    code === "JPY" ||
+    code === "KRW" ||
+    code === "IDR" ||
+    code === "VND"
+  ){
+    maximumFractionDigits = 0;
+  }
+
+  return value.toLocaleString(
+    undefined,
+    {
+      maximumFractionDigits,
+      minimumFractionDigits:0
+    }
+  );
+
+}
+
+function formatRate(rate){
+
+  if(!Number.isFinite(rate)){
+    return "—";
+  }
+
+  if(rate >= 100){
+    return rate.toFixed(2);
+  }
+
+  if(rate >= 1){
+    return rate.toFixed(4);
+  }
+
+  return rate.toFixed(6);
+
+}
+
+/*
+  IMPORTANT:
+  Current Frankfurter v2 returns rows such as:
+  {
+    date:"2026-09-30",
+    base:"USD",
+    quote:"INR",
+    rate:95.8649
+  }
+
+  So we convert the response into a simple object.
+*/
+
+async function fetchCurrencyRates(base,targets){
+
+  const cleanTargets =
+    targets.filter(code=>code && code !== base);
+
+  if(!cleanTargets.length){
+
+    return {
+      rates:{},
+      date:new Date().toISOString().slice(0,10)
+    };
+
+  }
+
+  const url =
+    `${CURRENCY_API}?base=${encodeURIComponent(base)}&quotes=${encodeURIComponent(cleanTargets.join(","))}`;
+
+  const controller =
+    new AbortController();
+
+  const timeout =
+    setTimeout(()=>{
+      controller.abort();
+    },12000);
+
+  try{
+
+    const response =
+      await fetch(
+        url,
+        {
+          method:"GET",
+          cache:"no-store",
+          signal:controller.signal,
+          headers:{
+            "Accept":"application/json"
+          }
+        }
+      );
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP " + response.status
+      );
+
+    }
+
+    const data =
+      await response.json();
+
+    /*
+      v2 normally returns an array.
+    */
+
+    const rates = {};
+    let date = "";
+
+    if(Array.isArray(data)){
+
+      data.forEach(row=>{
+
+        if(row && row.quote){
+
+          rates[row.quote] =
+            Number(row.rate);
+
+          if(row.date){
+            date = row.date;
+          }
+
+        }
+
+      });
+
+    }else if(
+      data &&
+      typeof data === "object" &&
+      data.rates
+    ){
+
+      /*
+        Compatibility fallback in case
+        the API response is returned in
+        object form.
+      */
+
+      Object.keys(data.rates).forEach(code=>{
+
+        rates[code] =
+          Number(data.rates[code]);
+
+      });
+
+      date =
+        data.date || "";
+
+    }
+
+    if(!Object.keys(rates).length){
+
+      throw new Error("No rates returned");
+
+    }
+
+    return {
+      rates,
+      date:
+        date ||
+        new Date().toISOString().slice(0,10)
+    };
+
+  }finally{
+
+    clearTimeout(timeout);
+
+  }
+
+}
+
+function saveCurrencyCache(base,result){
+
+  try{
+
+    localStorage.setItem(
+      CURRENCY_CACHE_KEY,
+      JSON.stringify({
+        base,
+        rates:result.rates,
+        date:result.date,
+        savedAt:Date.now()
+      })
+    );
+
+  }catch{}
+
+}
+
+function getCurrencyCache(base){
+
+  try{
+
+    const cached =
+      JSON.parse(
+        localStorage.getItem(
+          CURRENCY_CACHE_KEY
+        ) || "null"
+      );
+
+    if(
+      cached &&
+      cached.base === base &&
+      cached.rates
+    ){
+
+      return cached;
+
+    }
+
+  }catch{}
+
+  return null;
+
+}
+
+async function compareCurrenciesNow(){
+
+  const amount =
+    Number(currencyAmount.value);
+
+  if(!Number.isFinite(amount) || amount < 0){
+
+    toast("Enter a valid amount");
 
     return;
 
   }
 
-  if(!expression){
+  const base =
+    currencyBase.value;
 
-    return;
+  const targets =
+    getUniqueTargets();
 
-  }
+  saveCurrencySelections();
+
+  currencyStatus.textContent =
+    "UPDATING...";
+
+  currencyMessage.textContent =
+    "Connecting to exchange-rate server...";
+
+  const cards =
+    [...compareList.querySelectorAll(".compareCard")];
+
+  cards.forEach(card=>{
+
+    card.querySelector(".rateText").textContent =
+      "Loading rate...";
+
+    card.querySelector(".convertedText").textContent =
+      "…";
+
+  });
 
   try{
 
     const result =
-      evaluateExpression(expression);
-
-    if(!Number.isFinite(result)){
-
-      throw new Error(
-        "Invalid result"
-      );
-
-    }
-
-    const formatted =
-      formatNumber(result);
-
-    saveHistory(
-      expression,
-      formatted
-    );
-
-    expression =
-      formatted;
-
-    answerEl.textContent =
-      formatted;
-
-    updateDisplay();
-
-  }catch{
-
-    answerEl.textContent =
-      "Error";
-
-    showToast(
-      "Invalid calculation."
-    );
-
-    setTimeout(
-      updateDisplay,
-      900
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   KEYPAD INPUT
-   ========================================================= */
-
-function appendValue(value){
-
-  if(currencyMode){
-
-    return;
-
-  }
-
-  expression += value;
-
-  updateDisplay();
-
-}
-
-
-function clearAll(){
-
-  expression = "";
-
-  updateDisplay();
-
-}
-
-
-function toggleSign(){
-
-  if(!expression){
-
-    expression = "-";
-
-  }else{
-
-    expression =
-      "(-" +
-      expression +
-      ")";
-
-  }
-
-  updateDisplay();
-
-}
-
-
-document
-  .querySelectorAll("[data-value]")
-  .forEach(button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        appendValue(
-          button.dataset.value
-        );
-
-      }
-    );
-
-  });
-
-
-document
-  .querySelectorAll("[data-action]")
-  .forEach(button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        const action =
-          button.dataset.action;
-
-        if(action === "clear"){
-
-          clearAll();
-
-        }
-
-        if(action === "sign"){
-
-          toggleSign();
-
-        }
-
-        if(action === "calculate"){
-
-          calculate();
-
-        }
-
-        if(action === "history"){
-
-          toggleHistory();
-
-        }
-
-      }
-    );
-
-  });
-
-
-/* =========================================================
-   MODE SWITCHING
-   ========================================================= */
-
-function setMode(mode){
-
-  scientificMode =
-    mode === "sci";
-
-  currencyMode =
-    mode === "currency";
-
-
-  basicBtn.classList.toggle(
-    "active",
-    mode === "basic"
-  );
-
-  sciBtn.classList.toggle(
-    "active",
-    mode === "sci"
-  );
-
-  currencyBtn.classList.toggle(
-    "active",
-    mode === "currency"
-  );
-
-
-  scientific.classList.toggle(
-    "show",
-    mode === "sci"
-  );
-
-  currencyPanel.classList.toggle(
-    "show",
-    mode === "currency"
-  );
-
-  calculatorPad.style.display =
-    mode === "currency"
-      ? "none"
-      : "grid";
-
-
-  document
-    .querySelector(".memory")
-    .style.display =
-      mode === "currency"
-        ? "none"
-        : "grid";
-
-
-  document
-    .getElementById("historyPanel")
-    .classList.remove("show");
-
-
-  if(mode === "currency"){
-
-    coreStatus.textContent =
-      "CURRENCY CORE ACTIVE";
-
-    loadCurrencyRates();
-
-  }else if(mode === "sci"){
-
-    coreStatus.textContent =
-      "SCIENTIFIC CORE ACTIVE";
-
-  }else{
-
-    coreStatus.textContent =
-      "CALCULATION CORE ACTIVE";
-
-  }
-
-}
-
-
-basicBtn.addEventListener(
-  "click",
-  () => setMode("basic")
-);
-
-sciBtn.addEventListener(
-  "click",
-  () => setMode("sci")
-);
-
-currencyBtn.addEventListener(
-  "click",
-  () => setMode("currency")
-);
-
-
-/* =========================================================
-   BACKSPACE
-   ========================================================= */
-
-const backspaceButton =
-  document.getElementById(
-    "backspace"
-  );
-
-let backspaceTimer = null;
-let longPressTriggered = false;
-
-function deleteOne(){
-
-  if(currencyMode){
-
-    return;
-
-  }
-
-  expression =
-    expression.slice(0,-1);
-
-  updateDisplay();
-
-}
-
-
-backspaceButton.addEventListener(
-  "pointerdown",
-  () => {
-
-    longPressTriggered =
-      false;
-
-    backspaceTimer =
-      setTimeout(
-        () => {
-
-          longPressTriggered =
-            true;
-
-          clearAll();
-
-          showToast(
-            "All cleared."
-          );
-
-        },
-        700
-      );
-
-  }
-);
-
-
-backspaceButton.addEventListener(
-  "pointerup",
-  () => {
-
-    clearTimeout(
-      backspaceTimer
-    );
-
-    if(!longPressTriggered){
-
-      deleteOne();
-
-    }
-
-  }
-);
-
-
-backspaceButton.addEventListener(
-  "pointerleave",
-  () => {
-
-    clearTimeout(
-      backspaceTimer
-    );
-
-  }
-);
-
-
-backspaceButton.addEventListener(
-  "pointercancel",
-  () => {
-
-    clearTimeout(
-      backspaceTimer
-    );
-
-  }
-);
-
-
-/* =========================================================
-   KEYBOARD
-   ========================================================= */
-
-document.addEventListener(
-  "keydown",
-  event => {
-
-    if(currencyMode){
-
-      return;
-
-    }
-
-    if(
-      event.key >= "0" &&
-      event.key <= "9"
-    ){
-
-      appendValue(
-        event.key
-      );
-
-      return;
-
-    }
-
-    if(
-      [
-        "+",
-        "-",
-        "*",
-        "/",
-        "(",
-        ")",
-        ".",
-        "%",
-        "^"
-      ].includes(event.key)
-    ){
-
-      appendValue(
-        event.key
-      );
-
-      return;
-
-    }
-
-    if(
-      event.key === "Enter" ||
-      event.key === "="
-    ){
-
-      calculate();
-
-      return;
-
-    }
-
-    if(event.key === "Backspace"){
-
-      deleteOne();
-
-      return;
-
-    }
-
-    if(event.key === "Escape"){
-
-      clearAll();
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   MEMORY
-   ========================================================= */
-
-document
-  .getElementById("memoryAdd")
-  .addEventListener(
-    "click",
-    () => {
-
-      try{
-
-        memoryValue +=
-          evaluateExpression(
-            expression
-          );
-
-        showToast(
-          "Memory updated."
-        );
-
-      }catch{
-
-        showToast(
-          "Nothing to store."
-        );
-
-      }
-
-    }
-  );
-
-
-document
-  .getElementById("memoryRecall")
-  .addEventListener(
-    "click",
-    () => {
-
-      expression +=
-        formatNumber(
-          memoryValue
-        );
-
-      updateDisplay();
-
-    }
-  );
-
-
-document
-  .getElementById("memoryClear")
-  .addEventListener(
-    "click",
-    () => {
-
-      memoryValue = 0;
-
-      showToast(
-        "Memory cleared."
-      );
-
-    }
-  );
-
-
-/* =========================================================
-   HISTORY
-   ========================================================= */
-
-function getHistory(){
-
-  try{
-
-    return JSON.parse(
-      localStorage.getItem(
-        HISTORY_KEY
-      ) || "[]"
-    );
-
-  }catch{
-
-    return [];
-
-  }
-
-}
-
-
-function saveHistory(
-  expr,
-  result
-){
-
-  const history =
-    getHistory();
-
-  history.unshift({
-
-    expression:expr,
-    result:result,
-    time:Date.now()
-
-  });
-
-  if(history.length > 50){
-
-    history.length = 50;
-
-  }
-
-  localStorage.setItem(
-    HISTORY_KEY,
-    JSON.stringify(history)
-  );
-
-  renderHistory();
-
-}
-
-
-function renderHistory(){
-
-  const list =
-    document.getElementById(
-      "historyList"
-    );
-
-  const history =
-    getHistory();
-
-  list.innerHTML = "";
-
-  if(history.length === 0){
-
-    list.innerHTML =
-      '<div style="color:#55727d;font-size:11px;padding:12px 5px">No calculation history.</div>';
-
-    return;
-
-  }
-
-  history.forEach(item => {
-
-    const div =
-      document.createElement(
-        "div"
-      );
-
-    div.className =
-      "historyItem";
-
-    div.innerHTML = `
-      <div class="historyExpr"></div>
-      <div class="historyResult"></div>
-    `;
-
-    div.querySelector(
-      ".historyExpr"
-    ).textContent =
-      item.expression;
-
-    div.querySelector(
-      ".historyResult"
-    ).textContent =
-      "= " + item.result;
-
-    div.addEventListener(
-      "click",
-      () => {
-
-        expression =
-          item.result;
-
-        setMode("basic");
-
-        updateDisplay();
-
-        toggleHistory(false);
-
-      }
-    );
-
-    list.appendChild(div);
-
-  });
-
-}
-
-
-function toggleHistory(force){
-
-  const panel =
-    document.getElementById(
-      "historyPanel"
-    );
-
-  if(typeof force === "boolean"){
-
-    panel.classList.toggle(
-      "show",
-      force
-    );
-
-  }else{
-
-    panel.classList.toggle(
-      "show"
-    );
-
-  }
-
-  renderHistory();
-
-}
-
-
-document
-  .getElementById("historyClear")
-  .addEventListener(
-    "click",
-    () => {
-
-      localStorage.removeItem(
-        HISTORY_KEY
-      );
-
-      renderHistory();
-
-      showToast(
-        "History cleared."
-      );
-
-    }
-  );
-
-
-/* =========================================================
-   CURRENCY DATA
-   ========================================================= */
-
-const CURRENCIES = [
-
-  {
-    code:"INR",
-    name:"India",
-    flag:"🇮🇳"
-  },
-
-  {
-    code:"USD",
-    name:"United States",
-    flag:"🇺🇸"
-  },
-
-  {
-    code:"EUR",
-    name:"Eurozone",
-    flag:"🇪🇺"
-  },
-
-  {
-    code:"GBP",
-    name:"United Kingdom",
-    flag:"🇬🇧"
-  },
-
-  {
-    code:"JPY",
-    name:"Japan",
-    flag:"🇯🇵"
-  },
-
-  {
-    code:"AED",
-    name:"United Arab Emirates",
-    flag:"🇦🇪"
-  },
-
-  {
-    code:"CAD",
-    name:"Canada",
-    flag:"🇨🇦"
-  },
-
-  {
-    code:"AUD",
-    name:"Australia",
-    flag:"🇦🇺"
-  },
-
-  {
-    code:"CHF",
-    name:"Switzerland",
-    flag:"🇨🇭"
-  },
-
-  {
-    code:"CNY",
-    name:"China",
-    flag:"🇨🇳"
-  },
-
-  {
-    code:"SGD",
-    name:"Singapore",
-    flag:"🇸🇬"
-  },
-
-  {
-    code:"HKD",
-    name:"Hong Kong",
-    flag:"🇭🇰"
-  },
-
-  {
-    code:"NZD",
-    name:"New Zealand",
-    flag:"🇳🇿"
-  },
-
-  {
-    code:"SAR",
-    name:"Saudi Arabia",
-    flag:"🇸🇦"
-  },
-
-  {
-    code:"QAR",
-    name:"Qatar",
-    flag:"🇶🇦"
-  },
-
-  {
-    code:"KWD",
-    name:"Kuwait",
-    flag:"🇰🇼"
-  },
-
-  {
-    code:"THB",
-    name:"Thailand",
-    flag:"🇹🇭"
-  },
-
-  {
-    code:"MYR",
-    name:"Malaysia",
-    flag:"🇲🇾"
-  },
-
-  {
-    code:"KRW",
-    name:"South Korea",
-    flag:"🇰🇷"
-  },
-
-  {
-    code:"ZAR",
-    name:"South Africa",
-    flag:"🇿🇦"
-  },
-
-  {
-    code:"RUB",
-    name:"Russia",
-    flag:"🇷🇺"
-  },
-
-  {
-    code:"BRL",
-    name:"Brazil",
-    flag:"🇧🇷"
-  },
-
-  {
-    code:"MXN",
-    name:"Mexico",
-    flag:"🇲🇽"
-  },
-
-  {
-    code:"TRY",
-    name:"Türkiye",
-    flag:"🇹🇷"
-  }
-
-];
-
-
-const CURRENCY_SYMBOLS = {
-
-  INR:"₹",
-  USD:"$",
-  EUR:"€",
-  GBP:"£",
-  JPY:"¥",
-  AED:"د.إ",
-  CAD:"C$",
-  AUD:"A$",
-  CHF:"CHF",
-  CNY:"¥",
-  SGD:"S$",
-  HKD:"HK$",
-  NZD:"NZ$",
-  SAR:"﷼",
-  QAR:"﷼",
-  KWD:"د.ك",
-  THB:"฿",
-  MYR:"RM",
-  KRW:"₩",
-  ZAR:"R",
-  RUB:"₽",
-  BRL:"R$",
-  MXN:"MX$",
-  TRY:"₺"
-
-};
-
-
-function populateCurrencySelectors(){
-
-  const from =
-    document.getElementById(
-      "fromCurrency"
-    );
-
-  const to =
-    document.getElementById(
-      "toCurrency"
-    );
-
-  from.innerHTML = "";
-  to.innerHTML = "";
-
-  CURRENCIES.forEach(currency => {
-
-    const option1 =
-      document.createElement(
-        "option"
-      );
-
-    option1.value =
-      currency.code;
-
-    option1.textContent =
-      currency.flag +
-      " " +
-      currency.code +
-      " — " +
-      currency.name;
-
-    const option2 =
-      option1.cloneNode(true);
-
-    from.appendChild(
-      option1
-    );
-
-    to.appendChild(
-      option2
-    );
-
-  });
-
-  from.value = "INR";
-  to.value = "USD";
-
-}
-
-
-/* =========================================================
-   CURRENCY API
-   ========================================================= */
-
-async function fetchCurrencyRates(
-  base
-){
-
-  const url =
-    "https://api.frankfurter.app/latest?from=" +
-    encodeURIComponent(base);
-
-  const response =
-    await fetch(
-      url,
-      {
-        method:"GET",
-        cache:"no-store"
-      }
-    );
-
-  if(!response.ok){
-
-    throw new Error(
-      "Rate service unavailable"
-    );
-
-  }
-
-  const data =
-    await response.json();
-
-  if(
-    !data ||
-    !data.rates
-  ){
-
-    throw new Error(
-      "Invalid rate response"
-    );
-
-  }
-
-  return data;
-
-}
-
-
-async function loadCurrencyRates(){
-
-  const status =
-    document.getElementById(
-      "rateStatus"
-    );
-
-  status.textContent =
-    "UPDATING LIVE RATES...";
-
-  try{
-
-    const base =
-      document.getElementById(
-        "fromCurrency"
-      ).value;
-
-    const data =
       await fetchCurrencyRates(
-        base
+        base,
+        targets
       );
 
-    currencyRates =
-      data.rates || {};
+    saveCurrencyCache(
+      base,
+      result
+    );
 
-    currencyRates[base] =
-      1;
+    renderCurrencyResults(
+      amount,
+      base,
+      result.rates,
+      result.date,
+      false
+    );
 
-    currencyRateDate =
-      data.date || null;
+    currencyStatus.textContent =
+      "LIVE RATE LOADED";
 
-    status.textContent =
-      "LIVE RATE • " +
-      (
-        currencyRateDate ||
-        "CURRENT"
-      ) +
-      " • BASE " +
-      base;
-
-    await convertCurrency();
-
-    updateComparison();
+    currencyMessage.textContent =
+      `Rates updated: ${result.date}`;
 
   }catch(error){
 
@@ -3190,1641 +1972,889 @@ async function loadCurrencyRates(){
       error
     );
 
-    status.textContent =
-      "RATE SERVICE OFFLINE • CHECK INTERNET";
+    /*
+      If internet/API temporarily fails,
+      use the last successful cache.
+    */
 
-    document.getElementById(
-      "currencyRate"
-    ).textContent =
-      "Could not retrieve a live exchange rate.";
+    const cached =
+      getCurrencyCache(base);
 
-  }
+    if(cached){
 
-}
-
-
-async function convertCurrency(){
-
-  const amountInput =
-    document.getElementById(
-      "currencyAmount"
-    );
-
-  const from =
-    document.getElementById(
-      "fromCurrency"
-    ).value;
-
-  const to =
-    document.getElementById(
-      "toCurrency"
-    ).value;
-
-  const amount =
-    Number(
-      amountInput.value
-    );
-
-  const resultEl =
-    document.getElementById(
-      "currencyResult"
-    );
-
-  const rateEl =
-    document.getElementById(
-      "currencyRate"
-    );
-
-
-  if(
-    !Number.isFinite(amount) ||
-    amount < 0
-  ){
-
-    resultEl.textContent =
-      "Enter a valid amount.";
-
-    return;
-
-  }
-
-
-  if(from === to){
-
-    resultEl.textContent =
-      formatCurrencyValue(
+      renderCurrencyResults(
         amount,
-        to
+        base,
+        cached.rates,
+        cached.date,
+        true
       );
 
-    rateEl.textContent =
-      "1 " +
-      from +
-      " = 1 " +
-      to;
+      currencyStatus.textContent =
+        "CACHED RATE";
 
-    updateComparison();
+      currencyMessage.textContent =
+        "Live connection failed. Showing the last successfully loaded rates.";
 
-    return;
+      toast("Using cached rates");
 
-  }
+    }else{
 
+      currencyStatus.textContent =
+        "OFFLINE";
 
-  let rate =
-    currencyRates[to];
+      currencyMessage.textContent =
+        "Live rates could not be loaded. Check your internet connection and tap REFRESH.";
 
+      cards.forEach(card=>{
 
-  if(
-    !rate ||
-    currencyRates._base !== from
-  ){
+        card.querySelector(".rateText").textContent =
+          "Live rate unavailable";
 
-    try{
-
-      const data =
-        await fetchCurrencyRates(
-          from
-        );
-
-      currencyRates =
-        data.rates || {};
-
-      currencyRates[from] =
-        1;
-
-      currencyRates._base =
-        from;
-
-      currencyRateDate =
-        data.date || null;
-
-      document.getElementById(
-        "rateStatus"
-      ).textContent =
-        "LIVE RATE • " +
-        (
-          currencyRateDate ||
-          "CURRENT"
-        ) +
-        " • BASE " +
-        from;
-
-      rate =
-        currencyRates[to];
-
-    }catch{
-
-      resultEl.textContent =
-        "—";
-
-      rateEl.textContent =
-        "Live rates unavailable.";
-
-      return;
-
-    }
-
-  }
-
-
-  if(
-    !Number.isFinite(
-      Number(rate)
-    )
-  ){
-
-    resultEl.textContent =
-      "—";
-
-    rateEl.textContent =
-      "Rate unavailable.";
-
-    return;
-
-  }
-
-
-  const converted =
-    amount * Number(rate);
-
-
-  resultEl.textContent =
-    formatCurrencyValue(
-      converted,
-      to
-    );
-
-
-  rateEl.textContent =
-    "1 " +
-    from +
-    " = " +
-    formatRate(rate) +
-    " " +
-    to +
-    (
-      currencyRateDate
-        ? " • Rate date: " +
-          currencyRateDate
-        : ""
-    );
-
-
-  updateComparison();
-
-}
-
-
-function formatRate(value){
-
-  if(!Number.isFinite(value)){
-
-    return "—";
-
-  }
-
-  if(
-    Math.abs(value) >= 1000
-  ){
-
-    return Number(
-      value.toPrecision(8)
-    ).toLocaleString(
-      undefined,
-      {
-        maximumFractionDigits:2
-      }
-    );
-
-  }
-
-  return Number(
-    value.toPrecision(8)
-  ).toLocaleString(
-    undefined,
-    {
-      maximumFractionDigits:6
-    }
-  );
-
-}
-
-
-function formatCurrencyValue(
-  value,
-  currency
-){
-
-  if(!Number.isFinite(value)){
-
-    return "—";
-
-  }
-
-  const symbol =
-    CURRENCY_SYMBOLS[currency] ||
-    currency + " ";
-
-  let digits = 2;
-
-  if(currency === "JPY"){
-    digits = 0;
-  }
-
-  if(currency === "KRW"){
-    digits = 0;
-  }
-
-  if(currency === "KWD"){
-    digits = 3;
-  }
-
-  return (
-    symbol +
-    Number(value).toLocaleString(
-      undefined,
-      {
-        minimumFractionDigits:digits,
-        maximumFractionDigits:digits
-      }
-    )
-  );
-
-}
-
-
-/* =========================================================
-   COUNTRY COMPARISON
-   ========================================================= */
-
-async function updateComparison(){
-
-  const base =
-    document.getElementById(
-      "fromCurrency"
-    ).value;
-
-  const amount =
-    Number(
-      document.getElementById(
-        "currencyAmount"
-      ).value
-    );
-
-
-  if(
-    !Number.isFinite(amount)
-  ){
-
-    return;
-
-  }
-
-
-  let rates =
-    currencyRates;
-
-
-  if(
-    rates._base !== base
-  ){
-
-    try{
-
-      const data =
-        await fetchCurrencyRates(
-          base
-        );
-
-      rates =
-        data.rates || {};
-
-      rates[base] =
-        1;
-
-      rates._base =
-        base;
-
-      currencyRates =
-        rates;
-
-      currencyRateDate =
-        data.date || null;
-
-    }catch{
-
-      return;
-
-    }
-
-  }
-
-
-  document
-    .querySelectorAll(
-      "[data-compare]"
-    )
-    .forEach(element => {
-
-      const currency =
-        element.dataset.compare;
-
-      const rate =
-        rates[currency];
-
-
-      if(
-        !Number.isFinite(
-          Number(rate)
-        )
-      ){
-
-        element.textContent =
+        card.querySelector(".convertedText").textContent =
           "—";
 
-        return;
+      });
 
-      }
+      toast("Currency server connection failed");
 
+    }
 
-      const value =
-        amount * Number(rate);
-
-
-      element.textContent =
-        formatCurrencyValue(
-          value,
-          currency
-        );
-
-    });
+  }
 
 }
 
+function renderCurrencyResults(
+  amount,
+  base,
+  rates,
+  date,
+  cached
+){
 
-/* =========================================================
-   CURRENCY CONTROLS
-   ========================================================= */
+  const cards =
+    [...compareList.querySelectorAll(".compareCard")];
 
-document
-  .getElementById(
-    "fromCurrency"
-  )
-  .addEventListener(
-    "change",
-    async () => {
+  cards.forEach(card=>{
 
-      currencyRates = {};
+    const select =
+      card.querySelector(".compareSelect");
 
-      await loadCurrencyRates();
+    const target =
+      select.value;
 
-    }
-  );
+    const rate =
+      target === base
+        ? 1
+        : Number(rates[target]);
 
+    const rateText =
+      card.querySelector(".rateText");
 
-document
-  .getElementById(
-    "toCurrency"
-  )
-  .addEventListener(
-    "change",
-    convertCurrency
-  );
+    const convertedText =
+      card.querySelector(".convertedText");
 
+    if(!Number.isFinite(rate)){
 
-document
-  .getElementById(
-    "currencyAmount"
-  )
-  .addEventListener(
-    "input",
-    () => {
+      rateText.textContent =
+        `No rate available for ${target}`;
 
-      clearTimeout(
-        window.sgCurrencyTimer
-      );
+      convertedText.textContent =
+        "—";
 
-      window.sgCurrencyTimer =
-        setTimeout(
-          convertCurrency,
-          180
-        );
+      return;
 
     }
-  );
 
+    rateText.textContent =
+      `1 ${base} = ${formatRate(rate)} ${target}`;
 
-document
-  .getElementById(
-    "convertCurrency"
-  )
-  .addEventListener(
-    "click",
-    convertCurrency
-  );
-
-
-document
-  .getElementById(
-    "refreshRates"
-  )
-  .addEventListener(
-    "click",
-    async () => {
-
-      currencyRates = {};
-
-      await loadCurrencyRates();
-
-      showToast(
-        "Currency rates refreshed."
-      );
-
-    }
-  );
-
-
-document
-  .getElementById(
-    "swapCurrency"
-  )
-  .addEventListener(
-    "click",
-    async () => {
-
-      const from =
-        document.getElementById(
-          "fromCurrency"
-        );
-
-      const to =
-        document.getElementById(
-          "toCurrency"
-        );
-
-      const oldFrom =
-        from.value;
-
-      from.value =
-        to.value;
-
-      to.value =
-        oldFrom;
-
-      currencyRates = {};
-
-      await loadCurrencyRates();
-
-    }
-  );
-
-
-document
-  .querySelectorAll(
-    ".currencyChip"
-  )
-  .forEach(chip => {
-
-    chip.addEventListener(
-      "click",
-      () => {
-
-        const code =
-          chip.dataset.currency;
-
-        document
-          .querySelectorAll(
-            ".currencyChip"
-          )
-          .forEach(item => {
-
-            item.classList.toggle(
-              "active",
-              item === chip
-            );
-
-          });
-
-        document.getElementById(
-          "toCurrency"
-        ).value = code;
-
-        convertCurrency();
-
-      }
-    );
+    convertedText.textContent =
+      `${formatCurrencyNumber(amount,base)} ${base} = ${formatCurrencyNumber(amount * rate,target)} ${target}`;
 
   });
 
+}
+
+document
+  .getElementById("compareBtn")
+  .addEventListener(
+    "click",
+    compareCurrenciesNow
+  );
+
+document
+  .getElementById("refreshCurrencyBtn")
+  .addEventListener(
+    "click",
+    compareCurrenciesNow
+  );
+
+document
+  .getElementById("addCompareBtn")
+  .addEventListener("click",()=>{
+
+    if(comparisonCurrencies.length >= 8){
+
+      toast("Maximum 8 comparisons");
+
+      return;
+
+    }
+
+    const used =
+      new Set(comparisonCurrencies);
+
+    const next =
+      currencies.find(
+        item =>
+          item[1] !== currencyBase.value &&
+          !used.has(item[1])
+      );
+
+    if(next){
+
+      comparisonCurrencies.push(
+        next[1]
+      );
+
+      buildComparisonList();
+
+    }
+
+  });
+
+currencyBase.addEventListener("change",()=>{
+
+  saveCurrencySelections();
+
+});
 
 /* =========================================================
-   INDEXED DB
-   ========================================================= */
+   VAULT DATABASE
+========================================================= */
 
-function openDatabase(){
+let dbPromise = null;
 
-  return new Promise(
-    (resolve,reject) => {
+function openVaultDB(){
 
-      const request =
-        indexedDB.open(
-          DB_NAME,
-          DB_VERSION
-        );
+  if(dbPromise) return dbPromise;
 
-      request.onupgradeneeded =
-        event => {
+  dbPromise = new Promise((resolve,reject)=>{
 
-          const database =
-            event.target.result;
+    const request =
+      indexedDB.open(
+        DB_NAME,
+        DB_VERSION
+      );
 
-          if(
-            !database.objectStoreNames
-              .contains(STORE_NAME)
-          ){
+    request.onupgradeneeded = event=>{
 
-            database.createObjectStore(
-              STORE_NAME,
-              {
-                keyPath:"id",
-                autoIncrement:true
-              }
-            );
+      const db =
+        event.target.result;
 
+      if(!db.objectStoreNames.contains(STORE_NAME)){
+
+        db.createObjectStore(
+          STORE_NAME,
+          {
+            keyPath:"id",
+            autoIncrement:true
           }
+        );
 
-        };
+      }
 
+    };
 
-      request.onsuccess =
-        event => {
+    request.onsuccess =
+      ()=>resolve(request.result);
 
-          db =
-            event.target.result;
+    request.onerror =
+      ()=>reject(request.error);
 
-          resolve(db);
+  });
 
-        };
-
-
-      request.onerror =
-        () => {
-
-          reject(
-            request.error
-          );
-
-        };
-
-    }
-  );
-
+  return dbPromise;
 }
 
+async function addVaultFile(file){
 
-function addVaultFile(file){
+  const db =
+    await openVaultDB();
 
-  return new Promise(
-    (resolve,reject) => {
+  const buffer =
+    await file.arrayBuffer();
 
-      const transaction =
-        db.transaction(
-          STORE_NAME,
-          "readwrite"
-        );
+  return new Promise((resolve,reject)=>{
 
-      const store =
-        transaction.objectStore(
-          STORE_NAME
-        );
+    const transaction =
+      db.transaction(
+        STORE_NAME,
+        "readwrite"
+      );
 
-      const data = {
+    const store =
+      transaction.objectStore(
+        STORE_NAME
+      );
 
+    const request =
+      store.add({
         name:file.name,
-
-        type:
-          file.type ||
-          "application/octet-stream",
-
+        type:file.type || "application/octet-stream",
         size:file.size,
+        data:buffer,
+        createdAt:Date.now()
+      });
 
-        created:Date.now(),
+    request.onsuccess =
+      ()=>resolve(request.result);
 
-        blob:file
+    request.onerror =
+      ()=>reject(request.error);
 
-      };
-
-      const request =
-        store.add(data);
-
-      request.onsuccess =
-        () => {
-
-          resolve(
-            request.result
-          );
-
-        };
-
-      request.onerror =
-        () => {
-
-          reject(
-            request.error
-          );
-
-        };
-
-    }
-  );
+  });
 
 }
 
+async function getVaultFiles(){
 
-function getVaultFiles(){
+  const db =
+    await openVaultDB();
 
-  return new Promise(
-    (resolve,reject) => {
+  return new Promise((resolve,reject)=>{
 
-      const transaction =
-        db.transaction(
-          STORE_NAME,
-          "readonly"
-        );
+    const transaction =
+      db.transaction(
+        STORE_NAME,
+        "readonly"
+      );
 
-      const store =
-        transaction.objectStore(
-          STORE_NAME
-        );
+    const store =
+      transaction.objectStore(
+        STORE_NAME
+      );
 
-      const request =
-        store.getAll();
+    const request =
+      store.getAll();
 
-      request.onsuccess =
-        () => {
+    request.onsuccess =
+      ()=>resolve(request.result || []);
 
-          const files =
-            request.result || [];
+    request.onerror =
+      ()=>reject(request.error);
 
-          files.sort(
-            (a,b) =>
-              b.created -
-              a.created
-          );
-
-          resolve(files);
-
-        };
-
-      request.onerror =
-        () => {
-
-          reject(
-            request.error
-          );
-
-        };
-
-    }
-  );
+  });
 
 }
 
+async function deleteVaultFile(id){
 
-function getVaultFile(id){
+  const db =
+    await openVaultDB();
 
-  return new Promise(
-    (resolve,reject) => {
+  return new Promise((resolve,reject)=>{
 
-      const transaction =
-        db.transaction(
-          STORE_NAME,
-          "readonly"
-        );
+    const transaction =
+      db.transaction(
+        STORE_NAME,
+        "readwrite"
+      );
 
-      const store =
-        transaction.objectStore(
-          STORE_NAME
-        );
+    const store =
+      transaction.objectStore(
+        STORE_NAME
+      );
 
-      const request =
-        store.get(id);
+    const request =
+      store.delete(id);
 
-      request.onsuccess =
-        () => {
+    request.onsuccess =
+      ()=>resolve();
 
-          resolve(
-            request.result
-          );
+    request.onerror =
+      ()=>reject(request.error);
 
-        };
-
-      request.onerror =
-        () => {
-
-          reject(
-            request.error
-          );
-
-        };
-
-    }
-  );
+  });
 
 }
 
+async function getVaultFile(id){
 
-function deleteVaultFile(id){
+  const db =
+    await openVaultDB();
 
-  return new Promise(
-    (resolve,reject) => {
+  return new Promise((resolve,reject)=>{
 
-      const transaction =
-        db.transaction(
-          STORE_NAME,
-          "readwrite"
-        );
+    const transaction =
+      db.transaction(
+        STORE_NAME,
+        "readonly"
+      );
 
-      const store =
-        transaction.objectStore(
-          STORE_NAME
-        );
+    const store =
+      transaction.objectStore(
+        STORE_NAME
+      );
 
-      const request =
-        store.delete(id);
+    const request =
+      store.get(id);
 
-      request.onsuccess =
-        () => {
+    request.onsuccess =
+      ()=>resolve(request.result);
 
-          resolve();
+    request.onerror =
+      ()=>reject(request.error);
 
-        };
-
-      request.onerror =
-        () => {
-
-          reject(
-            request.error
-          );
-
-        };
-
-    }
-  );
+  });
 
 }
-
 
 /* =========================================================
-   VAULT OPEN / LOCK
-   ========================================================= */
-
-async function openVault(){
-
-  try{
-
-    if(!db){
-
-      await openDatabase();
-
-    }
-
-    vault.classList.add(
-      "show"
-    );
-
-    await renderVault();
-
-    showToast(
-      "Private vault unlocked."
-    );
-
-  }catch(error){
-
-    console.error(error);
-
-    showToast(
-      "Vault could not be opened."
-    );
-
-  }
-
-}
-
-
-function lockVault(){
-
-  vault.classList.remove(
-    "show"
-  );
-
-  document
-    .querySelectorAll(
-      ".vaultObjectUrl"
-    )
-    .forEach(el => {
-
-      if(el.dataset.url){
-
-        URL.revokeObjectURL(
-          el.dataset.url
-        );
-
-      }
-
-    });
-
-  vaultGrid.innerHTML = "";
-
-  showToast(
-    "Vault locked."
-  );
-
-}
-
-
-document
-  .getElementById(
-    "lockVault"
-  )
-  .addEventListener(
-    "click",
-    lockVault
-  );
-
-
-/* =========================================================
-   FILE IMPORT
-   ========================================================= */
-
-document
-  .getElementById(
-    "addFiles"
-  )
-  .addEventListener(
-    "click",
-    () => {
-
-      document
-        .getElementById(
-          "fileInput"
-        )
-        .click();
-
-    }
-  );
-
-
-document
-  .getElementById(
-    "fileInput"
-  )
-  .addEventListener(
-    "change",
-    async event => {
-
-      const files =
-        Array.from(
-          event.target.files || []
-        );
-
-      if(!files.length){
-
-        return;
-
-      }
-
-      try{
-
-        if(!db){
-
-          await openDatabase();
-
-        }
-
-        vaultStatus.textContent =
-          "IMPORTING " +
-          files.length +
-          " ITEM(S)...";
-
-
-        for(
-          const file of files
-        ){
-
-          await addVaultFile(
-            file
-          );
-
-        }
-
-
-        event.target.value =
-          "";
-
-
-        await renderVault();
-
-
-        showToast(
-          files.length === 1
-            ? "File added to vault."
-            : files.length +
-              " files added to vault."
-        );
-
-      }catch(error){
-
-        console.error(
-          error
-        );
-
-        showToast(
-          "Could not add the selected file(s)."
-        );
-
-        vaultStatus.textContent =
-          "IMPORT ERROR";
-
-      }
-
-    }
-  );
-
-
-/* =========================================================
-   FILE SIZE
-   ========================================================= */
-
-function formatFileSize(
-  bytes
-){
-
-  if(bytes < 1024){
-
-    return bytes + " B";
-
-  }
-
-  if(
-    bytes <
-    1024 * 1024
-  ){
-
-    return (
-      bytes / 1024
-    ).toFixed(1) +
-    " KB";
-
-  }
-
-  if(
-    bytes <
-    1024 *
-    1024 *
-    1024
-  ){
-
-    return (
-      bytes /
-      (1024 * 1024)
-    ).toFixed(1) +
-    " MB";
-
-  }
-
-  return (
-    bytes /
-    (1024 *
-     1024 *
-     1024)
-  ).toFixed(2) +
-  " GB";
-
-}
-
-
-/* =========================================================
-   FILE TYPE
-   ========================================================= */
-
-function getFileCategory(
-  file
-){
-
-  const type =
-    file.type || "";
-
-  const name =
-    file.name.toLowerCase();
-
-
-  if(
-    type.startsWith(
-      "image/"
-    )
-  ){
-
-    return "IMAGE";
-
-  }
-
-
-  if(
-    type.startsWith(
-      "video/"
-    )
-  ){
-
-    return "VIDEO";
-
-  }
-
-
-  if(
-    type ===
-      "application/pdf" ||
-    name.endsWith(".pdf")
-  ){
-
-    return "PDF";
-
-  }
-
-
-  if(
-    name.endsWith(".doc") ||
-    name.endsWith(".docx")
-  ){
-
-    return "DOCUMENT";
-
-  }
-
-
-  if(
-    name.endsWith(".xls") ||
-    name.endsWith(".xlsx") ||
-    name.endsWith(".csv")
-  ){
-
-    return "SPREADSHEET";
-
-  }
-
-
-  if(
-    name.endsWith(".ppt") ||
-    name.endsWith(".pptx")
-  ){
-
-    return "PRESENTATION";
-
-  }
-
-
-  if(
-    name.endsWith(".zip") ||
-    name.endsWith(".rar")
-  ){
-
-    return "ARCHIVE";
-
-  }
-
+   VAULT UI
+========================================================= */
+
+const vault =
+  document.getElementById("vault");
+
+const vaultFiles =
+  document.getElementById("vaultFiles");
+
+function getFileIcon(type){
+
+  if(type.startsWith("image/")) return "IMG";
+  if(type.startsWith("video/")) return "VID";
+  if(type.includes("pdf")) return "PDF";
+  if(type.includes("zip") || type.includes("rar") || type.includes("7z")) return "ZIP";
+  if(type.includes("word") || type.includes("document")) return "DOC";
+  if(type.includes("sheet") || type.includes("excel")) return "XLS";
+  if(type.includes("presentation") || type.includes("powerpoint")) return "PPT";
 
   return "FILE";
-
 }
 
-
-/* =========================================================
-   RENDER VAULT
-   ========================================================= */
-
 async function renderVault(){
-
-  if(!db){
-
-    await openDatabase();
-
-  }
 
   const files =
     await getVaultFiles();
 
-  vaultGrid.innerHTML =
-    "";
+  if(!files.length){
 
-  vaultStatus.textContent =
-    files.length +
-    (
-      files.length === 1
-        ? " ITEM"
-        : " ITEMS"
-    ) +
-    " SECURED";
-
-
-  if(files.length === 0){
-
-    vaultGrid.innerHTML = `
-      <div class="emptyVault">
-        VAULT EMPTY
-        <br><br>
-        Tap <b>+ ADD FILES</b> to import
-        photos, videos or files.
-      </div>
-    `;
+    vaultFiles.innerHTML =
+      `<div class="vaultEmpty">
+        PRIVATE VAULT IS EMPTY
+      </div>`;
 
     return;
 
   }
 
+  vaultFiles.innerHTML = "";
 
-  files.forEach(
-    file => {
+  files
+    .sort((a,b)=>b.createdAt-a.createdAt)
+    .forEach(file=>{
 
       const card =
-        document.createElement(
-          "div"
-        );
+        document.createElement("div");
 
       card.className =
-        "vaultCard";
-
+        "vaultFile";
 
       const preview =
-        document.createElement(
-          "div"
-        );
+        document.createElement("div");
 
-      preview.className =
-        "preview";
-
-
-      const category =
-        getFileCategory(
-          file
-        );
-
-
-      if(category === "IMAGE"){
+      if(file.type.startsWith("image/")){
 
         const img =
-          document.createElement(
-            "img"
-          );
+          document.createElement("img");
 
-        const url =
-          URL.createObjectURL(
-            file.blob
+        img.className =
+          "vaultPreview";
+
+        const blob =
+          new Blob(
+            [file.data],
+            {type:file.type}
           );
 
         img.src =
-          url;
+          URL.createObjectURL(blob);
 
-        img.className =
-          "vaultObjectUrl";
+        preview.appendChild(img);
 
-        img.dataset.url =
-          url;
-
-        img.alt =
-          file.name;
-
-        preview.appendChild(
-          img
-        );
-
-      }
-
-      else if(
-        category === "VIDEO"
-      ){
+      }else if(file.type.startsWith("video/")){
 
         const video =
-          document.createElement(
-            "video"
-          );
+          document.createElement("video");
 
-        const url =
-          URL.createObjectURL(
-            file.blob
+        video.className =
+          "vaultPreview";
+
+        video.controls = true;
+
+        const blob =
+          new Blob(
+            [file.data],
+            {type:file.type}
           );
 
         video.src =
-          url;
+          URL.createObjectURL(blob);
 
-        video.className =
-          "vaultObjectUrl";
+        preview.appendChild(video);
 
-        video.dataset.url =
-          url;
+      }else{
 
-        video.muted =
-          true;
+        preview.className =
+          "vaultGeneric";
 
-        video.playsInline =
-          true;
-
-        video.preload =
-          "metadata";
-
-        preview.appendChild(
-          video
-        );
-
-
-        const tag =
-          document.createElement(
-            "div"
-          );
-
-        tag.className =
-          "videoTag";
-
-        tag.textContent =
-          "VIDEO";
-
-        preview.appendChild(
-          tag
-        );
+        preview.textContent =
+          getFileIcon(file.type);
 
       }
-
-      else{
-
-        preview.innerHTML = `
-          <div class="filePreview">
-            <div class="fileIcon">▣</div>
-            <div class="fileType"></div>
-          </div>
-        `;
-
-        preview.querySelector(
-          ".fileType"
-        ).textContent =
-          category;
-
-      }
-
-
-      const info =
-        document.createElement(
-          "div"
-        );
-
-      info.className =
-        "cardInfo";
-
 
       const name =
-        document.createElement(
-          "div"
-        );
+        document.createElement("div");
 
       name.className =
-        "fileName";
+        "vaultName";
 
       name.textContent =
         file.name;
 
-      name.title =
-        file.name;
+      const del =
+        document.createElement("button");
 
+      del.className =
+        "vaultDelete";
 
-      const meta =
-        document.createElement(
-          "div"
-        );
-
-      meta.className =
-        "fileMeta";
-
-      meta.textContent =
-        category +
-        " • " +
-        formatFileSize(
-          file.size
-        );
-
-
-      const buttons =
-        document.createElement(
-          "div"
-        );
-
-      buttons.className =
-        "cardButtons";
-
-
-      const exportButton =
-        document.createElement(
-          "button"
-        );
-
-      exportButton.className =
-        "exportBtn";
-
-      exportButton.textContent =
-        "EXPORT TO DEVICE";
-
-
-      exportButton.addEventListener(
-        "click",
-        () =>
-          exportVaultFile(
-            file.id
-          )
-      );
-
-
-      const deleteButton =
-        document.createElement(
-          "button"
-        );
-
-      deleteButton.className =
-        "deleteBtn";
-
-      deleteButton.textContent =
+      del.textContent =
         "DELETE";
 
+      del.addEventListener("click",async()=>{
 
-      deleteButton.addEventListener(
-        "click",
-        async () => {
-
-          const confirmed =
-            window.confirm(
-              'Delete "' +
-              file.name +
-              '" from the private vault?'
-            );
-
-          if(!confirmed){
-
-            return;
-
-          }
-
-
-          try{
-
-            await deleteVaultFile(
-              file.id
-            );
-
-            await renderVault();
-
-            showToast(
-              "Item deleted from vault."
-            );
-
-          }catch(error){
-
-            console.error(
-              error
-            );
-
-            showToast(
-              "Could not delete item."
-            );
-
-          }
-
+        if(
+          !confirm(
+            `Delete "${file.name}"?`
+          )
+        ){
+          return;
         }
-      );
 
+        await deleteVaultFile(
+          file.id
+        );
 
-      buttons.appendChild(
-        exportButton
-      );
+        renderVault();
 
-      buttons.appendChild(
-        deleteButton
-      );
+      });
 
-      info.appendChild(
-        name
-      );
+      card.appendChild(preview);
+      card.appendChild(name);
+      card.appendChild(del);
 
-      info.appendChild(
-        meta
-      );
+      vaultFiles.appendChild(card);
 
-      info.appendChild(
-        buttons
-      );
-
-      card.appendChild(
-        preview
-      );
-
-      card.appendChild(
-        info
-      );
-
-      vaultGrid.appendChild(
-        card
-      );
-
-    }
-  );
+    });
 
 }
 
-
 /* =========================================================
-   ANDROID EXPORT
-   ========================================================= */
+   VAULT EXPORT
+========================================================= */
 
-async function exportVaultFile(
-  id
-){
+function arrayBufferToBase64(buffer){
+
+  const bytes =
+    new Uint8Array(buffer);
+
+  let binary = "";
+
+  const chunkSize = 0x8000;
+
+  for(
+    let i=0;
+    i<bytes.length;
+    i+=chunkSize
+  ){
+
+    binary += String.fromCharCode(
+      ...bytes.subarray(
+        i,
+        Math.min(
+          i+chunkSize,
+          bytes.length
+        )
+      )
+    );
+
+  }
+
+  return btoa(binary);
+
+}
+
+async function exportVaultFile(file){
+
+  const base64 =
+    arrayBufferToBase64(
+      file.data
+    );
+
+  /*
+    AndroidIDE / Android WebView bridge.
+  */
+
+  if(
+    window.Android &&
+    typeof window.Android.saveFile === "function"
+  ){
+
+    try{
+
+      window.Android.saveFile(
+        file.name,
+        file.type || "application/octet-stream",
+        base64
+      );
+
+      toast("Export sent to device");
+
+      return;
+
+    }catch(error){
+
+      console.error(error);
+
+      toast("Android export failed");
+
+    }
+
+  }
+
+  /*
+    Browser fallback.
+  */
 
   try{
 
-    const item =
-      await getVaultFile(
-        id
+    const blob =
+      new Blob(
+        [file.data],
+        {
+          type:
+            file.type ||
+            "application/octet-stream"
+        }
       );
-
-
-    if(
-      !item ||
-      !item.blob
-    ){
-
-      showToast(
-        "File could not be found."
-      );
-
-      return;
-
-    }
-
-
-    if(
-      window.Android &&
-      typeof window.Android.saveFile ===
-        "function"
-    ){
-
-      showToast(
-        "EXPORTING..."
-      );
-
-
-      const reader =
-        new FileReader();
-
-
-      reader.onload =
-        function(){
-
-          try{
-
-            const dataUrl =
-              reader.result;
-
-
-            if(
-              typeof dataUrl !==
-                "string" ||
-              !dataUrl.includes(",")
-            ){
-
-              showToast(
-                "Export failed."
-              );
-
-              return;
-
-            }
-
-
-            const base64 =
-              dataUrl.substring(
-                dataUrl.indexOf(",") + 1
-              );
-
-
-            window.Android.saveFile(
-
-              item.name ||
-                "SG_CALCI_export",
-
-              item.type ||
-                "application/octet-stream",
-
-              base64
-
-            );
-
-          }catch(error){
-
-            console.error(
-              "Android export error:",
-              error
-            );
-
-            showToast(
-              "Export failed."
-            );
-
-          }
-
-        };
-
-
-      reader.onerror =
-        function(){
-
-          showToast(
-            "Could not read file."
-          );
-
-        };
-
-
-      reader.readAsDataURL(
-        item.blob
-      );
-
-      return;
-
-    }
-
-
-    /* BROWSER FALLBACK */
 
     const url =
-      URL.createObjectURL(
-        item.blob
-      );
+      URL.createObjectURL(blob);
 
     const link =
-      document.createElement(
-        "a"
-      );
+      document.createElement("a");
 
-    link.href =
-      url;
+    link.href = url;
+    link.download = file.name;
 
-    link.download =
-      item.name ||
-      "SG_CALCI_export";
-
-    link.style.display =
-      "none";
-
-    document.body.appendChild(
-      link
-    );
+    document.body.appendChild(link);
 
     link.click();
 
     link.remove();
 
+    setTimeout(()=>{
+      URL.revokeObjectURL(url);
+    },1000);
 
-    setTimeout(
-      () => {
-
-        URL.revokeObjectURL(
-          url
-        );
-
-      },
-      5000
-    );
-
-
-    showToast(
-      "Export started. Check Downloads."
-    );
-
+    toast("Download started");
 
   }catch(error){
 
-    console.error(
-      "Export error:",
-      error
-    );
+    console.error(error);
 
-    showToast(
-      "Export failed."
-    );
+    toast("Export failed");
 
   }
 
 }
 
+document
+  .getElementById("exportAllVault")
+  .addEventListener("click",async()=>{
+
+    const files =
+      await getVaultFiles();
+
+    if(!files.length){
+
+      toast("Vault is empty");
+
+      return;
+
+    }
+
+    for(const file of files){
+
+      await exportVaultFile(
+        file
+      );
+
+    }
+
+  });
+
+document
+  .getElementById("importVault")
+  .addEventListener("click",()=>{
+
+    document
+      .getElementById("vaultFileInput")
+      .click();
+
+  });
+
+document
+  .getElementById("vaultFileInput")
+  .addEventListener("change",async event=>{
+
+    const files =
+      [...event.target.files];
+
+    if(!files.length) return;
+
+    try{
+
+      for(const file of files){
+
+        await addVaultFile(file);
+
+      }
+
+      toast(
+        `${files.length} file${files.length>1?"s":""} added`
+      );
+
+      await renderVault();
+
+    }catch(error){
+
+      console.error(error);
+
+      toast(
+        "Could not save file"
+      );
+
+    }
+
+    event.target.value = "";
+
+  });
 
 /* =========================================================
-   SERVICE WORKER
-   ========================================================= */
+   VAULT OPEN / CLOSE
+========================================================= */
+
+async function openVault(){
+
+  vault.classList.add("show");
+
+  await renderVault();
+
+}
+
+document
+  .getElementById("vaultClose")
+  .addEventListener("click",()=>{
+
+    vault.classList.remove("show");
+
+  });
+
+/* =========================================================
+   SECRET VAULT SETUP
+========================================================= */
+
+function showVaultSetup(){
+
+  document
+    .getElementById("setupOverlay")
+    .classList.add("show");
+
+}
+
+document
+  .getElementById("setupSave")
+  .addEventListener("click",()=>{
+
+    const code =
+      document
+        .getElementById("setupCode")
+        .value
+        .trim();
+
+    const confirmCode =
+      document
+        .getElementById("setupCodeConfirm")
+        .value
+        .trim();
+
+    if(!/^\d{4,12}$/.test(code)){
+
+      toast(
+        "Code must contain 4–12 digits"
+      );
+
+      return;
+
+    }
+
+    if(code !== confirmCode){
+
+      toast(
+        "Codes do not match"
+      );
+
+      return;
+
+    }
+
+    localStorage.setItem(
+      SECRET_KEY,
+      code
+    );
+
+    document
+      .getElementById("setupOverlay")
+      .classList.remove("show");
+
+    toast(
+      "Private vault created"
+    );
+
+  });
+
+function checkSecretCode(){
+
+  const secret =
+    localStorage.getItem(
+      SECRET_KEY
+    );
+
+  if(
+    secret &&
+    expression === secret
+  ){
+
+    expression = "";
+
+    updateDisplay();
+
+    openVault();
+
+    return true;
+
+  }
+
+  return false;
+
+}
+
+/*
+  Override equals with secret-vault detection.
+*/
+
+document
+  .getElementById("equalsBtn")
+  .addEventListener("click",()=>{
+    checkSecretCode();
+  });
+
+/* =========================================================
+   KEYBOARD SUPPORT
+========================================================= */
+
+document.addEventListener("keydown",event=>{
+
+  if(
+    event.key >= "0" &&
+    event.key <= "9"
+  ){
+
+    expression += event.key;
+    updateDisplay();
+
+  }else if(
+    ["+","-","*","/","(",")","."].includes(event.key)
+  ){
+
+    expression += event.key;
+    updateDisplay();
+
+  }else if(event.key === "Enter"){
+
+    calculate();
+
+  }else if(event.key === "Backspace"){
+
+    expression =
+      expression.slice(0,-1);
+
+    updateDisplay();
+
+  }else if(event.key === "Escape"){
+
+    clearAll();
+
+  }
+
+});
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+renderHistory();
+
+buildBaseCurrency();
+
+loadCurrencySelections();
+
+buildComparisonList();
+
+/*
+  Make sure at least one comparison exists.
+*/
+
+if(!comparisonCurrencies.length){
+
+  comparisonCurrencies = [
+    "INR",
+    "EUR",
+    "GBP"
+  ];
+
+  buildComparisonList();
+
+}
+
+/*
+  First-launch private vault setup.
+*/
+
+if(!localStorage.getItem(SECRET_KEY)){
+
+  setTimeout(()=>{
+    showVaultSetup();
+  },500);
+
+}
+
+/*
+  Service worker.
+*/
 
 if(
   "serviceWorker" in navigator
@@ -4832,55 +2862,51 @@ if(
 
   window.addEventListener(
     "load",
-    () => {
-
+    ()=>{
       navigator.serviceWorker
-        .register(
-          "./sw.js"
-        )
-        .catch(
-          error => {
-
-            console.log(
-              "Service worker:",
-              error
-            );
-
-          }
-        );
-
+        .register("./sw.js")
+        .catch(error=>{
+          console.log(
+            "Service worker:",
+            error
+          );
+        });
     }
   );
 
 }
 
+updateDisplay();
 
 /* =========================================================
-   START
-   ========================================================= */
+   OPTIONAL ONLINE STATUS
+========================================================= */
 
-(async function(){
+window.addEventListener("online",()=>{
 
-  checkFirstLaunch();
+  if(currencyPanel.classList.contains("show")){
 
-  renderHistory();
-
-  populateCurrencySelectors();
-
-  try{
-
-    await openDatabase();
-
-  }catch(error){
-
-    console.error(
-      "IndexedDB unavailable:",
-      error
-    );
+    currencyStatus.textContent =
+      "ONLINE";
 
   }
 
-})();
+});
+
+window.addEventListener("offline",()=>{
+
+  if(currencyPanel.classList.contains("show")){
+
+    currencyStatus.textContent =
+      "OFFLINE";
+
+    currencyMessage.textContent =
+      "Internet connection is unavailable.";
+
+  }
+
+});
+
 </script>
 
 </body>
