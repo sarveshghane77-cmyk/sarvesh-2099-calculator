@@ -2,40 +2,73 @@ name: Build SG CALCI APK
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
 
 jobs:
   build:
+    name: Build APK
     runs-on: ubuntu-latest
 
     steps:
 
+      # ---------------------------------------------------------
+      # 1. Get repository
+      # ---------------------------------------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # ---------------------------------------------------------
+      # 2. Java
+      # ---------------------------------------------------------
       - name: Set up Java 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
+          distribution: temurin
           java-version: '17'
-          distribution: 'temurin'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v4
-        with:
-          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
-
+      # ---------------------------------------------------------
+      # 3. Create Android project folders
+      # ---------------------------------------------------------
       - name: Create Android project
+        shell: bash
         run: |
+          set -e
 
           mkdir -p app/src/main/java/com/sarvesh/sgcalci
-          mkdir -p app/src/main/res/values
           mkdir -p app/src/main/res/drawable
-          mkdir -p app/src/main/assets
+          mkdir -p app/src/main/res/mipmap-hdpi
+          mkdir -p app/src/main/res/mipmap-mdpi
+          mkdir -p app/src/main/res/mipmap-xhdpi
+          mkdir -p app/src/main/res/mipmap-xxhdpi
+          mkdir -p app/src/main/res/mipmap-xxxhdpi
+          mkdir -p app/src/main/res/values
 
-          cp index.html app/src/main/assets/index.html
+      # ---------------------------------------------------------
+      # 4. Download Gradle
+      # ---------------------------------------------------------
+      - name: Download Gradle 8.7
+        shell: bash
+        run: |
+          set -e
 
-          if [ -f icon-512.png ]; then
-            cp icon-512.png app/src/main/res/drawable/sg_calci_icon.png
-          fi
+          wget -q \
+            https://services.gradle.org/distributions/gradle-8.7-bin.zip \
+            -O gradle.zip
+
+          unzip -q gradle.zip
+
+      # ---------------------------------------------------------
+      # 5. Android Gradle configuration
+      # ---------------------------------------------------------
+      - name: Create Gradle files
+        shell: bash
+        run: |
+          set -e
 
           cat > settings.gradle <<'EOF'
           pluginManagement {
@@ -48,26 +81,36 @@ jobs:
 
           dependencyResolutionManagement {
               repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
               repositories {
                   google()
                   mavenCentral()
               }
           }
 
-          rootProject.name = "SG-CALCI"
+          rootProject.name = "SGCALCI"
           include(":app")
           EOF
 
           cat > build.gradle <<'EOF'
           plugins {
-              id 'com.android.application' version '8.6.1' apply false
+              id 'com.android.application' version '8.5.2' apply false
           }
           EOF
 
           cat > gradle.properties <<'EOF'
           org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
           android.useAndroidX=true
+          android.nonTransitiveRClass=true
           EOF
+
+      # ---------------------------------------------------------
+      # 6. App Gradle configuration
+      # ---------------------------------------------------------
+      - name: Create app Gradle file
+        shell: bash
+        run: |
+          set -e
 
           cat > app/build.gradle <<'EOF'
           plugins {
@@ -82,44 +125,113 @@ jobs:
                   applicationId 'com.sarvesh.sgcalci'
                   minSdk 23
                   targetSdk 35
-                  versionCode 3
-                  versionName '1.2'
+                  versionCode 1
+                  versionName '1.0'
+              }
+
+              buildTypes {
+                  release {
+                      minifyEnabled false
+                      shrinkResources false
+                  }
+
+                  debug {
+                      minifyEnabled false
+                  }
+              }
+
+              compileOptions {
+                  sourceCompatibility JavaVersion.VERSION_17
+                  targetCompatibility JavaVersion.VERSION_17
               }
           }
           EOF
 
+      # ---------------------------------------------------------
+      # 7. App icon
+      # ---------------------------------------------------------
+      - name: Download SG CALCI icon
+        shell: bash
+        run: |
+          set -e
+
+          curl -fL \
+            https://raw.githubusercontent.com/sarveshghane77-cmyk/sarvesh-2099-calculator/main/icon-512.png \
+            -o app/src/main/res/drawable/sg_calci_icon.png
+
+      # ---------------------------------------------------------
+      # 8. Android resources
+      # ---------------------------------------------------------
+      - name: Create Android resources
+        shell: bash
+        run: |
+          set -e
+
+          cat > app/src/main/res/values/colors.xml <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <resources>
+              <color name="black">#02050B</color>
+          </resources>
+          EOF
+
+          cat > app/src/main/res/values/strings.xml <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <resources>
+              <string name="app_name">SG CALCI</string>
+          </resources>
+          EOF
+
           cat > app/src/main/res/values/styles.xml <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
           <resources>
 
               <style name="AppTheme"
                   parent="android:style/Theme.Material.Light.NoActionBar">
 
                   <item name="android:fontFamily">sans</item>
-                  <item name="android:colorAccent">#00e5ff</item>
-                  <item name="android:navigationBarColor">#02050b</item>
-                  <item name="android:statusBarColor">#02050b</item>
+                  <item name="android:windowActionModeOverlay">true</item>
+                  <item name="android:colorAccent">#00E5FF</item>
+                  <item name="android:navigationBarColor">#02050B</item>
+                  <item name="android:statusBarColor">#02050B</item>
                   <item name="android:windowLightStatusBar">false</item>
+                  <item name="android:windowNoTitle">true</item>
 
               </style>
 
           </resources>
           EOF
 
+      # ---------------------------------------------------------
+      # 9. Android Manifest
+      # ---------------------------------------------------------
+      - name: Create Android Manifest
+        shell: bash
+        run: |
+          set -e
+
           cat > app/src/main/AndroidManifest.xml <<'EOF'
           <?xml version="1.0" encoding="utf-8"?>
 
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+              <uses-permission android:name="android.permission.INTERNET" />
+
               <uses-permission
-                  android:name="android.permission.INTERNET" />
+                  android:name="android.permission.READ_EXTERNAL_STORAGE"
+                  android:maxSdkVersion="32" />
+
+              <uses-permission
+                  android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+                  android:maxSdkVersion="28" />
 
               <application
-                  android:allowBackup="false"
-                  android:label="SG CALCI"
-                  android:theme="@style/AppTheme"
+                  android:allowBackup="true"
                   android:usesCleartextTraffic="true"
+                  android:theme="@style/AppTheme"
+                  android:label="@string/app_name"
                   android:icon="@drawable/sg_calci_icon"
-                  android:roundIcon="@drawable/sg_calci_icon">
+                  android:roundIcon="@drawable/sg_calci_icon"
+                  android:supportsRtl="true">
 
                   <activity
                       android:name=".MainActivity"
@@ -127,13 +239,8 @@ jobs:
                       android:exported="true">
 
                       <intent-filter>
-
-                          <action
-                              android:name="android.intent.action.MAIN" />
-
-                          <category
-                              android:name="android.intent.category.LAUNCHER" />
-
+                          <action android:name="android.intent.action.MAIN" />
+                          <category android:name="android.intent.category.LAUNCHER" />
                       </intent-filter>
 
                   </activity>
@@ -143,23 +250,39 @@ jobs:
           </manifest>
           EOF
 
+      # ---------------------------------------------------------
+      # 10. MainActivity
+      # ---------------------------------------------------------
+      - name: Create MainActivity
+        shell: bash
+        run: |
+          set -e
+
           cat > app/src/main/java/com/sarvesh/sgcalci/MainActivity.java <<'EOF'
           package com.sarvesh.sgcalci;
 
           import android.app.Activity;
+          import android.content.ContentResolver;
           import android.content.ContentValues;
           import android.content.Intent;
+          import android.database.Cursor;
           import android.net.Uri;
+          import android.os.Build;
           import android.os.Bundle;
           import android.os.Environment;
           import android.provider.MediaStore;
-          import android.webkit.JavascriptInterface;
+          import android.provider.Settings;
+          import android.webkit.DownloadListener;
           import android.webkit.ValueCallback;
           import android.webkit.WebChromeClient;
           import android.webkit.WebSettings;
           import android.webkit.WebView;
           import android.webkit.WebViewClient;
+          import android.widget.Toast;
 
+          import java.io.File;
+          import java.io.FileOutputStream;
+          import java.io.InputStream;
           import java.io.OutputStream;
           import java.util.Base64;
 
@@ -169,369 +292,701 @@ jobs:
 
               private ValueCallback<Uri[]> filePathCallback;
 
-              private static final int FILE_CHOOSER_REQUEST = 1001;
+              private static final int FILE_CHOOSER_REQUEST = 9001;
+
+              private static final String APP_URL =
+                      "https://sarveshghane77-cmyk.github.io/sarvesh-2099-calculator/";
 
               @Override
               protected void onCreate(Bundle savedInstanceState) {
-
                   super.onCreate(savedInstanceState);
 
                   webView = new WebView(this);
 
-                  WebView.setWebContentsDebuggingEnabled(false);
+                  setContentView(webView);
 
-                  webView.setWebViewClient(
-                      new WebViewClient()
-                  );
+                  configureWebView();
 
-                  webView.addJavascriptInterface(
-                      new AndroidBridge(),
-                      "Android"
-                  );
+                  webView.loadUrl(APP_URL);
+              }
 
-                  webView.setWebChromeClient(
-                      new WebChromeClient() {
+              private void configureWebView() {
 
-                          @Override
-                          public boolean onShowFileChooser(
-                              WebView webView,
-                              ValueCallback<Uri[]> callback,
-                              FileChooserParams params) {
-
-                              if (filePathCallback != null) {
-
-                                  filePathCallback
-                                      .onReceiveValue(null);
-
-                              }
-
-                              filePathCallback = callback;
-
-                              Intent intent =
-                                  params.createIntent();
-
-                              try {
-
-                                  startActivityForResult(
-                                      intent,
-                                      FILE_CHOOSER_REQUEST
-                                  );
-
-                              } catch (Exception e) {
-
-                                  filePathCallback = null;
-
-                                  return false;
-                              }
-
-                              return true;
-                          }
-                      }
-                  );
-
-                  WebSettings settings =
-                      webView.getSettings();
+                  WebSettings settings = webView.getSettings();
 
                   settings.setJavaScriptEnabled(true);
                   settings.setDomStorageEnabled(true);
                   settings.setDatabaseEnabled(true);
+
                   settings.setAllowFileAccess(true);
                   settings.setAllowContentAccess(true);
 
-                  settings.setMediaPlaybackRequiresUserGesture(
-                      false
-                  );
+                  settings.setJavaScriptCanOpenWindowsAutomatically(true);
+                  settings.setSupportMultipleWindows(false);
 
-                  webView.loadUrl(
-                      "https://sarveshghane77-cmyk.github.io/sarvesh-2099-calculator/"
-                  );
+                  settings.setBuiltInZoomControls(false);
+                  settings.setDisplayZoomControls(false);
 
-                  setContentView(webView);
-              }
+                  settings.setMediaPlaybackRequiresUserGesture(false);
 
-              public class AndroidBridge {
+                  settings.setLoadsImagesAutomatically(true);
 
-                  @JavascriptInterface
-                  public void saveFile(
-                      String fileName,
-                      String mimeType,
-                      String base64Data) {
+                  settings.setCacheMode(WebSettings.LOAD_DEFAULT);
 
-                      runOnUiThread(() -> {
+                  webView.setWebViewClient(new WebViewClient());
+
+                  webView.setWebChromeClient(new WebChromeClient() {
+
+                      @Override
+                      public boolean onShowFileChooser(
+                              WebView view,
+                              ValueCallback<Uri[]> callback,
+                              FileChooserParams params) {
+
+                          if (filePathCallback != null) {
+                              filePathCallback.onReceiveValue(null);
+                          }
+
+                          filePathCallback = callback;
+
+                          Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+
+                          intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+                          intent.setType("*/*");
+
+                          intent.putExtra(
+                                  Intent.EXTRA_ALLOW_MULTIPLE,
+                                  true
+                          );
 
                           try {
-
-                              byte[] data =
-                                  Base64.getDecoder()
-                                      .decode(base64Data);
-
-                              boolean isImage =
-                                  mimeType != null &&
-                                  mimeType.startsWith("image/");
-
-                              boolean isVideo =
-                                  mimeType != null &&
-                                  mimeType.startsWith("video/");
-
-                              ContentValues values =
-                                  new ContentValues();
-
-                              values.put(
-                                  MediaStore.MediaColumns.DISPLAY_NAME,
-                                  fileName
+                              startActivityForResult(
+                                      intent,
+                                      FILE_CHOOSER_REQUEST
                               );
 
-                              values.put(
-                                  MediaStore.MediaColumns.MIME_TYPE,
-                                  mimeType
-                              );
+                          } catch (Exception e) {
 
-                              Uri collection;
+                              filePathCallback = null;
 
-                              if (isImage) {
+                              Toast.makeText(
+                                      MainActivity.this,
+                                      "File picker could not open",
+                                      Toast.LENGTH_SHORT
+                              ).show();
 
-                                  collection =
-                                      MediaStore.Images.Media
-                                          .getContentUri(
-                                              MediaStore.VOLUME_EXTERNAL_PRIMARY
-                                          );
-
-                                  values.put(
-                                      MediaStore.Images.Media.RELATIVE_PATH,
-                                      Environment.DIRECTORY_PICTURES
-                                          + "/SG CALCI"
-                                  );
-
-                              } else if (isVideo) {
-
-                                  collection =
-                                      MediaStore.Video.Media
-                                          .getContentUri(
-                                              MediaStore.VOLUME_EXTERNAL_PRIMARY
-                                          );
-
-                                  values.put(
-                                      MediaStore.Video.Media.RELATIVE_PATH,
-                                      Environment.DIRECTORY_MOVIES
-                                          + "/SG CALCI"
-                                  );
-
-                              } else {
-
-                                  collection =
-                                      MediaStore.Downloads.Media
-                                          .getContentUri(
-                                              MediaStore.VOLUME_EXTERNAL_PRIMARY
-                                          );
-
-                                  values.put(
-                                      MediaStore.Downloads.Media.RELATIVE_PATH,
-                                      Environment.DIRECTORY_DOWNLOADS
-                                          + "/SG CALCI"
-                                  );
-                              }
-
-                              Uri uri =
-                                  getContentResolver()
-                                      .insert(
-                                          collection,
-                                          values
-                                      );
-
-                              if (uri == null) {
-
-                                  showExportResult(
-                                      "Export failed."
-                                  );
-
-                                  return;
-                              }
-
-                              try (
-                                  OutputStream output =
-                                      getContentResolver()
-                                          .openOutputStream(uri)
-                              ) {
-
-                                  if (output == null) {
-
-                                      showExportResult(
-                                          "Export failed."
-                                      );
-
-                                      return;
-                                  }
-
-                                  output.write(data);
-                                  output.flush();
-                              }
-
-                              values.clear();
-
-                              values.put(
-                                  MediaStore.MediaColumns.IS_PENDING,
-                                  0
-                              );
-
-                              getContentResolver()
-                                  .update(
-                                      uri,
-                                      values,
-                                      null,
-                                      null
-                                  );
-
-                              if (isImage || isVideo) {
-
-                                  showExportResult(
-                                      "Saved to Gallery."
-                                  );
-
-                              } else {
-
-                                  showExportResult(
-                                      "Saved to Downloads."
-                                  );
-                              }
-
-                          } catch (Exception error) {
-
-                              error.printStackTrace();
-
-                              showExportResult(
-                                  "Export failed."
-                              );
+                              return false;
                           }
-                      });
-                  }
 
-                  private void showExportResult(
-                      String message) {
+                          return true;
+                      }
+                  });
 
-                      webView.evaluateJavascript(
-                          "showToast(" +
-                          JSONObjectQuote(message) +
-                          ")",
+                  /*
+                   * Normal WebView downloads.
+                   */
+                  webView.setDownloadListener(
+                          new DownloadListener() {
+
+                              @Override
+                              public void onDownloadStart(
+                                      String url,
+                                      String userAgent,
+                                      String contentDisposition,
+                                      String mimeType,
+                                      long contentLength) {
+
+                                  Toast.makeText(
+                                          MainActivity.this,
+                                          "Download started",
+                                          Toast.LENGTH_SHORT
+                                  ).show();
+
+                                  Intent intent =
+                                          new Intent(
+                                                  Intent.ACTION_VIEW,
+                                                  Uri.parse(url)
+                                          );
+
+                                  try {
+                                      startActivity(intent);
+                                  } catch (Exception ignored) {
+                                  }
+                              }
+                          }
+                  );
+
+                  /*
+                   * Bridge used by SG CALCI's vault export.
+                   *
+                   * The web page creates a Blob and downloads it.
+                   * The injected JavaScript catches that download,
+                   * converts the Blob to Base64, and sends it here.
+                   */
+                  webView.addJavascriptInterface(
+                          new ExportBridge(),
+                          "SGCalciAndroid"
+                  );
+
+                  webView.setOnLongClickListener(v -> false);
+
+                  webView.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
+
+                  webView.setBackgroundColor(
+                          android.graphics.Color.rgb(2, 5, 11)
+                  );
+
+                  webView.setWebViewClient(
+                          new WebViewClient() {
+
+                              @Override
+                              public void onPageFinished(
+                                      WebView view,
+                                      String url) {
+
+                                  super.onPageFinished(view, url);
+
+                                  installExportBridge();
+                              }
+                          }
+                  );
+              }
+
+              /*
+               * Watches for <a download="..."> created by the HTML
+               * vault export function.
+               */
+              private void installExportBridge() {
+
+                  String javascript =
+                          "(function() {" +
+
+                          "if(window.__SG_CALCI_BRIDGE_INSTALLED__) return;" +
+
+                          "window.__SG_CALCI_BRIDGE_INSTALLED__ = true;" +
+
+                          "document.addEventListener('click', function(e) {" +
+
+                          "var a = e.target.closest ? " +
+                          "e.target.closest('a[download]') : null;" +
+
+                          "if(!a) return;" +
+
+                          "var href = a.href;" +
+
+                          "var name = a.download || 'SG_CALCI_export';" +
+
+                          "if(!href) return;" +
+
+                          "e.preventDefault();" +
+
+                          "e.stopPropagation();" +
+
+                          "fetch(href)" +
+
+                          ".then(function(r){return r.blob();})" +
+
+                          ".then(function(blob) {" +
+
+                          "var reader = new FileReader();" +
+
+                          "reader.onloadend = function() {" +
+
+                          "var result = reader.result || '';" +
+
+                          "var comma = result.indexOf(',');" +
+
+                          "var base64 = comma >= 0 " +
+                          "? result.substring(comma + 1) " +
+                          ": result;" +
+
+                          "var mime = blob.type || " +
+                          "'application/octet-stream';" +
+
+                          "window.SGCalciAndroid.exportBase64(" +
+
+                          "name, mime, base64" +
+
+                          ");" +
+
+                          "};" +
+
+                          "reader.readAsDataURL(blob);" +
+
+                          "})" +
+
+                          ".catch(function() {" +
+
+                          "window.SGCalciAndroid.exportFailed(" +
+
+                          "'Could not read exported file'" +
+
+                          ");" +
+
+                          "});" +
+
+                          "}, true);" +
+
+                          "})();";
+
+                  webView.evaluateJavascript(
+                          javascript,
                           null
-                      );
-                  }
-
-                  private String JSONObjectQuote(
-                      String value) {
-
-                      return "\"" +
-                          value
-                              .replace("\\", "\\\\")
-                              .replace("\"", "\\\"")
-                              .replace("\n", "\\n")
-                              .replace("\r", "\\r") +
-                          "\"";
-                  }
+                  );
               }
 
               @Override
               protected void onActivityResult(
-                  int requestCode,
-                  int resultCode,
-                  Intent data) {
+                      int requestCode,
+                      int resultCode,
+                      Intent data) {
 
                   super.onActivityResult(
-                      requestCode,
-                      resultCode,
-                      data
+                          requestCode,
+                          resultCode,
+                          data
                   );
 
-                  if (
-                      requestCode ==
-                      FILE_CHOOSER_REQUEST
-                  ) {
+                  if (requestCode != FILE_CHOOSER_REQUEST) {
+                      return;
+                  }
 
-                      Uri[] results = null;
+                  if (filePathCallback == null) {
+                      return;
+                  }
 
-                      if (
-                          resultCode == RESULT_OK &&
-                          data != null
-                      ) {
+                  Uri[] results = null;
 
-                          if (
-                              data.getClipData() != null
-                          ) {
+                  if (resultCode == RESULT_OK && data != null) {
 
-                              int count =
-                                  data.getClipData()
-                                      .getItemCount();
+                      if (data.getClipData() != null) {
 
-                              results =
-                                  new Uri[count];
+                          int count = data.getClipData().getItemCount();
 
-                              for (
-                                  int i = 0;
-                                  i < count;
-                                  i++
-                              ) {
+                          results = new Uri[count];
 
-                                  results[i] =
+                          for (int i = 0; i < count; i++) {
+
+                              results[i] =
                                       data.getClipData()
                                           .getItemAt(i)
                                           .getUri();
-                              }
-
-                          } else if (
-                              data.getData() != null
-                          ) {
-
-                              results =
-                                  new Uri[]{
-                                      data.getData()
-                                  };
                           }
-                      }
 
-                      if (
-                          filePathCallback != null
-                      ) {
+                      } else if (data.getData() != null) {
 
-                          filePathCallback
-                              .onReceiveValue(results);
-
-                          filePathCallback = null;
+                          results = new Uri[]{
+                                  data.getData()
+                          };
                       }
                   }
+
+                  filePathCallback.onReceiveValue(results);
+
+                  filePathCallback = null;
+              }
+
+              /*
+               * Native export bridge.
+               */
+              public class ExportBridge {
+
+                  @android.webkit.JavascriptInterface
+                  public void exportBase64(
+                          String fileName,
+                          String mimeType,
+                          String base64Data) {
+
+                      new Thread(() -> {
+
+                          try {
+
+                              byte[] data =
+                                      Base64.getDecoder()
+                                            .decode(base64Data);
+
+                              saveExportedFile(
+                                      fileName,
+                                      mimeType,
+                                      data
+                              );
+
+                          } catch (Exception e) {
+
+                              runOnUiThread(() ->
+                                      Toast.makeText(
+                                              MainActivity.this,
+                                              "Export failed",
+                                              Toast.LENGTH_LONG
+                                      ).show()
+                              );
+                          }
+
+                      }).start();
+                  }
+
+                  @android.webkit.JavascriptInterface
+                  public void exportFailed(String message) {
+
+                      runOnUiThread(() ->
+                              Toast.makeText(
+                                      MainActivity.this,
+                                      message,
+                                      Toast.LENGTH_LONG
+                              ).show()
+                      );
+                  }
+              }
+
+              /*
+               * Save media directly into Android MediaStore.
+               *
+               * Images -> Pictures/SG CALCI
+               * Videos -> Movies/SG CALCI
+               * Audio  -> Music/SG CALCI
+               * Other  -> Downloads/SG CALCI
+               */
+              private void saveExportedFile(
+                      String originalName,
+                      String mimeType,
+                      byte[] data) {
+
+                  String safeName =
+                          sanitizeFileName(originalName);
+
+                  if (safeName.length() == 0) {
+                      safeName = "SG_CALCI_export";
+                  }
+
+                  ContentResolver resolver =
+                          getContentResolver();
+
+                  Uri collection;
+
+                  ContentValues values =
+                          new ContentValues();
+
+                  values.put(
+                          MediaStore.MediaColumns.DISPLAY_NAME,
+                          safeName
+                  );
+
+                  values.put(
+                          MediaStore.MediaColumns.MIME_TYPE,
+                          mimeType != null
+                                  ? mimeType
+                                  : "application/octet-stream"
+                  );
+
+                  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+
+                      values.put(
+                              MediaStore.MediaColumns.IS_PENDING,
+                              1
+                      );
+
+                      /*
+                       * IMPORTANT:
+                       *
+                       * Do NOT use:
+                       *
+                       * MediaStore.Downloads.Media
+                       *
+                       * That API does not exist.
+                       *
+                       * The correct Downloads collection is:
+                       *
+                       * MediaStore.Downloads.getContentUri(...)
+                       */
+
+                      if (mimeType != null &&
+                              mimeType.startsWith("image/")) {
+
+                          collection =
+                                  MediaStore.Images.Media
+                                      .getContentUri(
+                                          MediaStore.VOLUME_EXTERNAL_PRIMARY
+                                      );
+
+                          values.put(
+                                  MediaStore.MediaColumns.RELATIVE_PATH,
+                                  Environment.DIRECTORY_PICTURES
+                                          + "/SG CALCI"
+                          );
+
+                      } else if (mimeType != null &&
+                              mimeType.startsWith("video/")) {
+
+                          collection =
+                                  MediaStore.Video.Media
+                                      .getContentUri(
+                                          MediaStore.VOLUME_EXTERNAL_PRIMARY
+                                      );
+
+                          values.put(
+                                  MediaStore.MediaColumns.RELATIVE_PATH,
+                                  Environment.DIRECTORY_MOVIES
+                                          + "/SG CALCI"
+                          );
+
+                      } else if (mimeType != null &&
+                              mimeType.startsWith("audio/")) {
+
+                          collection =
+                                  MediaStore.Audio.Media
+                                      .getContentUri(
+                                          MediaStore.VOLUME_EXTERNAL_PRIMARY
+                                      );
+
+                          values.put(
+                                  MediaStore.MediaColumns.RELATIVE_PATH,
+                                  Environment.DIRECTORY_MUSIC
+                                          + "/SG CALCI"
+                          );
+
+                      } else {
+
+                          /*
+                           * Correct Android Downloads collection.
+                           */
+                          collection =
+                                  MediaStore.Downloads
+                                      .getContentUri(
+                                          MediaStore.VOLUME_EXTERNAL_PRIMARY
+                                      );
+
+                          values.put(
+                                  MediaStore.MediaColumns.RELATIVE_PATH,
+                                  Environment.DIRECTORY_DOWNLOADS
+                                          + "/SG CALCI"
+                          );
+                      }
+
+                      Uri uri =
+                              resolver.insert(
+                                      collection,
+                                      values
+                              );
+
+                      if (uri == null) {
+                          throw new RuntimeException(
+                                  "MediaStore insert failed"
+                          );
+                      }
+
+                      try {
+
+                          OutputStream output =
+                                  resolver.openOutputStream(uri);
+
+                          if (output == null) {
+                              throw new RuntimeException(
+                                      "Could not open output"
+                              );
+                          }
+
+                          output.write(data);
+                          output.flush();
+                          output.close();
+
+                          ContentValues finished =
+                                  new ContentValues();
+
+                          finished.put(
+                                  MediaStore.MediaColumns.IS_PENDING,
+                                  0
+                          );
+
+                          resolver.update(
+                                  uri,
+                                  finished,
+                                  null,
+                                  null
+                          );
+
+                          runOnUiThread(() ->
+                                  Toast.makeText(
+                                          MainActivity.this,
+                                          "Exported to device",
+                                          Toast.LENGTH_LONG
+                                  ).show()
+                          );
+
+                      } catch (Exception e) {
+
+                          resolver.delete(
+                                  uri,
+                                  null,
+                                  null
+                          );
+
+                          throw e;
+                      }
+
+                  } else {
+
+                      /*
+                       * Android 9 and older fallback.
+                       */
+                      String folder;
+
+                      if (mimeType != null &&
+                              mimeType.startsWith("image/")) {
+
+                          folder =
+                                  Environment.DIRECTORY_PICTURES;
+
+                      } else if (mimeType != null &&
+                              mimeType.startsWith("video/")) {
+
+                          folder =
+                                  Environment.DIRECTORY_MOVIES;
+
+                      } else if (mimeType != null &&
+                              mimeType.startsWith("audio/")) {
+
+                          folder =
+                                  Environment.DIRECTORY_MUSIC;
+
+                      } else {
+
+                          folder =
+                                  Environment.DIRECTORY_DOWNLOADS;
+                      }
+
+                      File directory =
+                              Environment.getExternalStoragePublicDirectory(
+                                      folder
+                              );
+
+                      File appFolder =
+                              new File(
+                                      directory,
+                                      "SG CALCI"
+                              );
+
+                      if (!appFolder.exists()) {
+                          appFolder.mkdirs();
+                      }
+
+                      File outputFile =
+                              new File(
+                                      appFolder,
+                                      safeName
+                              );
+
+                      FileOutputStream output =
+                              new FileOutputStream(
+                                      outputFile
+                              );
+
+                      output.write(data);
+                      output.flush();
+                      output.close();
+
+                      android.media.MediaScannerConnection
+                              .scanFile(
+                                      MainActivity.this,
+                                      new String[]{
+                                              outputFile.getAbsolutePath()
+                                      },
+                                      new String[]{
+                                              mimeType
+                                      },
+                                      null
+                              );
+
+                      runOnUiThread(() ->
+                              Toast.makeText(
+                                      MainActivity.this,
+                                      "Exported to device",
+                                      Toast.LENGTH_LONG
+                              ).show()
+                      );
+                  }
+              }
+
+              private String sanitizeFileName(String name) {
+
+                  if (name == null) {
+                      return "SG_CALCI_export";
+                  }
+
+                  String result =
+                          name.replaceAll(
+                                  "[\\\\/:*?\"<>|]",
+                                  "_"
+                          );
+
+                  if (result.length() > 180) {
+                      result =
+                              result.substring(
+                                      0,
+                                      180
+                              );
+                  }
+
+                  return result;
               }
 
               @Override
               public void onBackPressed() {
 
                   if (webView.canGoBack()) {
-
                       webView.goBack();
-
                   } else {
-
                       super.onBackPressed();
                   }
+              }
+
+              @Override
+              protected void onDestroy() {
+
+                  if (webView != null) {
+                      webView.stopLoading();
+                      webView.destroy();
+                  }
+
+                  super.onDestroy();
               }
           }
           EOF
 
-      - name: Download Gradle
+      # ---------------------------------------------------------
+      # 11. Build APK
+      # ---------------------------------------------------------
+      - name: Build Debug APK
+        shell: bash
         run: |
-
-          wget -q \
-            https://services.gradle.org/distributions/gradle-8.7-bin.zip
-
-          unzip -q gradle-8.7-bin.zip
-
-      - name: Build APK
-        run: |
+          set -e
 
           ./gradle-8.7/bin/gradle \
             --no-daemon \
             --stacktrace \
-            assembleDebug
+            :app:assembleDebug
 
-      - name: Upload SG CALCI APK
+      # ---------------------------------------------------------
+      # 12. Rename APK
+      # ---------------------------------------------------------
+      - name: Prepare APK
+        shell: bash
+        run: |
+          set -e
+
+          mkdir -p output
+
+          cp \
+            app/build/outputs/apk/debug/app-debug.apk \
+            output/SG-CALCI.apk
+
+      # ---------------------------------------------------------
+      # 13. Upload APK to GitHub Actions
+      # ---------------------------------------------------------
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: SG-CALCI-APK
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: output/SG-CALCI.apk
+          if-no-files-found: error
+          retention-days: 30
